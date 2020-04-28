@@ -27,7 +27,7 @@ mkpart_vbox() {
     parted -s /dev/sda set 1 boot on
 }
 
-setup_from_chroot_vbox() {
+chroot_setup_system() {
     arch-chroot /mnt /bin/bash <<END
 
     echo -e "en_US.UTF-8 UTF-8\nlt_LT.UTF-8 UTF-8" >> /etc/locale.gen
@@ -52,6 +52,12 @@ setup_from_chroot_vbox() {
 END
 }
 
+chroot_install_pkgs() {
+    arch-chroot /mnt /bin/bash <<END
+    sh np_build.sh install_pkgs
+END
+}
+
 # prerequisites:
 # - create passwd for root user in Live CD
 # - start sshd service
@@ -64,7 +70,9 @@ arch_install_vbox() {
     printf -v items_to_install ' %s' "${main_items[@]} ${additional_items[@]} ${vbox_items[@]}"
     pacstrap /mnt $items_to_install
     genfstab -U /mnt >> /mnt/etc/fstab
-    setup_from_chroot_vbox
+    chroot_setup_system
+    curl -o /mnt/np_build.sh -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/np_build.sh
+    chroot_install_pkgs
     umount /mnt
     eject -m
     reboot -f
@@ -84,4 +92,27 @@ setup_from_chroot_desktop() {
 
 arch_install_desktop() {
     echo "empty so far"
+}
+
+# =============== installing packages ==============#
+
+install_pkgs() {
+    # get package lists
+    curl -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/pkgs_main_repos.md
+    curl -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/pkgs_aur.md
+
+    sudo pacman -Syu --noconfirm
+
+    # if any package is not found, does not install anything from the list
+    # if package is already installed, skips it (shows "up-to date" message)
+    sudo pacman -S --noconfirm --needed - < pkgs_main_repos.md
+
+    # install yay
+    git clone https://aur.archlinux.org/yay.git &&
+    cd yay && makepkg --noconfirm -si &&
+    cd - && sudo rm -dR yay 
+
+    # if a package is not found, skips it
+    # if a package is already installed, skips it as well
+    yay -S --aur --noconfirm --useask - < pkgs_aur.md
 }
