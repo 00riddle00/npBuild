@@ -1,2 +1,6 @@
-# NPbuild
-a Not-Perfect home building
+## NPbuild
+
+The idea is to build my fully functioning home from the first prompt of Arch x64 liveCD:
+* installing the OS
+* symlinking dotfiles
+* installing all the required packages
