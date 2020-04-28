@@ -29,32 +29,48 @@ mkpart_vbox() {
 
 chroot_setup_system() {
     arch-chroot /mnt /bin/bash <<END
+        echo -e "en_US.UTF-8 UTF-8\nlt_LT.UTF-8 UTF-8" >> /etc/locale.gen
+        locale-gen
+        ln -s /usr/share/zoneinfo/Europe/Vilnius /etc/localtime
 
-    echo -e "en_US.UTF-8 UTF-8\nlt_LT.UTF-8 UTF-8" >> /etc/locale.gen
-    locale-gen
-    ln -s /usr/share/zoneinfo/Europe/Vilnius /etc/localtime
+        hwclock --systohc
 
-    hwclock --systohc
+        echo -e "127.0.0.1 localhost\n::1       localhost" > /etc/hosts
+        echo archbox-$(head /dev/urandom -c 2 | base64 | cut -c -3) > /etc/hostname
 
-    echo -e "127.0.0.1 localhost\n::1       localhost" > /etc/hosts
-    echo archbox-$(head /dev/urandom -c 2 | base64 | cut -c -3) > /etc/hostname
+        mkinitcpio -p linux
 
-    mkinitcpio -p linux
+        pacman --noconfirm -S grub-bios
+        grub-install --recheck /dev/sda
+        grub-mkconfig -o /boot/grub/grub.cfg
 
-    pacman --noconfirm -S grub-bios
-    grub-install --recheck /dev/sda
-    grub-mkconfig -o /boot/grub/grub.cfg
+        useradd -m -G wheel userv
+        echo -e "passwd\npasswd\n" | passwd userv
+        sed -i "s/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
 
-    useradd -m -G wheel userv
-    sed -i "s/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
+        systemctl enable sshd
 
-    systemctl enable --now sshd
+        eth_iface=$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' | sed 's/ //')
+        systemctl enable "dhcpcd@$eth_iface"
 END
 }
 
 chroot_install_pkgs() {
     arch-chroot /mnt /bin/bash <<END
-    sh np_build.sh install_pkgs
+        sh np_build.sh install_pkgs
+END
+}
+
+chroot_apply_dotfiles() {
+    arch-chroot /mnt /bin/bash <<END
+        git clone https://github.com/00riddle00/dotfiles $HOME/.dotfiles
+        sh np_build.sh symlink_dotfiles
+        echo "passwd" | sudo -S -u riddle chsh -s /bin/zsh
+        sh np_build.sh immutable_files
+        sh np_build.sh build_suckless
+        strfile $HOME/.dotfiles/bin/cowsay/rms/rms_say
+        sh np_build.sh install_vim_plugins
+        sh np_build.sh enable_services
 END
 }
 
@@ -73,6 +89,7 @@ arch_install_vbox() {
     chroot_setup_system
     curl -o /mnt/np_build.sh -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/np_build.sh
     chroot_install_pkgs
+    chroot_apply_dotfiles
     umount /mnt
     eject -m
     reboot -f
@@ -115,4 +132,156 @@ install_pkgs() {
     # if a package is not found, skips it
     # if a package is already installed, skips it as well
     yay -S --aur --noconfirm --useask - < pkgs_aur.md
+}
+
+# =============== dotfiles ====================#
+
+symlink_dotfiles() {
+    source $HOME/.dotfiles/.zshenv
+
+    if [ ! -d $HOME/.config ]; then
+          mkdir -p $HOME/.config;
+    fi
+
+    if [ ! -d $HOME/.local/share/applications ]; then
+          mkdir -p $HOME/.local/share/applications;
+    fi
+
+    # $HOME dir
+    for entry in $DOTFILES_DIR/.[a-zA-Z]*; do
+        # whenever you iterate over files/folders by globbing, it's good practice to avoid the corner 
+        # case where the glob does not match (which makes the loop variable expand to the 
+        # (un-matching) glob pattern string itself), hence [ -e "$entry" ] is used
+        [ -e "$entry" ] && 
+            [[ ${entry##*/} != ".config" ]] &&
+            [[ ${entry##*/} != ".local" ]] &&
+            [[ ${entry##*/} != .git* ]] &&
+        ln -sf $entry $HOME/${entry##*/}
+    done
+
+    # $XDG_CONFIG_HOME dir
+    for entry in $DOTFILES_DIR/.config/[a-zA-Z]*; do
+        [ -e "$entry" ] &&
+        ln -sf $entry $XDG_CONFIG_HOME/${entry##*/}
+    done
+
+    # $XDG_DATA_HOME dir
+    local_bin="$DOTFILES_DIR/.local/bin"
+    [ -e "$local_bin" ] && ln -sf $local_bin $HOME/.local/bin
+
+    local_shared="$DOTFILES_DIR/.local/share/riddle00"
+    [ -e "$local_shared" ] && ln -sf $local_shared $XDG_DATA_HOME/riddle00
+
+    for entry in $DOTFILES_DIR/.local/share/applications/[a-zA-Z]*; do
+        [ -e "$entry" ] &&
+        ln -sf $entry $XDG_DATA_HOME/applications/${entry##*/}
+    done
+}
+
+unlink_dotfiles() {
+    source $HOME/.dotfiles/.zshenv
+
+    # $HOME dir
+    for entry in $DOTFILES_DIR/.[a-zA-Z]*; do
+        [ -e "$entry" ] && 
+            [[ ${entry##*/} != ".config" ]] &&
+            [[ ${entry##*/} != ".local" ]] &&
+            [[ ${entry##*/} != .git* ]] &&
+        # also check if it's symbolic link before deleting
+        [ -L "$HOME/${entry##*/}" ] &&
+        rm -rf $HOME/${entry##*/}
+    done
+
+    # $XDG_CONFIG_HOME dir
+    for entry in $DOTFILES_DIR/.config/[a-zA-Z]*; do
+        [ -e "$entry" ] &&  [ -L "$XDG_CONFIG_HOME/${entry##*/}" ] && rm -rf $XDG_CONFIG_HOME/${entry##*/}
+    done
+
+    # $XDG_DATA_HOME dir
+    local_bin="$DOTFILES_DIR/.local/bin"
+    [ -e "$local_bin" ] &&  [ -L "$HOME/.local/${local_bin##*/}" ] && rm -rf $HOME/.local/${local_bin##*/}
+
+    local_shared="$DOTFILES_DIR/.local/share/riddle00"
+    [ -e "$local_shared" ] &&  [ -L "$XDG_DATA_HOME/${local_shared##*/}" ] && rm -rf $XDG_DATA_HOME/${local_shared##*/}
+
+    for entry in $DOTFILES_DIR/.local/share/applications/[a-zA-Z]*; do
+        [ -e "$entry" ] &&
+        [ -L "$XDG_DATA_HOME/applications/${entry##*/}" ] &&
+        rm -rf $XDG_DATA_HOME/applications/${entry##*/}
+    done
+}
+
+immutable_files() {
+    source $HOME/.dotfiles/.zshenv
+
+    echo "passwd" | sudo -S chattr +i "$DOTFILES_DIR/.config/Thunar/accels.scm"
+    echo "passwd" | sudo -S chattr +i "$DOTFILES_DIR/.config/filezilla/filezilla.xml"
+    echo "passwd" | sudo -S chattr +i "$DOTFILES_DIR/.config/htop/htoprc"
+    echo "passwd" | sudo -S chattr +i "$DOTFILES_DIR/.config/mimeapps.list"
+
+    re='^[0-9.]+$'
+
+    for dir in $(ls "$DOTFILES_DIR/.config/GIMP"); do
+        if [[ $dir =~ $re ]] ; then
+            echo "passwd" | sudo -S chattr +i "$DOTFILES_DIR/.config/GIMP/$dir/menurc"
+        fi
+    done
+}
+
+build_suckless() {
+    mkdir -p ~/tmp1/
+
+    git clone https://github.com/00riddle00/dwm ~/tmp1/dwm
+    cd ~/tmp1/dwm
+    echo "passwd" | sudo make clean install
+
+    git clone https://github.com/00riddle00/dwmblocks ~/tmp1/dwmblocks
+    cd ~/tmp1/dwmblocks
+    echo "passwd" | sudo make clean install
+
+    git clone https://github.com/00riddle00/dmenu ~/tmp1/dmenu
+    cd ~/tmp1/dmenu
+    echo "passwd" | sudo make clean install
+
+    git clone https://github.com/00riddle00/st ~/tmp1/st
+    cd ~/tmp1/st
+    echo "passwd" | sudo make clean install
+
+    rm -rf ~/tmp1
+}
+
+prepare_sublime_text() {
+    source $HOME/.dotfiles/.zshenv
+
+    mkdir "$XDG_CONFIG_HOME/sublime-text-3/Installed Packages"
+    wget -P "$XDG_CONFIG_HOME/sublime-text-3/Installed Packages" https://packagecontrol.io/Package%20Control.sublime-package
+}
+
+install_vim_plugins() {
+    source $HOME/.dotfiles/.zshenv
+
+    apps=(
+        "cmake"
+        "git"
+        "python"
+        "zsh"
+    )
+
+    for app in "${apps[@]}"; do
+        res=$(pacman -Qqe | grep -E "(^|\s)$app($|\s)");
+
+        if [ -z "$res" ]; then
+            sudo pacman -S --noconfirm $app
+        fi
+    done
+
+    rm -rf $DOTFILES_DIR/.vim/bundle/Vundle.vim
+    git clone https://github.com/VundleVim/Vundle.vim.git $DOTFILES_DIR/.vim/bundle/Vundle.vim
+    vim +PluginInstall +qall
+    python ~/.vim/bundle/YouCompleteMe/install.py
+}
+
+enable_services() {
+    echo "passwd" | sudo -S systemctl enable --now ntpd
+    echo "passwd" | sudo -S sudo systemctl --user enable mpd.socket
 }
