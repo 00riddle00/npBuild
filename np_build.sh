@@ -331,22 +331,33 @@ arch_install_desktop() {
 
 # ======================= EXECUTION =======================
 
-if [ "$#" -ne 1 ]; then
-    echo "Exactly one argument (=function name) should be passed to this script"
-    exit 1
+standalone_functions=(
+    "arch_install_vbox"
+    "arch_install_desktop"
+    "install_pkgs"
+    "apply_dotfiles"
+    "symlink_dotfiles"
+    "unlink_dotfiles"
+    "immutable_files"
+    "build_suckless"
+    "prepare_sublime_text"
+    "install_vim_plugins"
+    "enable_services"
+)
+
+while getopts ":h:f:u:r:b:p" o; do case "${o}" in
+	h) printf "Optional arguments for custom use:\\n  -u User name\\n  -r: Dotfiles repository (local file or url)\\n  -b: Branch of the repo\\n  -p: Dependencies and programs csv (local file or url)\\n  -h: Show this message\\n" && exit ;;
+    f) function=${OPTARG} ;;
+    u) username=${OPTARG} ;;
+	r) dotfilesrepo=${OPTARG} && git ls-remote "$dotfilesrepo" || exit ;;
+	b) repobranch=${OPTARG} ;;
+	p) progsfile=${OPTARG} ;;
+	*) printf "Invalid option: -%s\\n" "$OPTARG" && exit ;;
+esac done
+
+if [ -z $function ]; then
+    echo "ERR: no function passed to the script"
+else
+    [[ " ${standalone_functions[@]} " =~ " ${function} " ]] && eval $function  || echo "ERR: The function '$function' does not exist as standalone"
 fi
 
-case "$1" in 
-    arch_install_vbox) arch_install_vbox;; 
-    arch_install_desktop) arch_install_desktop;; 
-    install_pkgs) install_pkgs;; 
-    apply_dotfiles) apply_dotfiles;; 
-    symlink_dotfiles) symlink_dotfiles;; 
-    unlink_dotfiles) unlink_dotfiles;; 
-    immutable_files) immutable_files;; 
-    build_suckless) build_suckless;; 
-    prepare_sublime_text) prepare_sublime_text;; 
-    install_vim_plugins) install_vim_plugins;; 
-    enable_services) enable_services;; 
-    *) echo "ERR: no such function"
-esac 
