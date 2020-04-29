@@ -80,19 +80,19 @@ END
 
 chroot_install_pkgs() {
     arch-chroot /mnt /bin/bash <<END
-        sh np_build.sh install_pkgs
+        sh npBuild.sh install_pkgs
 END
 }
 
 chroot_apply_dotfiles() {
     arch-chroot /mnt /bin/bash <<END
         runuser --pty -s /bin/bash -l userv -c "
-            curl -o /home/userv/np_build.sh -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/np_build.sh
-            chmod +x /home/userv/np_build.sh
-            sh /home/userv/np_build.sh apply_dotfiles
-            rm /home/userv/np_build.sh
+            curl -o /home/userv/npBuild.sh -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/npBuild.sh
+            chmod +x /home/userv/npBuild.sh
+            sh /home/userv/npBuild.sh apply_dotfiles
+            rm /home/userv/npBuild.sh
         "
-        sh np_build.sh enable_services
+        sh npBuild.sh enable_services
 END
 }
 
@@ -316,10 +316,10 @@ arch_install_vbox() {
     pacstrap /mnt $items_to_install
     genfstab -U /mnt >> /mnt/etc/fstab
     chroot_setup_system
-    curl -o /mnt/np_build.sh -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/np_build.sh
+    curl -o /mnt/npBuild.sh -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/npBuild.sh
     chroot_install_pkgs
     chroot_apply_dotfiles
-    rm /mnt/np_build.sh
+    rm /mnt/npBuild.sh
     umount /mnt
     eject -m
     reboot -f
