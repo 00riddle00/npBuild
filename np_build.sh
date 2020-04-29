@@ -15,6 +15,18 @@ additional_items=(
     "git"
 )
 
+# =============== utility functions =============#
+
+allow_sudo_nopasswd() {
+    sed -i "s/^%wheel ALL=(ALL) ALL/# %wheel ALL=(ALL) ALL/" /etc/sudoers
+    sed -i "s/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/" /etc/sudoers
+}
+
+disallow_sudo_nopasswd() {
+    sed -i "s/^%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/" /etc/sudoers
+    sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
+}
+
 # =============== vbox =================#
 
 vbox_items=(
@@ -46,14 +58,14 @@ chroot_setup_system() {
 
         useradd -m -G wheel userv
         echo -e "passwd\npasswd\n" | passwd userv
-        sed -i "s/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
+
+        sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
 
         sed -Ei "s/^#? ?(PermitRootLogin).*/\1 no/" /etc/ssh/sshd_config
         sed -Ei "s/^#? ?(PasswordAuthentication).*/\1 yes/" /etc/ssh/sshd_config
         systemctl enable sshd
 
-        eth_iface=$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' | sed 's/ //')
-        systemctl enable "dhcpcd@$eth_iface"
+        systemctl enable "dhcpcd@$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' | sed 's/ //')"
 END
 }
 
@@ -65,15 +77,11 @@ END
 
 chroot_apply_dotfiles() {
     arch-chroot /mnt /bin/bash <<END
-        git clone https://github.com/00riddle00/dotfiles $HOME/.dotfiles
-        sh np_build.sh symlink_dotfiles
-        echo "passwd" | sudo -S -u riddle chsh -s /bin/zsh
-        sh np_build.sh immutable_files
-        sh np_build.sh build_suckless
-        sh np_build.sh prepare_sublime_text
-        strfile $HOME/.dotfiles/bin/cowsay/rms/rms_say
-        sh np_build.sh install_vim_plugins
-        sh np_build.sh enable_services
+        runuser --pty -s /bin/bash -l userv -c "
+        curl -o /home/userv/np_build.sh -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/np_build.sh
+        chmod +x /home/userv/np_build.sh
+        sh /home/userv/np_build.sh apply_dotfiles
+        "
 END
 }
 
@@ -116,28 +124,63 @@ arch_install_desktop() {
 
 # =============== installing packages ==============#
 
+# TODO maybe run this as user, not as root 
 install_pkgs() {
-    # get package lists
+
+    allow_sudo_nopasswd
+
+    # get pacman package list
     curl -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/pkgs_main_repos.md
-    curl -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/pkgs_aur.md
 
     sudo pacman -Syu --noconfirm
-
     # if any package is not found, does not install anything from the list
     # if package is already installed, skips it (shows "up-to date" message)
+    #
+    ## temp solution to avoid gvim/vim conflict pacman prompt
+    sudo pacman -R --noconfirm vim
     sudo pacman -S --noconfirm --needed - < pkgs_main_repos.md
 
     # install yay
-    git clone https://aur.archlinux.org/yay.git &&
-    cd yay && makepkg --noconfirm -si &&
-    cd - && sudo rm -dR yay 
+    git clone https://aur.archlinux.org/yay.git /home/userv/yay
+    chown -R userv:userv /home/userv/yay
+    pacman -S --noconfirm go
+    runuser -l userv -c "cd /home/userv/yay && makepkg --noconfirm -si"
+    runuser -l userv -c "rm -rf /home/userv/yay"
+
+    # get aur package list
+    curl -o /home/userv/pkgs_aur.md -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/pkgs_aur.md
+    chown userv:userv /home/userv/pkgs_aur.md
 
     # if a package is not found, skips it
     # if a package is already installed, skips it as well
-    yay -S --aur --noconfirm --useask - < pkgs_aur.md
+    runuser --pty -l userv -c "yay -Syu --noconfirm"
+    runuser --pty -l userv -c "yay -S --aur --noconfirm --useask - < /home/userv/pkgs_aur.md"
+
+    rm /pkgs_main_repos.md
+    rm /np_build.sh
+    rm /home/userv/pkgs_aur.md
+
+    disallow_sudo_nopasswd
 }
 
 # =============== dotfiles ====================#
+
+apply_dotfiles() {
+    git clone --recurse-submodules -j8 https://github.com/00riddle00/dotfiles $HOME/.dotfiles
+    # FIXME hardcoded username
+    sed -i "s/^export MAIN_USER=.*/export MAIN_USER=userv/" $HOME/.dotfiles/.zshenv
+    symlink_dotfiles
+    # TODO maybe pass password as argument to this function and else assume paswordless sudo
+    # FIXME hardcoded username
+    echo "passwd" | sudo -S -u userv chsh -s /bin/zsh
+    # --- so far works until this point --- #
+    immutable_files
+    build_suckless
+    prepare_sublime_text
+    strfile $HOME/.dotfiles/bin/cowsay/rms/rms_say
+    install_vim_plugins
+    enable_services
+}
 
 symlink_dotfiles() {
     source $HOME/.dotfiles/.zshenv
@@ -299,7 +342,9 @@ fi
 case "$1" in 
     arch_install_vbox) arch_install_vbox;; 
     install_pkgs) install_pkgs;; 
+    apply_dotfiles) apply_dotfiles;; 
     symlink_dotfiles) symlink_dotfiles;; 
+    unlink_dotfiles) unlink_dotfiles;; 
     immutable_files) immutable_files;; 
     build_suckless) build_suckless;; 
     prepare_sublime_text) prepare_sublime_text;; 
