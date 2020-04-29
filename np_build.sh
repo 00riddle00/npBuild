@@ -36,7 +36,7 @@ chroot_setup_system() {
         hwclock --systohc
 
         echo -e "127.0.0.1 localhost\n::1       localhost" > /etc/hosts
-        echo archbox-$(head /dev/urandom -c 2 | base64 | cut -c -3) > /etc/hostname
+        echo vm-$(head /dev/urandom -c 2 | base64 | cut -c -3)-arch > /etc/hostname
 
         mkinitcpio -p linux
 
@@ -48,6 +48,8 @@ chroot_setup_system() {
         echo -e "passwd\npasswd\n" | passwd userv
         sed -i "s/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
 
+        sed -Ei "s/^#? ?(PermitRootLogin).*/\1 no/" /etc/ssh/sshd_config
+        sed -Ei "s/^#? ?(PasswordAuthentication).*/\1 yes/" /etc/ssh/sshd_config
         systemctl enable sshd
 
         eth_iface=$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' | sed 's/ //')
@@ -68,6 +70,7 @@ chroot_apply_dotfiles() {
         echo "passwd" | sudo -S -u riddle chsh -s /bin/zsh
         sh np_build.sh immutable_files
         sh np_build.sh build_suckless
+        sh np_build.sh prepare_sublime_text
         strfile $HOME/.dotfiles/bin/cowsay/rms/rms_say
         sh np_build.sh install_vim_plugins
         sh np_build.sh enable_services
@@ -285,3 +288,22 @@ enable_services() {
     echo "passwd" | sudo -S systemctl enable --now ntpd
     echo "passwd" | sudo -S sudo systemctl --user enable mpd.socket
 }
+
+# =============== execution ==============#
+
+if [ "$#" -ne 1 ]; then
+    echo "Exactly one argument (=function name) should be passed to this script"
+    exit 1
+fi
+
+case "$1" in 
+    arch_install_vbox) arch_install_vbox;; 
+    install_pkgs) install_pkgs;; 
+    symlink_dotfiles) symlink_dotfiles;; 
+    immutable_files) immutable_files;; 
+    build_suckless) build_suckless;; 
+    prepare_sublime_text) prepare_sublime_text;; 
+    install_vim_plugins) install_vim_plugins;; 
+    enable_services) enable_services;; 
+    *) echo "ERR: no such function"
+esac 
