@@ -78,10 +78,12 @@ END
 chroot_apply_dotfiles() {
     arch-chroot /mnt /bin/bash <<END
         runuser --pty -s /bin/bash -l userv -c "
-        curl -o /home/userv/np_build.sh -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/np_build.sh
-        chmod +x /home/userv/np_build.sh
-        sh /home/userv/np_build.sh apply_dotfiles
+            curl -o /home/userv/np_build.sh -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/np_build.sh
+            chmod +x /home/userv/np_build.sh
+            sh /home/userv/np_build.sh apply_dotfiles
+            rm /home/userv/np_build.sh
         "
+        sh np_build.sh enable_services
 END
 }
 
@@ -101,6 +103,7 @@ arch_install_vbox() {
     curl -o /mnt/np_build.sh -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/np_build.sh
     chroot_install_pkgs
     chroot_apply_dotfiles
+    rm /mnt/np_build.sh
     umount /mnt
     eject -m
     reboot -f
@@ -157,7 +160,6 @@ install_pkgs() {
     runuser --pty -l userv -c "yay -S --aur --noconfirm --useask - < /home/userv/pkgs_aur.md"
 
     rm /pkgs_main_repos.md
-    rm /np_build.sh
     rm /home/userv/pkgs_aur.md
 
     disallow_sudo_nopasswd
@@ -173,13 +175,11 @@ apply_dotfiles() {
     # TODO maybe pass password as argument to this function and else assume paswordless sudo
     # FIXME hardcoded username
     echo "passwd" | sudo -S -u userv chsh -s /bin/zsh
-    # --- so far works until this point --- #
     immutable_files
     build_suckless
     prepare_sublime_text
     strfile $HOME/.dotfiles/bin/cowsay/rms/rms_say
     install_vim_plugins
-    enable_services
 }
 
 symlink_dotfiles() {
@@ -328,8 +328,8 @@ install_vim_plugins() {
 }
 
 enable_services() {
-    echo "passwd" | sudo -S systemctl enable --now ntpd
-    echo "passwd" | sudo -S sudo systemctl --user enable mpd.socket
+    systemctl enable --now ntpd
+    systemctl --user enable mpd.socket
 }
 
 # =============== execution ==============#
