@@ -1,4 +1,7 @@
 #!/bin/bash
+# TODO change above possibly to /bin/sh
+
+# ======================= VARIABLES =======================
 
 # items = packages, groups (base-devel), metapackages (base)
 main_items=(
@@ -15,7 +18,23 @@ additional_items=(
     "git"
 )
 
-# =============== utility functions =============#
+vbox_items=(
+    "virtualbox-guest-utils"
+)
+
+desktop_items=()
+
+# ==================== UTILITY FUNCTIONS ====================
+
+mkpart_vbox() {
+    parted -s /dev/sda mklabel msdos
+    parted -s /dev/sda mkpart "primary" "ext4" "0%" "100%"
+    parted -s /dev/sda set 1 boot on
+}
+
+mkpart_desktop() {
+    echo "empty so far"
+}
 
 allow_sudo_nopasswd() {
     sed -i "s/^%wheel ALL=(ALL) ALL/# %wheel ALL=(ALL) ALL/" /etc/sudoers
@@ -27,17 +46,7 @@ disallow_sudo_nopasswd() {
     sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
 }
 
-# =============== vbox =================#
-
-vbox_items=(
-    "virtualbox-guest-utils"
-)
-
-mkpart_vbox() {
-    parted -s /dev/sda mklabel msdos
-    parted -s /dev/sda mkpart "primary" "ext4" "0%" "100%"
-    parted -s /dev/sda set 1 boot on
-}
+# ================= CHROOT UTILITY FUNCTIONS =================
 
 chroot_setup_system() {
     arch-chroot /mnt /bin/bash <<END
@@ -87,45 +96,7 @@ chroot_apply_dotfiles() {
 END
 }
 
-# prerequisites:
-# - create passwd for root user in Live CD
-# - start sshd service
-# - connect to LiveCD via ssh
-arch_install_vbox() {
-    timedatectl set-ntp true
-    mkpart_vbox
-    mkfs.ext4 -F /dev/sda1
-    mount /dev/sda1 /mnt
-    printf -v items_to_install ' %s' "${main_items[@]} ${additional_items[@]} ${vbox_items[@]}"
-    pacstrap /mnt $items_to_install
-    genfstab -U /mnt >> /mnt/etc/fstab
-    chroot_setup_system
-    curl -o /mnt/np_build.sh -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/np_build.sh
-    chroot_install_pkgs
-    chroot_apply_dotfiles
-    rm /mnt/np_build.sh
-    umount /mnt
-    eject -m
-    reboot -f
-}
-
-# =============== desktop ==============#
-
-desktop_items=()
-
-mkpart_desktop() {
-    echo "empty so far"
-}
-
-setup_from_chroot_desktop() {
-    echo "empty so far"
-}
-
-arch_install_desktop() {
-    echo "empty so far"
-}
-
-# =============== installing packages ==============#
+# ================= STANDALONE FUNCTIONS =================
 
 # TODO maybe run this as user, not as root 
 install_pkgs() {
@@ -164,8 +135,6 @@ install_pkgs() {
 
     disallow_sudo_nopasswd
 }
-
-# =============== dotfiles ====================#
 
 apply_dotfiles() {
     git clone --recurse-submodules -j8 https://github.com/00riddle00/dotfiles $HOME/.dotfiles
@@ -332,7 +301,35 @@ enable_services() {
     systemctl --user enable mpd.socket
 }
 
-# =============== execution ==============#
+# ==================== INSTALL FUNCTIONS ====================
+
+# prerequisites:
+# - create passwd for root user in Live CD
+# - start sshd service
+# - connect to LiveCD via ssh
+arch_install_vbox() {
+    timedatectl set-ntp true
+    mkpart_vbox
+    mkfs.ext4 -F /dev/sda1
+    mount /dev/sda1 /mnt
+    printf -v items_to_install ' %s' "${main_items[@]} ${additional_items[@]} ${vbox_items[@]}"
+    pacstrap /mnt $items_to_install
+    genfstab -U /mnt >> /mnt/etc/fstab
+    chroot_setup_system
+    curl -o /mnt/np_build.sh -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/np_build.sh
+    chroot_install_pkgs
+    chroot_apply_dotfiles
+    rm /mnt/np_build.sh
+    umount /mnt
+    eject -m
+    reboot -f
+}
+
+arch_install_desktop() {
+    echo "not implemented"
+}
+
+# ======================= EXECUTION =======================
 
 if [ "$#" -ne 1 ]; then
     echo "Exactly one argument (=function name) should be passed to this script"
@@ -341,6 +338,7 @@ fi
 
 case "$1" in 
     arch_install_vbox) arch_install_vbox;; 
+    arch_install_desktop) arch_install_desktop;; 
     install_pkgs) install_pkgs;; 
     apply_dotfiles) apply_dotfiles;; 
     symlink_dotfiles) symlink_dotfiles;; 
