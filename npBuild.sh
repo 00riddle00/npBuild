@@ -345,15 +345,37 @@ standalone_functions=(
     "enable_services"
 )
 
-while getopts ":h:f:u:r:b:p" o; do case "${o}" in
-	h) printf "Optional arguments for custom use:\\n  -u User name\\n  -r: Dotfiles repository (local file or url)\\n  -b: Branch of the repo\\n  -p: Dependencies and programs csv (local file or url)\\n  -h: Show this message\\n" && exit ;;
-    f) function=${OPTARG} ;;
-    u) username=${OPTARG} ;;
-	r) dotfilesrepo=${OPTARG} && git ls-remote "$dotfilesrepo" || exit ;;
-	b) repobranch=${OPTARG} ;;
-	p) progsfile=${OPTARG} ;;
-	*) printf "Invalid option: -%s\\n" "$OPTARG" && exit ;;
-esac done
+while getopts ":f:u:r:b:p:h" opt; do 
+    case "${opt}" in
+        f) function=${OPTARG} ;;
+        u) username=${OPTARG} ;;
+        r) dotfilesrepo=${OPTARG} && git ls-remote "$dotfilesrepo" || exit ;;
+        b) repobranch=${OPTARG} ;;
+        p) progsfile=${OPTARG} ;;
+        h) printf "
+        -f  [Required] Name of the function to be run.
+                List of standalone functions:
+                    'arch_install_vbox',
+                    'arch_install_desktop',
+                    'install_pkgs',
+                    'apply_dotfiles',
+                    'symlink_dotfiles',
+                    'unlink_dotfiles',
+                    'immutable_files',
+                    'build_suckless',
+                    'prepare_sublime_text',
+                    'install_vim_plugins',
+                    'enable_services'.
+
+        -u  [Optional] User name
+        -r  [Optional] Dotfiles repository (local file or url)
+        -b  [Optional] Branch of the repo
+        -p  [Optional] Dependencies and programs csv (local file or url)
+        -h  Show help\\n" 
+        exit ;;
+        *) printf "Invalid option: -%s\\n" "$OPTARG" && exit ;;
+    esac
+done
 
 if [ -z $function ]; then
     echo "ERR: no function passed to the script"
