@@ -1,5 +1,4 @@
-#!/bin/bash
-# TODO change above possibly to /bin/sh
+#! /usr/bin/env bash
 
 # ======================= VARIABLES =======================
 
@@ -61,6 +60,10 @@ chroot_setup_system() {
 
         mkinitcpio -p linux
 
+        # Make pacman and yay colorful and adds eye candy on the progress bar because why not.
+        grep "^Color" /etc/pacman.conf >/dev/null || sed -i "s/^#Color$/Color/" /etc/pacman.conf
+        grep "ILoveCandy" /etc/pacman.conf >/dev/null || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
+
         pacman --noconfirm -S grub-bios
         grub-install --recheck /dev/sda
         grub-mkconfig -o /boot/grub/grub.cfg
@@ -101,7 +104,15 @@ END
 # TODO maybe run this as user, not as root 
 install_pkgs() {
 
+	[ -f /etc/sudoers.pacnew ] && cp /etc/sudoers.pacnew /etc/sudoers # Just in case
+
     allow_sudo_nopasswd
+
+    # Use all cores for compilation (temporarily)
+	sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
+
+    # Synchronizing system time to ensure successful and secure installation of software
+    ntpdate 0.us.pool.ntp.org >/dev/null 2>&1
 
     # get pacman package list
     curl -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/pkgs_main_repos.md
@@ -117,7 +128,7 @@ install_pkgs() {
     # install yay
     git clone https://aur.archlinux.org/yay.git /home/userv/yay
     chown -R userv:userv /home/userv/yay
-    pacman -S --noconfirm go
+    pacman -S --noconfirm --needed go
     runuser -l userv -c "cd /home/userv/yay && makepkg --noconfirm -si"
     runuser -l userv -c "rm -rf /home/userv/yay"
 
@@ -128,10 +139,13 @@ install_pkgs() {
     # if a package is not found, skips it
     # if a package is already installed, skips it as well
     runuser --pty -l userv -c "yay -Syu --noconfirm"
-    runuser --pty -l userv -c "yay -S --aur --noconfirm --useask - < /home/userv/pkgs_aur.md"
+    runuser --pty -l userv -c "yay -S --aur --noconfirm --needed --useask - < /home/userv/pkgs_aur.md"
 
     rm /pkgs_main_repos.md
     rm /home/userv/pkgs_aur.md
+
+	# Reset makepkg settings
+    sed -i "s/-j$(nproc)/-j2/;s/^MAKEFLAGS/#MAKEFLAGS/" /etc/makepkg.conf
 
     disallow_sudo_nopasswd
 }
@@ -376,6 +390,10 @@ while getopts ":f:u:r:b:p:h" opt; do
         *) printf "Invalid option: -%s\\n" "$OPTARG" && exit ;;
     esac
 done
+
+[ -z "$dotfilesrepo" ] && dotfilesrepo="https://github.com/00riddle00/dotfiles"
+[ -z "$progsfile" ] && progsfile="https://raw.githubusercontent.com/00riddle00/NPbuild/master/progs.csv"
+[ -z "$repobranch" ] && repobranch="master"
 
 if [ -z $function ]; then
     echo "ERR: no function passed to the script"
