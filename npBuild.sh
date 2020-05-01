@@ -11,9 +11,9 @@ main_items=(
 )
 
 additional_items=(
-    "vim"
     "dhcpcd"
     "openssh"
+    "vim"
     "git"
 )
 
@@ -21,7 +21,10 @@ vbox_items=(
     "virtualbox-guest-utils"
 )
 
-desktop_items=()
+desktop_items=(
+    "virtualbox"
+    "virtualbox-host-modules-arch"
+)
 
 # ==================== UTILITY FUNCTIONS ====================
 
@@ -83,7 +86,7 @@ END
 
 chroot_install_pkgs() {
     arch-chroot /mnt /bin/bash <<END
-        sh npBuild.sh install_pkgs
+        sh npBuild.sh -f install_pkgs
 END
 }
 
@@ -95,7 +98,7 @@ chroot_apply_dotfiles() {
             sh /home/userv/npBuild.sh apply_dotfiles
             rm /home/userv/npBuild.sh
         "
-        sh npBuild.sh enable_services
+        sh npBuild.sh -f enable_services
 END
 }
 
