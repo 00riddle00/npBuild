@@ -169,77 +169,83 @@ apply_dotfiles() {
 }
 
 symlink_dotfiles() {
-    source $HOME/.dotfiles/.zshenv
+    source "$HOME/.dotfiles/.zshenv"
 
-    if [ ! -d $HOME/.config ]; then
-          mkdir -p $HOME/.config;
-    fi
+    [[ ! -d "$HOME/.config" ]] && mkdir -p "$HOME/.config"
 
-    if [ ! -d $HOME/.local/share/applications ]; then
-          mkdir -p $HOME/.local/share/applications;
-    fi
+    [[ ! -d "$XDG_DATA_HOME/applications" ]] && mkdir -p "$XDG_DATA_HOME/applications"
 
-    # $HOME dir
-    for entry in $DOTFILES_DIR/.[a-zA-Z]*; do
+    # $HOME
+    for full_path in "$DOTFILES_DIR"/.[a-zA-Z]*; do
+        file="$(basename "$full_path")"
         # whenever you iterate over files/folders by globbing, it's good practice to avoid the corner 
         # case where the glob does not match (which makes the loop variable expand to the 
-        # (un-matching) glob pattern string itself), hence [ -e "$entry" ] is used
-        [ -e "$entry" ] && 
-            [[ ${entry##*/} != ".config" ]] &&
-            [[ ${entry##*/} != ".local" ]] &&
-            [[ ${entry##*/} != .git* ]] &&
-        ln -sf $entry $HOME/${entry##*/}
+        # (un-matching) glob pattern string itself), hence [[ -e "$full_path" ] is used
+        [[ -e "$full_path" ]] && 
+            [[ "$file" != ".config" ]] &&
+            [[ "$file" != ".local" ]] &&
+            [[ "$file" != .git* ]] &&
+        ln -sf "$full_path" "$HOME/$file"
     done
 
-    # $XDG_CONFIG_HOME dir
-    for entry in $DOTFILES_DIR/.config/[a-zA-Z]*; do
-        [ -e "$entry" ] &&
-        ln -sf $entry $XDG_CONFIG_HOME/${entry##*/}
+    # $XDG_CONFIG_HOME
+    for full_path in "$DOTFILES_DIR/.config"/[a-zA-Z]*; do
+        file="$(basename "$full_path")"
+        [[ -e "$full_path" ]] &&
+        ln -sf "$full_path" "$XDG_CONFIG_HOME/$file"
     done
 
-    # $XDG_DATA_HOME dir
+    # ~/.local/bin
     local_bin="$DOTFILES_DIR/.local/bin"
-    [ -e "$local_bin" ] && ln -sf $local_bin $HOME/.local/bin
+    [[ -e "$local_bin" ]] && ln -sf "$local_bin" "$HOME/.local/bin"
 
+    # ~/.local/share ($XDG_DATA_HOME)
     local_shared="$DOTFILES_DIR/.local/share/riddle00"
-    [ -e "$local_shared" ] && ln -sf $local_shared $XDG_DATA_HOME/riddle00
+    [[ -e "$local_shared" ]] && ln -sf "$local_shared" "$XDG_DATA_HOME/riddle00"
 
-    for entry in $DOTFILES_DIR/.local/share/applications/[a-zA-Z]*; do
-        [ -e "$entry" ] &&
-        ln -sf $entry $XDG_DATA_HOME/applications/${entry##*/}
+    for full_path in "$DOTFILES_DIR/.local/share/applications"/[a-zA-Z]*; do
+        file="$(basename "$full_path")"
+        [[ -e "$full_path" ]] &&
+        ln -sf $full_path "$XDG_DATA_HOME/applications/$file"
     done
 }
 
 unlink_dotfiles() {
-    source $HOME/.dotfiles/.zshenv
+    source "$HOME/.dotfiles/.zshenv"
 
-    # $HOME dir
-    for entry in $DOTFILES_DIR/.[a-zA-Z]*; do
-        [ -e "$entry" ] && 
-            [[ ${entry##*/} != ".config" ]] &&
-            [[ ${entry##*/} != ".local" ]] &&
-            [[ ${entry##*/} != .git* ]] &&
+    # $HOME
+    for full_path in "$DOTFILES_DIR"/.[a-zA-Z]*; do
+        file="$(basename "$full_path")"
+        [[ -e "$full_path" ]] && 
+        [[ "$file" != ".config" ]] &&
+        [[ "$file" != ".local" ]] &&
+        [[ "$file" != .git* ]] &&
         # also check if it's symbolic link before deleting
-        [ -L "$HOME/${entry##*/}" ] &&
-        rm -rf $HOME/${entry##*/}
+        [[ -L "$HOME/$file" ]] &&
+        rm -f "$HOME/$file"
     done
 
-    # $XDG_CONFIG_HOME dir
-    for entry in $DOTFILES_DIR/.config/[a-zA-Z]*; do
-        [ -e "$entry" ] &&  [ -L "$XDG_CONFIG_HOME/${entry##*/}" ] && rm -rf $XDG_CONFIG_HOME/${entry##*/}
+    # $XDG_CONFIG_HOME
+    for full_path in "$DOTFILES_DIR/.config"/[a-zA-Z]*; do
+        file="$(basename "$full_path")"
+        [[ -e "$full_path" ]] &&
+        [[ -L "$XDG_CONFIG_HOME/$file" ]] &&
+        rm -f "$XDG_CONFIG_HOME/$file"
     done
 
-    # $XDG_DATA_HOME dir
-    local_bin="$DOTFILES_DIR/.local/bin"
-    [ -e "$local_bin" ] &&  [ -L "$HOME/.local/${local_bin##*/}" ] && rm -rf $HOME/.local/${local_bin##*/}
+    # ~/.local/bin
+    full_path="$DOTFILES_DIR/.local/bin"
+    file="$(basename "$full_path")"
+    [[ -e "$full_path" ]] && [[ -L "$HOME/.local/$file" ]] && rm -f "$HOME/.local/$file"
 
-    local_shared="$DOTFILES_DIR/.local/share/riddle00"
-    [ -e "$local_shared" ] &&  [ -L "$XDG_DATA_HOME/${local_shared##*/}" ] && rm -rf $XDG_DATA_HOME/${local_shared##*/}
+    # ~/.local/share ($XDG_DATA_HOME)
+    full_path="$DOTFILES_DIR/.local/share/riddle00"
+    file="$(basename "$full_path")"
+    [[ -e "$full_path" ]] && [[ -L "$XDG_DATA_HOME/$file" ]] && rm -f "$XDG_DATA_HOME/$file"
 
-    for entry in $DOTFILES_DIR/.local/share/applications/[a-zA-Z]*; do
-        [ -e "$entry" ] &&
-        [ -L "$XDG_DATA_HOME/applications/${entry##*/}" ] &&
-        rm -rf $XDG_DATA_HOME/applications/${entry##*/}
+    for full_path in "$DOTFILES_DIR/.local/share/applications"/[a-zA-Z]*; do
+        file="$(basename "$full_path")"
+        [[ -e "$full_path" ]] && [[ -L "$XDG_DATA_HOME/applications/$file" ]] && rm -f "$XDG_DATA_HOME/applications/$file"
     done
 }
 
