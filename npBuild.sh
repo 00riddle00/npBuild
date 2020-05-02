@@ -30,12 +30,16 @@ desktop_items=(
 
 mkpart_vbox() {
     parted -s /dev/sda mklabel msdos
-    parted -s /dev/sda mkpart "primary" "ext4" "0%" "100%"
+    parted -s /dev/sda mkpart primary ext4 1MiB 100%
     parted -s /dev/sda set 1 boot on
 }
 
 mkpart_desktop() {
-    echo "empty so far"
+    parted -s /dev/sda mklabel gpt
+    parted -s /dev/sda mkpart primary fat32 1MiB 551MiB
+    parted -s /dev/sda set 1 esp on
+    parted -s /dev/sda mkpart primary linux-swap 551MiB 4.501GiB
+    parted -s /dev/sda mkpart primary ext4 4.501GiB 100%
 }
 
 allow_sudo_nopasswd() {
@@ -48,7 +52,7 @@ disallow_sudo_nopasswd() {
     sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
 }
 
-# ================= CHROOT UTILITY FUNCTIONS =================
+# ================= CHROOT FUNCTIONS =================
 
 chroot_setup_system() {
     arch-chroot /mnt /bin/bash <<END
@@ -102,9 +106,64 @@ chroot_apply_dotfiles() {
 END
 }
 
+# ================= INSTALL FUNCTIONS =================
+
+install_yay() {
+	[ -f "/usr/bin/yay" ] || (
+    git clone https://aur.archlinux.org/yay.git /home/$username/yay
+    chown -R $username:$username /home/$username/yay
+    pacman -S --noconfirm --needed go
+    runuser -l "$username" -c "cd /home/$username/yay && makepkg --noconfirm -si"
+    rm -rf /home/$username/yay
+    )
+}
+
+aurinstall() {
+    # if a package is not found, skips it
+    # if a package is already installed, skips it as well
+    runuser -l "$username" -c "yay -S --aur --noconfirm --needed --useask "$1""
+}
+
+gitmakeinstall() {
+	progname="$(basename "$1" .git)"
+	dir="$repodir/$progname"
+	sudo -u "$username" git clone --depth 1 "$1" "$dir" || { cd "$dir" || return ; sudo -u "$username" git pull --force origin master;}
+	cd "$dir" || exit
+	sudo make clean install
+    rm -r "$dir"
+	cd /tmp || return
+}
+
+maininstall() { # Installs all needed programs from main repo.
+    # if any package is not found, does not install anything from the list
+    # if package is already installed, skips it (shows "up-to date" message)
+    sudo pacman -S --noconfirm --needed "$1" || yes | sudo pacman -S --needed "$1" 
+}
+
+installationloop() {
+    repodir="/home/$username/.local/src"; mkdir -p "$repodir"; sudo chown -R "$username":wheel $(dirname "$repodir")
+
+    install_yay
+
+    # updating the system before installing new software
+    pacman -Syu --noconfirm
+    runuser --pty -s /bin/bash -l "$username" -c "yay -Sua --noconfirm"
+
+    ([[ -f "$progsfile" ]] && cp "$progsfile" /tmp/progs.csv) || curl -Ls "$progsfile" | sed '/^#/d' > /tmp/progs.csv
+    while IFS=, read -r tag program comment; do
+        case "$tag" in
+            "A") aurinstall "$program" ;;
+            "G") gitmakeinstall "$program" ;;
+            *) maininstall "$program" ;;
+        esac
+    done < /tmp/progs.csv
+
+    # cleanup
+    rmdir "$repodir" 2> /dev/null || return
+}
+
 # ================= STANDALONE FUNCTIONS =================
 
-# TODO maybe run this as user, not as root 
 install_pkgs() {
 
 	[[ -f /etc/sudoers.pacnew ]] && cp /etc/sudoers.pacnew /etc/sudoers # just in case
@@ -117,35 +176,7 @@ install_pkgs() {
     # Synchronizing system time to ensure successful and secure installation of software
     ntpdate 0.us.pool.ntp.org >/dev/null 2>&1
 
-    # get pacman package list
-    curl -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/pkgs_main_repos.md
-
-    sudo pacman -Syu --noconfirm
-    # if any package is not found, does not install anything from the list
-    # if package is already installed, skips it (shows "up-to date" message)
-    #
-    ## temp solution to avoid gvim/vim conflict pacman prompt
-    sudo pacman -R --noconfirm vim
-    sudo pacman -S --noconfirm --needed - < pkgs_main_repos.md
-
-    # install yay
-    git clone https://aur.archlinux.org/yay.git /home/userv/yay
-    chown -R userv:userv /home/userv/yay
-    pacman -S --noconfirm --needed go
-    runuser -l userv -c "cd /home/userv/yay && makepkg --noconfirm -si"
-    runuser -l userv -c "rm -rf /home/userv/yay"
-
-    # get aur package list
-    curl -o /home/userv/pkgs_aur.md -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/pkgs_aur.md
-    chown userv:userv /home/userv/pkgs_aur.md
-
-    # if a package is not found, skips it
-    # if a package is already installed, skips it as well
-    runuser --pty -l userv -c "yay -Syu --noconfirm"
-    runuser --pty -l userv -c "yay -S --aur --noconfirm --needed --useask - < /home/userv/pkgs_aur.md"
-
-    rm /pkgs_main_repos.md
-    rm /home/userv/pkgs_aur.md
+    installationloop
 
 	# Reset makepkg settings
     sed -i "s/-j$(nproc)/-j2/;s/^MAKEFLAGS/#MAKEFLAGS/" /etc/makepkg.conf
@@ -266,28 +297,6 @@ immutable_files() {
     done
 }
 
-build_suckless() {
-    mkdir -p ~/tmp1/
-
-    git clone https://github.com/00riddle00/dwm ~/tmp1/dwm
-    cd ~/tmp1/dwm
-    echo "passwd" | sudo make clean install
-
-    git clone https://github.com/00riddle00/dwmblocks ~/tmp1/dwmblocks
-    cd ~/tmp1/dwmblocks
-    echo "passwd" | sudo make clean install
-
-    git clone https://github.com/00riddle00/dmenu ~/tmp1/dmenu
-    cd ~/tmp1/dmenu
-    echo "passwd" | sudo make clean install
-
-    git clone https://github.com/00riddle00/st ~/tmp1/st
-    cd ~/tmp1/st
-    echo "passwd" | sudo make clean install
-
-    rm -rf ~/tmp1
-}
-
 prepare_sublime_text() {
     source "$HOME/.dotfiles/.zshenv"
 
@@ -323,8 +332,6 @@ enable_services() {
     systemctl enable --now ntpd
     systemctl --user enable mpd.socket
 }
-
-# ==================== INSTALL FUNCTIONS ====================
 
 # prerequisites:
 # - create passwd for root user in Live CD
@@ -400,12 +407,18 @@ while getopts ":f:u:r:b:p:h" opt; do
     esac
 done
 
+[[ -z "$username" ]] && username="riddle"
 [[ -z "$dotfilesrepo" ]] && dotfilesrepo="https://github.com/00riddle00/dotfiles"
-[[ -z "$progsfile" ]] && progsfile="https://raw.githubusercontent.com/00riddle00/NPbuild/master/progs.csv"
+#[[ -z "$progsfile" ]] && progsfile="https://raw.githubusercontent.com/00riddle00/NPbuild/master/progs.csv"
+[[ -z "$progsfile" ]] && progsfile="progs.csv"
 [[ -z "$repobranch" ]] && repobranch="master"
 
 if [[ -n "$function" ]]; then
-    [[ " ${standalone_functions[@]} " =~ " ${function} " ]] && eval "$function" || echo "ERR: The function '$function' does not exist as standalone"
+    if [[ " ${standalone_functions[@]} " =~ " ${function} " ]]; then
+        eval "$function" 
+    else
+        echo "ERR: The function '$function' does not exist as standalone"
+    fi
 else
     echo "ERR: no function passed to the script"
 fi
