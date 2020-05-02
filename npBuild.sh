@@ -59,7 +59,7 @@ chroot_setup_system() {
         hwclock --systohc
 
         echo -e "127.0.0.1 localhost\n::1       localhost" > /etc/hosts
-        echo vm-$(head /dev/urandom -c 2 | base64 | cut -c -3)-arch > /etc/hostname
+        echo vm-"$(head /dev/urandom -c 2 | base64 | cut -c -3)"-arch > /etc/hostname
 
         mkinitcpio -p linux
 
@@ -80,7 +80,7 @@ chroot_setup_system() {
         sed -Ei "s/^#? ?(PasswordAuthentication).*/\1 yes/" /etc/ssh/sshd_config
         systemctl enable sshd
 
-        systemctl enable "dhcpcd@$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' | sed 's/ //')"
+        systemctl enable "dhcpcd@"$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' | sed 's/ //')""
 END
 }
 
@@ -107,7 +107,7 @@ END
 # TODO maybe run this as user, not as root 
 install_pkgs() {
 
-	[ -f /etc/sudoers.pacnew ] && cp /etc/sudoers.pacnew /etc/sudoers # Just in case
+	[[ -f /etc/sudoers.pacnew ]] && cp /etc/sudoers.pacnew /etc/sudoers # just in case
 
     allow_sudo_nopasswd
 
@@ -154,9 +154,9 @@ install_pkgs() {
 }
 
 apply_dotfiles() {
-    git clone --recurse-submodules -j8 https://github.com/00riddle00/dotfiles $HOME/.dotfiles
+    git clone --recurse-submodules -j8 https://github.com/00riddle00/dotfiles "$HOME/.dotfiles"
     # FIXME hardcoded username
-    sed -i "s/^export MAIN_USER=.*/export MAIN_USER=userv/" $HOME/.dotfiles/.zshenv
+    sed -i "s/^export MAIN_USER=.*/export MAIN_USER=userv/" "$HOME/.dotfiles/.zshenv"
     symlink_dotfiles
     # TODO maybe pass password as argument to this function and else assume paswordless sudo
     # FIXME hardcoded username
@@ -164,7 +164,7 @@ apply_dotfiles() {
     immutable_files
     build_suckless
     prepare_sublime_text
-    strfile $HOME/.dotfiles/bin/cowsay/rms/rms_say
+    strfile "$HOME/.dotfiles/bin/cowsay/rms/rms_say"
     install_vim_plugins
 }
 
@@ -250,7 +250,7 @@ unlink_dotfiles() {
 }
 
 immutable_files() {
-    source $HOME/.dotfiles/.zshenv
+    source "$HOME/.dotfiles/.zshenv"
 
     echo "passwd" | sudo -S chattr +i "$DOTFILES_DIR/.config/Thunar/accels.scm"
     echo "passwd" | sudo -S chattr +i "$DOTFILES_DIR/.config/filezilla/filezilla.xml"
@@ -289,14 +289,14 @@ build_suckless() {
 }
 
 prepare_sublime_text() {
-    source $HOME/.dotfiles/.zshenv
+    source "$HOME/.dotfiles/.zshenv"
 
     mkdir "$XDG_CONFIG_HOME/sublime-text-3/Installed Packages"
     wget -P "$XDG_CONFIG_HOME/sublime-text-3/Installed Packages" https://packagecontrol.io/Package%20Control.sublime-package
 }
 
 install_vim_plugins() {
-    source $HOME/.dotfiles/.zshenv
+    source "$HOME/.dotfiles/.zshenv"
 
     apps=(
         "cmake"
@@ -306,15 +306,15 @@ install_vim_plugins() {
     )
 
     for app in "${apps[@]}"; do
-        res=$(pacman -Qqe | grep -E "(^|\s)$app($|\s)");
+        res="$(pacman -Qqe | grep -E "(^|\s)$app($|\s)")";
 
         if [ -z "$res" ]; then
-            sudo pacman -S --noconfirm $app
+            sudo pacman -S --noconfirm "$app"
         fi
     done
 
-    rm -rf $DOTFILES_DIR/.vim/bundle/Vundle.vim
-    git clone https://github.com/VundleVim/Vundle.vim.git $DOTFILES_DIR/.vim/bundle/Vundle.vim
+    rm -rf "$DOTFILES_DIR/.vim/bundle/Vundle.vim"
+    git clone https://github.com/VundleVim/Vundle.vim.git "$DOTFILES_DIR/.vim/bundle/Vundle.vim"
     vim +PluginInstall +qall
     python ~/.vim/bundle/YouCompleteMe/install.py
 }
@@ -336,7 +336,7 @@ arch_install_vbox() {
     mkfs.ext4 -F /dev/sda1
     mount /dev/sda1 /mnt
     printf -v items_to_install ' %s' "${main_items[@]} ${additional_items[@]} ${vbox_items[@]}"
-    pacstrap /mnt $items_to_install
+    pacstrap /mnt "$items_to_install"
     genfstab -U /mnt >> /mnt/etc/fstab
     chroot_setup_system
     curl -o /mnt/npBuild.sh -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/npBuild.sh
@@ -400,13 +400,13 @@ while getopts ":f:u:r:b:p:h" opt; do
     esac
 done
 
-[ -z "$dotfilesrepo" ] && dotfilesrepo="https://github.com/00riddle00/dotfiles"
-[ -z "$progsfile" ] && progsfile="https://raw.githubusercontent.com/00riddle00/NPbuild/master/progs.csv"
-[ -z "$repobranch" ] && repobranch="master"
+[[ -z "$dotfilesrepo" ]] && dotfilesrepo="https://github.com/00riddle00/dotfiles"
+[[ -z "$progsfile" ]] && progsfile="https://raw.githubusercontent.com/00riddle00/NPbuild/master/progs.csv"
+[[ -z "$repobranch" ]] && repobranch="master"
 
-if [ -z $function ]; then
-    echo "ERR: no function passed to the script"
+if [[ -n "$function" ]]; then
+    [[ " ${standalone_functions[@]} " =~ " ${function} " ]] && eval "$function" || echo "ERR: The function '$function' does not exist as standalone"
 else
-    [[ " ${standalone_functions[@]} " =~ " ${function} " ]] && eval $function  || echo "ERR: The function '$function' does not exist as standalone"
+    echo "ERR: no function passed to the script"
 fi
 
