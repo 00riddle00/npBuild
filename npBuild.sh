@@ -54,84 +54,16 @@ mkfs_desktop() {
 }
 
 allow_sudo_nopasswd() {
-    sed -i "s/^%wheel ALL=(ALL) ALL/# %wheel ALL=(ALL) ALL/" /etc/sudoers
-    sed -i "s/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/" /etc/sudoers
+    sed -i "s/^%wheel ALL=(ALL) ALL/# %wheel ALL=(ALL) ALL/" /mnt/etc/sudoers
+    sed -i "s/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/" /mnt/etc/sudoers
 }
 
 disallow_sudo_nopasswd() {
-    sed -i "s/^%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/" /etc/sudoers
-    sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
+    sed -i "s/^%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/" /mnt/etc/sudoers
+    sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /mnt/etc/sudoers
 }
 
 # ================= CHROOT FUNCTIONS =================
-
-chroot_setup_system() {
-    arch-chroot /mnt /bin/bash <<END
-    echo -e "en_US.UTF-8 UTF-8\nlt_LT.UTF-8 UTF-8" >> /etc/locale.gen
-    locale-gen
-    ln -s /usr/share/zoneinfo/Europe/Vilnius /etc/localtime
-
-    hwclock --systohc
-
-    echo -e "127.0.0.1 localhost\n::1       localhost" > /etc/hosts
-
-    mkinitcpio -p linux
-
-    # Make pacman and yay colorful and adds eye candy on the progress bar because why not.
-    grep "^Color" /etc/pacman.conf >/dev/null || sed -i "s/^#Color$/Color/" /etc/pacman.conf
-    grep "ILoveCandy" /etc/pacman.conf >/dev/null || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
-
-    useradd -m -G wheel "$username"
-    echo -e "passwd\npasswd\n" | passwd "$username"
-
-    sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
-
-    sed -Ei "s/^#? ?(PermitRootLogin).*/\1 no/" /etc/ssh/sshd_config
-    sed -Ei "s/^#? ?(PasswordAuthentication).*/\1 yes/" /etc/ssh/sshd_config
-    systemctl enable sshd
-
-    systemctl enable "dhcpcd@"$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' | sed 's/ //')""
-
-    case "$machine" in
-        "vm") 
-            pacman --noconfirm -S grub-bios
-            grub-install --recheck /dev/sda
-            grub-mkconfig -o /boot/grub/grub.cfg
-            ;;
-        "desktop") 
-            mkdir /efi
-            mount /dev/sda1 /efi
-            pacman -S grub efibootmgr
-            grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=arch_grub --recheck
-            grub-mkconfig -o /boot/grub/grub.cfg
-            ;;
-        *) echo "unknown variable '$machine'" >2 && exit 1 ;;
-    esac
-
-    echo "$machine"-"$(head /dev/urandom -c 2 | base64 | cut -c -3)"-arch > /etc/hostname
-END
-}
-
-chroot_install_pkgs() {
-    # copying self
-    cp "$0" /mnt/npBuild.sh
-    arch-chroot /mnt /bin/bash <<END
-    sh npBuild.sh -f install_pkgs
-END
-    rm /mnt/npBuild.sh
-}
-
-chroot_apply_dotfiles() {
-    arch-chroot /mnt /bin/bash <<END
-        runuser --pty -s /bin/bash -l userv -c "
-            curl -o /home/userv/npBuild.sh -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/npBuild.sh
-            chmod +x /home/userv/npBuild.sh
-            sh /home/userv/npBuild.sh apply_dotfiles
-            rm /home/userv/npBuild.sh
-        "
-        sh npBuild.sh -f enable_services
-END
-}
 
 # ================= INSTALL FUNCTIONS =================
 
@@ -167,12 +99,146 @@ install_from_main() { # Installs all needed programs from main repos.
     sudo pacman -S --noconfirm --needed "$1" || yes | sudo pacman -S --needed "$1" 
 }
 
+# ================= DOTFILES FUNCTIONS =================
+
+make_some_files_immutable() {
+    sudo -S chattr +i "$DOTFILES_DIR/.config/Thunar/accels.scm"
+    sudo -S chattr +i "$DOTFILES_DIR/.config/filezilla/filezilla.xml"
+    sudo -S chattr +i "$DOTFILES_DIR/.config/htop/htoprc"
+    sudo -S chattr +i "$DOTFILES_DIR/.config/mimeapps.list"
+
+    re='^[0-9.]+$'
+
+    for dir in $(ls "$DOTFILES_DIR/.config/GIMP"); do
+        if [[ $dir =~ $re ]] ; then
+            sudo -S chattr +i "$DOTFILES_DIR/.config/GIMP/$dir/menurc"
+        fi
+    done
+}
+
+prepare_sublime_text() {
+    mkdir "$XDG_CONFIG_HOME/sublime-text-3/Installed Packages"
+    wget -P "$XDG_CONFIG_HOME/sublime-text-3/Installed Packages" https://packagecontrol.io/Package%20Control.sublime-package
+}
+
+install_vim_plugins() {
+    apps=(
+        "cmake"
+        "git"
+        "python"
+        "zsh"
+    )
+
+    for app in "${apps[@]}"; do
+        res="$(pacman -Qqe | grep -E "(^|\s)$app($|\s)")";
+
+        if [[ -z "$res" ]]; then
+            sudo pacman -S --noconfirm "$app"
+        fi
+    done
+
+    rm -rf "$DOTFILES_DIR/.vim/bundle/Vundle.vim"
+    git clone https://github.com/VundleVim/Vundle.vim.git "$DOTFILES_DIR/.vim/bundle/Vundle.vim"
+    vim +PluginInstall +qall
+    python ~/.vim/bundle/YouCompleteMe/install.py
+}
+
+apply_finishing_touches() {
+    strfile "$HOME/.dotfiles/bin/cowsay/rms/rms_say"
+}
+
 # ================= STANDALONE FUNCTIONS =================
+
+# run from arch LiveCD
+install_arch() {
+    [[ $machine =~ 'vm|desktop' ]] || echo "ERR: The machine type flag -m is empty or incorrect"
+    timedatectl set-ntp true
+
+    eval "mkpart_$machine"
+    eval "mkfs_$machine"
+
+    [[ $machine =~ "vm" ]] && part="sda1" || part="sda3"
+    mount "/dev/$part" /mnt
+
+    # variable indirection is used here
+    machine_specific_items=items_$machine[@]
+    pacstrap /mnt "${main_items[@]}"
+    pacstrap /mnt "${additional_items[@]}"
+    pacstrap /mnt "${!machine_specific_items}"
+
+    genfstab -U /mnt >> /mnt/etc/fstab
+
+    arch-chroot /mnt /bin/bash <<END
+        echo -e "en_US.UTF-8 UTF-8\nlt_LT.UTF-8 UTF-8" >> /etc/locale.gen
+        locale-gen
+        ln -s /usr/share/zoneinfo/Europe/Vilnius /etc/localtime
+
+        hwclock --systohc
+
+        echo -e "127.0.0.1 localhost\n::1       localhost" > /etc/hosts
+
+        mkinitcpio -p linux
+
+        # Make pacman and yay colorful and adds eye candy on the progress bar because why not.
+        grep "^Color" /etc/pacman.conf >/dev/null || sed -i "s/^#Color$/Color/" /etc/pacman.conf
+        grep "ILoveCandy" /etc/pacman.conf >/dev/null || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
+
+        useradd -m -G wheel "$username"
+        echo -e "passwd\npasswd\n" | passwd "$username"
+
+        sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
+
+        sed -Ei "s/^#? ?(PermitRootLogin).*/\1 no/" /etc/ssh/sshd_config
+        sed -Ei "s/^#? ?(PasswordAuthentication).*/\1 yes/" /etc/ssh/sshd_config
+        systemctl enable sshd
+
+        systemctl enable "dhcpcd@"$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' | sed 's/ //')""
+
+        case "$machine" in
+            "vm") 
+                pacman --noconfirm -S grub-bios
+                grub-install --recheck /dev/sda
+                grub-mkconfig -o /boot/grub/grub.cfg
+                ;;
+            "desktop") 
+                mkdir /efi
+                mount /dev/sda1 /efi
+                pacman -S grub efibootmgr
+                grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=arch_grub --recheck
+                grub-mkconfig -o /boot/grub/grub.cfg
+                ;;
+            *) echo "unknown variable '$machine'" >2 && exit 1 ;;
+        esac
+
+        echo "$machine"-"$(head /dev/urandom -c 2 | base64 | cut -c -3)"-arch > /etc/hostname
+END
+
+    # copying this script
+    cp "$0" "/mnt/home/$username/npBuild.sh"
+    chgrp wheel "/mnt/home/$username/npBuild.sh"
+
+    arch-chroot /mnt /bin/bash <<END
+        "sh npBuild.sh -f install_pkgs"
+END
+
+    allow_sudo_nopasswd
+
+    arch-chroot /mnt /bin/bash <<END
+        runuser --pty -s /bin/bash -l "$username" -c "
+            sh npBuild.sh -f apply_dotfiles
+        "
+END
+
+    disallow_sudo_nopasswd
+
+    rm "/mnt/home/$username/npBuild.sh"
+    umount /mnt
+    eject -m
+    reboot -f
+}
 
 install_pkgs() {
 	[[ -f /etc/sudoers.pacnew ]] && cp /etc/sudoers.pacnew /etc/sudoers # just in case
-
-    allow_sudo_nopasswd
 
     # Use all cores for compilation (temporarily)
 	sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
@@ -203,23 +269,19 @@ install_pkgs() {
 
 	# Reset makepkg settings
     sed -i "s/-j$(nproc)/-j2/;s/^MAKEFLAGS/#MAKEFLAGS/" /etc/makepkg.conf
-
-    disallow_sudo_nopasswd
 }
 
+# passwordless sudo must be enabled
 apply_dotfiles() {
-    git clone --recurse-submodules -j8 https://github.com/00riddle00/dotfiles "$HOME/.dotfiles"
-    # FIXME hardcoded username
-    sed -i "s/^export MAIN_USER=.*/export MAIN_USER=userv/" "$HOME/.dotfiles/.zshenv"
+    git clone --depth 1 --recurse-submodules --shallow-submodules -j8 "$dotfilesrepo" "$HOME/.dotfiles"
+    sed -i "s/^export MAIN_USER=.*/export MAIN_USER=$username/" "$HOME/.dotfiles/.zshenv"
+    sudo chsh -s /bin/zsh "$username"
+    source "$HOME/.dotfiles/.zshenv"
     symlink_dotfiles
-    # TODO maybe pass password as argument to this function and else assume paswordless sudo
-    # FIXME hardcoded username
-    echo "passwd" | sudo -S -u userv chsh -s /bin/zsh
-    immutable_files
-    build_suckless
     prepare_sublime_text
-    strfile "$HOME/.dotfiles/bin/cowsay/rms/rms_say"
+    make_some_files_immutable
     install_vim_plugins
+    apply_finishing_touches
 }
 
 symlink_dotfiles() {
@@ -303,89 +365,6 @@ unlink_dotfiles() {
     done
 }
 
-make_some_files_immutable() {
-    source "$HOME/.dotfiles/.zshenv"
-
-    echo "passwd" | sudo -S chattr +i "$DOTFILES_DIR/.config/Thunar/accels.scm"
-    echo "passwd" | sudo -S chattr +i "$DOTFILES_DIR/.config/filezilla/filezilla.xml"
-    echo "passwd" | sudo -S chattr +i "$DOTFILES_DIR/.config/htop/htoprc"
-    echo "passwd" | sudo -S chattr +i "$DOTFILES_DIR/.config/mimeapps.list"
-
-    re='^[0-9.]+$'
-
-    for dir in $(ls "$DOTFILES_DIR/.config/GIMP"); do
-        if [[ $dir =~ $re ]] ; then
-            echo "passwd" | sudo -S chattr +i "$DOTFILES_DIR/.config/GIMP/$dir/menurc"
-        fi
-    done
-}
-
-prepare_sublime_text() {
-    source "$HOME/.dotfiles/.zshenv"
-
-    mkdir "$XDG_CONFIG_HOME/sublime-text-3/Installed Packages"
-    wget -P "$XDG_CONFIG_HOME/sublime-text-3/Installed Packages" https://packagecontrol.io/Package%20Control.sublime-package
-}
-
-install_vim_plugins() {
-    source "$HOME/.dotfiles/.zshenv"
-
-    apps=(
-        "cmake"
-        "git"
-        "python"
-        "zsh"
-    )
-
-    for app in "${apps[@]}"; do
-        res="$(pacman -Qqe | grep -E "(^|\s)$app($|\s)")";
-
-        if [[ -z "$res" ]]; then
-            sudo pacman -S --noconfirm "$app"
-        fi
-    done
-
-    rm -rf "$DOTFILES_DIR/.vim/bundle/Vundle.vim"
-    git clone https://github.com/VundleVim/Vundle.vim.git "$DOTFILES_DIR/.vim/bundle/Vundle.vim"
-    vim +PluginInstall +qall
-    python ~/.vim/bundle/YouCompleteMe/install.py
-}
-
-enable_services() {
-    systemctl enable --now ntpd
-    systemctl --user enable mpd.socket
-}
-
-# run from arch LiveCD
-install_arch() {
-
-    #[[ $machine =~ 'vm|desktop' ]] || echo "ERR: The machine type flag -m is empty or incorrect"
-    #timedatectl set-ntp true
-
-    #eval "mkpart_$machine"
-    #eval "mkfs_$machine"
-
-    #[[ $machine =~ "vm" ]] && part="sda1" || part="sda3"
-    #mount "/dev/$part" /mnt
-
-    # variable indirection is used here
-    #machine_specific_items=items_$machine[@]
-    #pacstrap /mnt "${main_items[@]}"
-    #pacstrap /mnt "${additional_items[@]}"
-    #pacstrap /mnt "${!machine_specific_items}"
-
-    #genfstab -U /mnt >> /mnt/etc/fstab
-
-    #chroot_setup_system
-    chroot_install_pkgs
-
-    #chroot_apply_dotfiles
-    #rm /mnt/npBuild.sh
-    #umount /mnt
-    #eject -m
-    #reboot -f
-}
-
 # ======================= EXECUTION =======================
 
 standalone_functions=(
@@ -394,10 +373,6 @@ standalone_functions=(
     "apply_dotfiles"
     "symlink_dotfiles"
     "unlink_dotfiles"
-    "make_some_files_immutable"
-    "prepare_sublime_text"
-    "install_vim_plugins"
-    "enable_services"
 )
 
 while getopts ":f:m:u:b:p:h" opt; do 
@@ -415,10 +390,6 @@ while getopts ":f:m:u:b:p:h" opt; do
                     'apply_dotfiles'
                     'symlink_dotfiles'
                     'unlink_dotfiles'
-                    'make_some_files_immutable'
-                    'prepare_sublime_text'
-                    'install_vim_plugins'
-                    'enable_services'
 
         -m  [Required only for the function 'install_arch'] Machine type. One of two values: {'vm', 'desktop'}
         -u  [Optional] User name. Defaults to 'userv'
@@ -434,7 +405,7 @@ done
 [[ -z "$repobranch" ]] && repobranch="master"
 # [[ -z "$progsfile" ]] && progsfile="https://raw.githubusercontent.com/00riddle00/NPbuild/master/progs.csv"
 [[ -z "$progsfile" ]] && progsfile="progs.csv"
-dotfiles="https://github.com/00riddle00/dotfiles"
+dotfilesrepo="https://github.com/00riddle00/dotfiles"
 
 if [[ -n "$function" ]]; then
     if [[ " ${standalone_functions[@]} " =~ " ${function} " ]]; then
@@ -445,4 +416,3 @@ if [[ -n "$function" ]]; then
 else
     echo "ERR: no function passed to the script"
 fi
-
