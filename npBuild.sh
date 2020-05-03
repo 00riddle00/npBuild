@@ -3,32 +3,32 @@
 # ======================= VARIABLES =======================
 
 # items = packages, groups (base-devel), metapackages (base)
-main_items=(
+items_main=(
     "base"
     "base-devel"
     "linux"
     "linux-firmware"
 )
 
-additional_items=(
+items_additional=(
     "dhcpcd"
     "openssh"
     "vim"
     "git"
 )
 
-vbox_items=(
+items_vm=(
     "virtualbox-guest-utils"
 )
 
-desktop_items=(
+items_desktop=(
     "virtualbox"
     "virtualbox-host-modules-arch"
 )
 
 # ==================== UTILITY FUNCTIONS ====================
 
-mkpart_vbox() {
+mkpart_vm() {
     parted -s /dev/sda mklabel msdos
     parted -s /dev/sda mkpart primary ext4 1MiB 100%
     parted -s /dev/sda set 1 boot on
@@ -40,6 +40,17 @@ mkpart_desktop() {
     parted -s /dev/sda set 1 esp on
     parted -s /dev/sda mkpart primary linux-swap 551MiB 4.501GiB
     parted -s /dev/sda mkpart primary ext4 4.501GiB 100%
+}
+
+mkfs_vm() {
+    mkfs.ext4 /dev/sda1
+}
+
+mkfs_desktop() {
+    mkfs.fat -F32 /dev/sda1
+    mkswap /dev/sda2
+    swapon /dev/sda2
+    mkfs.ext4 /dev/sda3
 }
 
 allow_sudo_nopasswd() {
@@ -56,42 +67,58 @@ disallow_sudo_nopasswd() {
 
 chroot_setup_system() {
     arch-chroot /mnt /bin/bash <<END
-        echo -e "en_US.UTF-8 UTF-8\nlt_LT.UTF-8 UTF-8" >> /etc/locale.gen
-        locale-gen
-        ln -s /usr/share/zoneinfo/Europe/Vilnius /etc/localtime
+    echo -e "en_US.UTF-8 UTF-8\nlt_LT.UTF-8 UTF-8" >> /etc/locale.gen
+    locale-gen
+    ln -s /usr/share/zoneinfo/Europe/Vilnius /etc/localtime
 
-        hwclock --systohc
+    hwclock --systohc
 
-        echo -e "127.0.0.1 localhost\n::1       localhost" > /etc/hosts
-        echo vm-"$(head /dev/urandom -c 2 | base64 | cut -c -3)"-arch > /etc/hostname
+    echo -e "127.0.0.1 localhost\n::1       localhost" > /etc/hosts
 
-        mkinitcpio -p linux
+    mkinitcpio -p linux
 
-        # Make pacman and yay colorful and adds eye candy on the progress bar because why not.
-        grep "^Color" /etc/pacman.conf >/dev/null || sed -i "s/^#Color$/Color/" /etc/pacman.conf
-        grep "ILoveCandy" /etc/pacman.conf >/dev/null || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
+    # Make pacman and yay colorful and adds eye candy on the progress bar because why not.
+    grep "^Color" /etc/pacman.conf >/dev/null || sed -i "s/^#Color$/Color/" /etc/pacman.conf
+    grep "ILoveCandy" /etc/pacman.conf >/dev/null || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
 
-        pacman --noconfirm -S grub-bios
-        grub-install --recheck /dev/sda
-        grub-mkconfig -o /boot/grub/grub.cfg
+    useradd -m -G wheel "$username"
+    echo -e "passwd\npasswd\n" | passwd "$username"
 
-        useradd -m -G wheel userv
-        echo -e "passwd\npasswd\n" | passwd userv
+    sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
 
-        sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
+    sed -Ei "s/^#? ?(PermitRootLogin).*/\1 no/" /etc/ssh/sshd_config
+    sed -Ei "s/^#? ?(PasswordAuthentication).*/\1 yes/" /etc/ssh/sshd_config
+    systemctl enable sshd
 
-        sed -Ei "s/^#? ?(PermitRootLogin).*/\1 no/" /etc/ssh/sshd_config
-        sed -Ei "s/^#? ?(PasswordAuthentication).*/\1 yes/" /etc/ssh/sshd_config
-        systemctl enable sshd
+    systemctl enable "dhcpcd@"$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' | sed 's/ //')""
 
-        systemctl enable "dhcpcd@"$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' | sed 's/ //')""
+    case "$machine" in
+        "vm") 
+            pacman --noconfirm -S grub-bios
+            grub-install --recheck /dev/sda
+            grub-mkconfig -o /boot/grub/grub.cfg
+            ;;
+        "desktop") 
+            mkdir /efi
+            mount /dev/sda1 /efi
+            pacman -S grub efibootmgr
+            grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=arch_grub --recheck
+            grub-mkconfig -o /boot/grub/grub.cfg
+            ;;
+        *) echo "unknown variable '$machine'" >2 && exit 1 ;;
+    esac
+
+    echo "$machine"-"$(head /dev/urandom -c 2 | base64 | cut -c -3)"-arch > /etc/hostname
 END
 }
 
 chroot_install_pkgs() {
+    # copying self
+    cp "$0" /mnt/npBuild.sh
     arch-chroot /mnt /bin/bash <<END
-        sh npBuild.sh -f install_pkgs
+    sh npBuild.sh -f install_pkgs
 END
+    rm /mnt/npBuild.sh
 }
 
 chroot_apply_dotfiles() {
@@ -109,24 +136,24 @@ END
 # ================= INSTALL FUNCTIONS =================
 
 install_yay() {
-	[ -f "/usr/bin/yay" ] || (
-    git clone https://aur.archlinux.org/yay.git /home/$username/yay
-    chown -R $username:$username /home/$username/yay
+	[[ -f "/usr/bin/yay" ]] || {
+    git clone https://aur.archlinux.org/yay.git $srcdir/yay
+    chown -R $username:$username $srcdir/yay
     pacman -S --noconfirm --needed go
-    runuser -l "$username" -c "cd /home/$username/yay && makepkg --noconfirm -si"
-    rm -rf /home/$username/yay
-    )
+    runuser -l "$username" -c "cd $srcdir/yay && makepkg --noconfirm -si"
+    rm -r "$srcdir/yay"
+    }
 }
 
-aurinstall() {
+install_from_aur() {
     # if a package is not found, skips it
     # if a package is already installed, skips it as well
     runuser -l "$username" -c "yay -S --aur --noconfirm --needed --useask "$1""
 }
 
-gitmakeinstall() {
+install_from_git() {
 	progname="$(basename "$1" .git)"
-	dir="$repodir/$progname"
+	dir="$srcdir/$progname"
 	sudo -u "$username" git clone --depth 1 "$1" "$dir" || { cd "$dir" || return ; sudo -u "$username" git pull --force origin master;}
 	cd "$dir" || exit
 	sudo make clean install
@@ -134,38 +161,15 @@ gitmakeinstall() {
 	cd /tmp || return
 }
 
-maininstall() { # Installs all needed programs from main repo.
+install_from_main() { # Installs all needed programs from main repos.
     # if any package is not found, does not install anything from the list
     # if package is already installed, skips it (shows "up-to date" message)
     sudo pacman -S --noconfirm --needed "$1" || yes | sudo pacman -S --needed "$1" 
 }
 
-installationloop() {
-    repodir="/home/$username/.local/src"; mkdir -p "$repodir"; sudo chown -R "$username":wheel $(dirname "$repodir")
-
-    install_yay
-
-    # updating the system before installing new software
-    pacman -Syu --noconfirm
-    runuser --pty -s /bin/bash -l "$username" -c "yay -Sua --noconfirm"
-
-    ([[ -f "$progsfile" ]] && cp "$progsfile" /tmp/progs.csv) || curl -Ls "$progsfile" | sed '/^#/d' > /tmp/progs.csv
-    while IFS=, read -r tag program comment; do
-        case "$tag" in
-            "A") aurinstall "$program" ;;
-            "G") gitmakeinstall "$program" ;;
-            *) maininstall "$program" ;;
-        esac
-    done < /tmp/progs.csv
-
-    # cleanup
-    rmdir "$repodir" 2> /dev/null || return
-}
-
 # ================= STANDALONE FUNCTIONS =================
 
 install_pkgs() {
-
 	[[ -f /etc/sudoers.pacnew ]] && cp /etc/sudoers.pacnew /etc/sudoers # just in case
 
     allow_sudo_nopasswd
@@ -176,7 +180,26 @@ install_pkgs() {
     # Synchronizing system time to ensure successful and secure installation of software
     ntpdate 0.us.pool.ntp.org >/dev/null 2>&1
 
-    installationloop
+    srcdir="/home/$username/.local/src"; mkdir -p "$srcdir"; sudo chown -R "$username":wheel $(dirname "$srcdir")
+
+    install_yay
+
+    # updating the system before installing new software
+    pacman -Syu --noconfirm
+    runuser --pty -s /bin/bash -l "$username" -c "yay -Sua --noconfirm"
+
+    [[ -f "$progsfile" ]] || curl -LO "$progsfile"
+    sed '/^#/d' "$progsfile" > /tmp/progs.csv
+    while IFS=, read -r tag program comment; do
+        case "$tag" in
+            "A") install_from_aur "$program" ;;
+            "G") install_from_git "$program" ;;
+            *) install_from_main "$program" ;;
+        esac
+    done < /tmp/progs.csv
+
+    # cleanup
+    rmdir "$srcdir" 2> /dev/null 
 
 	# Reset makepkg settings
     sed -i "s/-j$(nproc)/-j2/;s/^MAKEFLAGS/#MAKEFLAGS/" /etc/makepkg.conf
@@ -280,7 +303,7 @@ unlink_dotfiles() {
     done
 }
 
-immutable_files() {
+make_some_files_immutable() {
     source "$HOME/.dotfiles/.zshenv"
 
     echo "passwd" | sudo -S chattr +i "$DOTFILES_DIR/.config/Thunar/accels.scm"
@@ -317,7 +340,7 @@ install_vim_plugins() {
     for app in "${apps[@]}"; do
         res="$(pacman -Qqe | grep -E "(^|\s)$app($|\s)")";
 
-        if [ -z "$res" ]; then
+        if [[ -z "$res" ]]; then
             sudo pacman -S --noconfirm "$app"
         fi
     done
@@ -333,46 +356,46 @@ enable_services() {
     systemctl --user enable mpd.socket
 }
 
-# prerequisites:
-# - create passwd for root user in Live CD
-# - start sshd service
-# - connect to LiveCD via ssh
-arch_install_vbox() {
-    timedatectl set-ntp true
-    mkpart_vbox
-    mkfs.ext4 -F /dev/sda1
-    mount /dev/sda1 /mnt
-    printf -v items_to_install ' %s' "${main_items[@]} ${additional_items[@]} ${vbox_items[@]}"
-    pacstrap /mnt "$items_to_install"
-    genfstab -U /mnt >> /mnt/etc/fstab
-    chroot_setup_system
-    curl -o /mnt/npBuild.sh -LO https://raw.githubusercontent.com/00riddle00/NPbuild/master/npBuild.sh
-    chroot_install_pkgs
-    chroot_apply_dotfiles
-    rm /mnt/npBuild.sh
-    umount /mnt
-    eject -m
-    reboot -f
-}
+# run from arch LiveCD
+install_arch() {
+    #timedatectl set-ntp true
 
-arch_install_desktop() {
-    echo "not implemented"
+    #eval "mkpart_$machine"
+    #eval "mkfs_$machine"
+
+    #[[ $machine =~ "vm" ]] && part="sda1" || part="sda3"
+    #mount "/dev/$part" /mnt
+
+    # variable indirection is used here
+    #machine_specific_items=items_$machine[@]
+    #pacstrap /mnt "${main_items[@]}"
+    #pacstrap /mnt "${additional_items[@]}"
+    #pacstrap /mnt "${!machine_specific_items}"
+
+    #genfstab -U /mnt >> /mnt/etc/fstab
+
+    #chroot_setup_system
+    chroot_install_pkgs
+
+    #chroot_apply_dotfiles
+    #rm /mnt/npBuild.sh
+    #umount /mnt
+    #eject -m
+    #reboot -f
 }
 
 # ======================= EXECUTION =======================
 
 standalone_functions=(
-    "arch_install_vbox"
-    "arch_install_desktop"
     "install_pkgs"
     "apply_dotfiles"
     "symlink_dotfiles"
     "unlink_dotfiles"
-    "immutable_files"
-    "build_suckless"
+    "make_some_files_immutable"
     "prepare_sublime_text"
     "install_vim_plugins"
     "enable_services"
+    "install_arch"
 )
 
 while getopts ":f:u:r:b:p:h" opt; do 
@@ -385,17 +408,15 @@ while getopts ":f:u:r:b:p:h" opt; do
         h) printf "
         -f  [Required] Name of the function to be run.
                 List of standalone functions:
-                    'arch_install_vbox',
-                    'arch_install_desktop',
-                    'install_pkgs',
-                    'apply_dotfiles',
-                    'symlink_dotfiles',
-                    'unlink_dotfiles',
-                    'immutable_files',
-                    'build_suckless',
-                    'prepare_sublime_text',
-                    'install_vim_plugins',
-                    'enable_services'.
+                    'install_pkgs'
+                    'apply_dotfiles'
+                    'symlink_dotfiles'
+                    'unlink_dotfiles'
+                    'make_some_files_immutable'
+                    'prepare_sublime_text'
+                    'install_vim_plugins'
+                    'enable_services'
+                    'install_arch'
 
         -u  [Optional] User name
         -r  [Optional] Dotfiles repository (local file or url)
@@ -407,11 +428,13 @@ while getopts ":f:u:r:b:p:h" opt; do
     esac
 done
 
-[[ -z "$username" ]] && username="riddle"
+[[ -z "$username" ]] && username="userv"
 [[ -z "$dotfilesrepo" ]] && dotfilesrepo="https://github.com/00riddle00/dotfiles"
-#[[ -z "$progsfile" ]] && progsfile="https://raw.githubusercontent.com/00riddle00/NPbuild/master/progs.csv"
-[[ -z "$progsfile" ]] && progsfile="progs.csv"
+[[ -z "$progsfile" ]] && progsfile="https://raw.githubusercontent.com/00riddle00/NPbuild/master/progs.csv"
 [[ -z "$repobranch" ]] && repobranch="master"
+
+machine="vm"
+progsfile="progs.csv"
 
 if [[ -n "$function" ]]; then
     if [[ " ${standalone_functions[@]} " =~ " ${function} " ]]; then
