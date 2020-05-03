@@ -358,6 +358,8 @@ enable_services() {
 
 # run from arch LiveCD
 install_arch() {
+
+    #[[ $machine =~ 'vm|desktop' ]] || echo "ERR: The machine type flag -m is empty or incorrect"
     #timedatectl set-ntp true
 
     #eval "mkpart_$machine"
@@ -387,6 +389,7 @@ install_arch() {
 # ======================= EXECUTION =======================
 
 standalone_functions=(
+    "install_arch"
     "install_pkgs"
     "apply_dotfiles"
     "symlink_dotfiles"
@@ -395,19 +398,19 @@ standalone_functions=(
     "prepare_sublime_text"
     "install_vim_plugins"
     "enable_services"
-    "install_arch"
 )
 
-while getopts ":f:u:r:b:p:h" opt; do 
+while getopts ":f:m:u:b:p:h" opt; do 
     case "${opt}" in
         f) function=${OPTARG} ;;
+        m) machine=${OPTARG} ;;
         u) username=${OPTARG} ;;
-        r) dotfilesrepo=${OPTARG} && git ls-remote "$dotfilesrepo" || exit ;;
         b) repobranch=${OPTARG} ;;
         p) progsfile=${OPTARG} ;;
         h) printf "
-        -f  [Required] Name of the function to be run.
-                List of standalone functions:
+        -f  [Required] Name of one single function to be run.
+                List of functions:
+                    'install_arch'
                     'install_pkgs'
                     'apply_dotfiles'
                     'symlink_dotfiles'
@@ -416,12 +419,11 @@ while getopts ":f:u:r:b:p:h" opt; do
                     'prepare_sublime_text'
                     'install_vim_plugins'
                     'enable_services'
-                    'install_arch'
 
-        -u  [Optional] User name
-        -r  [Optional] Dotfiles repository (local file or url)
-        -b  [Optional] Branch of the repo
-        -p  [Optional] Dependencies and programs csv (local file or url)
+        -m  [Required only for the function 'install_arch'] Machine type. One of two values: {'vm', 'desktop'}
+        -u  [Optional] User name. Defaults to 'userv'
+        -b  [Optional] Branch of the repo. Defaults to 'master'
+        -p  [Optional] Dependencies and programs csv (local file or url).  Defaults to npBuild repo's 'progs.csv' file
         -h  Show help\\n" 
         exit ;;
         *) printf "Invalid option: -%s\\n" "$OPTARG" && exit ;;
@@ -429,12 +431,10 @@ while getopts ":f:u:r:b:p:h" opt; do
 done
 
 [[ -z "$username" ]] && username="userv"
-[[ -z "$dotfilesrepo" ]] && dotfilesrepo="https://github.com/00riddle00/dotfiles"
-[[ -z "$progsfile" ]] && progsfile="https://raw.githubusercontent.com/00riddle00/NPbuild/master/progs.csv"
 [[ -z "$repobranch" ]] && repobranch="master"
-
-machine="vm"
-progsfile="progs.csv"
+# [[ -z "$progsfile" ]] && progsfile="https://raw.githubusercontent.com/00riddle00/NPbuild/master/progs.csv"
+[[ -z "$progsfile" ]] && progsfile="progs.csv"
+dotfiles="https://github.com/00riddle00/dotfiles"
 
 if [[ -n "$function" ]]; then
     if [[ " ${standalone_functions[@]} " =~ " ${function} " ]]; then
