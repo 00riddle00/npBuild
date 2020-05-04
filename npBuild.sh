@@ -72,7 +72,7 @@ install_yay() {
     git clone https://aur.archlinux.org/yay.git $srcdir/yay
     chown -R $username:$username $srcdir/yay
     pacman -S --noconfirm --needed go
-    runuser -l "$username" -c "cd $srcdir/yay && makepkg --noconfirm -si"
+    runuser -l "$username" -c "{ cd $srcdir/yay || return } && makepkg --noconfirm -si"
     rm -r "$srcdir/yay"
     }
 }
@@ -90,7 +90,6 @@ install_from_git() {
 	cd "$dir" || exit
 	sudo make clean install
     rm -r "$dir"
-	cd /tmp || return
 }
 
 install_from_main() { # Installs all needed programs from main repos.
@@ -122,6 +121,7 @@ prepare_sublime_text() {
 }
 
 install_vim_plugins() {
+
     apps=(
         "cmake"
         "git"
@@ -218,14 +218,14 @@ END
     chgrp wheel "/mnt/home/$username/npBuild.sh"
 
     arch-chroot /mnt /bin/bash <<END
-        "sh npBuild.sh -f install_pkgs"
+        "sh npBuild.sh -f install_pkgs -u $username"
 END
 
     allow_sudo_nopasswd
 
     arch-chroot /mnt /bin/bash <<END
         runuser --pty -s /bin/bash -l "$username" -c "
-            sh npBuild.sh -f apply_dotfiles
+            sh npBuild.sh -f apply_dotfile -u $username
         "
 END
 
@@ -273,7 +273,7 @@ install_pkgs() {
 
 # passwordless sudo must be enabled
 apply_dotfiles() {
-    git clone --depth 1 --recurse-submodules --shallow-submodules -j8 "$dotfilesrepo" "$HOME/.dotfiles"
+    git clone -b "$repobranch" --depth 1 --recurse-submodules --shallow-submodules -j8 "$dotfilesrepo" "$HOME/.dotfiles"
     sed -i "s/^export MAIN_USER=.*/export MAIN_USER=$username/" "$HOME/.dotfiles/.zshenv"
     sudo chsh -s /bin/zsh "$username"
     source "$HOME/.dotfiles/.zshenv"
@@ -403,8 +403,7 @@ done
 
 [[ -z "$username" ]] && username="userv"
 [[ -z "$repobranch" ]] && repobranch="master"
-# [[ -z "$progsfile" ]] && progsfile="https://raw.githubusercontent.com/00riddle00/NPbuild/master/progs.csv"
-[[ -z "$progsfile" ]] && progsfile="progs.csv"
+[[ -z "$progsfile" ]] && progsfile="https://raw.githubusercontent.com/00riddle00/NPbuild/master/progs.csv"
 dotfilesrepo="https://github.com/00riddle00/dotfiles"
 
 if [[ -n "$function" ]]; then
