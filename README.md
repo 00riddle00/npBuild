@@ -1,4 +1,4 @@
-## npBuild
+## n(ot)p(erfect)Build
 
 Builds my fully functioning home from the first prompt of Arch x64 liveCD both on VM and on desktop:
 * installs the Arch Linux OS
