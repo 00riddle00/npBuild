@@ -136,7 +136,7 @@ install_vim_plugins() {
             sudo pacman -S --noconfirm "$app"
         fi
     done
-
+    # TODO replace with vim-plug's one-liner "vim +PlugInstall" and test it
     rm -rf "$DOTFILES_DIR/.vim/bundle/Vundle.vim"
     git clone https://github.com/VundleVim/Vundle.vim.git "$DOTFILES_DIR/.vim/bundle/Vundle.vim"
     vim +PluginInstall +qall
