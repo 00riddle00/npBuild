@@ -1,6 +1,7 @@
 adobe-source-code-pro-fonts
 adwaita-icon-theme
 alsa-utils
+archlinux-keyring
 autoconf
 automake
 base
@@ -64,6 +65,7 @@ ifplugd
 inetutils
 inkscape
 inotify-tools
+iputils
 irssi
 ispell
 jp2a
@@ -72,6 +74,7 @@ lesspipe
 lftp
 libtool
 libvirt
+licenses
 linux
 linux-firmware
 logrotate
