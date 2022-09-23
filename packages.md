@@ -68,7 +68,6 @@ lshw
 lsof
 lvm2
 lxappearance-obconf
-m4
 make
 man-db
 man-pages
