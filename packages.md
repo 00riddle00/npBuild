@@ -6,7 +6,7 @@ autoconf
 automake
 base
 bat
-bind-tools
+bind
 binutils
 bison
 cmake
@@ -67,7 +67,7 @@ lostfiles
 lshw
 lsof
 lvm2
-lxappearance
+lxappearance-obconf
 m4
 make
 man-db
@@ -78,7 +78,7 @@ moreutils
 mpc
 mpd
 mpv
-msmtp
+msmtp-mta
 mutt
 ncmpcpp
 neofetch
