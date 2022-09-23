@@ -8,7 +8,7 @@ cava
 dia
 downgrade
 dropbox
-gotop
+gotop-bin
 grub2-theme-archlinux
 i3-gaps-rounded-git
 jabref
