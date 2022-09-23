@@ -45,7 +45,6 @@ grep
 groff
 grub
 gtk2
-gvfs
 gvim
 gzip
 hicolor-icon-theme
