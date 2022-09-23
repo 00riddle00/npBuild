@@ -79,7 +79,6 @@ mpc
 mpd
 mpv
 msmtp-mta
-mutt
 ncmpcpp
 neofetch
 neomutt
