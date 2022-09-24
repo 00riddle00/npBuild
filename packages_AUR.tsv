@@ -11,7 +11,9 @@ dia
 downgrade	
 dropbox	
 gotop-bin	
+grabc	
 grub2-theme-archlinux	
+hardinfo	
 i3-gaps-rounded-git	
 jabref	
 jetbrains-toolbox	
@@ -30,6 +32,7 @@ nsnake
 numix-cursor-theme	
 numix-themes-archblue	
 pacnews-git	
+paru	
 postman-bin	
 rstudio-desktop-bin	
 ruby-clocale	
@@ -42,11 +45,11 @@ sc-im	"is an Excel-like terminal spreadsheet manager."
 smartgit	
 smartsvn	
 spotify	
+task-spooler	"queues up tasks from the shell for batch execution."
 teams	
 tmuxinator	
 ttf-symbola	
 urlview	
 urxvt-font-size-git	
 weka	
-yay	
 zoom	

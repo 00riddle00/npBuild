@@ -8,6 +8,7 @@ alsa-utils
 archlinux-keyring	
 ascii	
 asciiquarium	
+atbswp	
 autoconf	
 automake	
 base	
@@ -169,6 +170,7 @@ r
 ranger	
 redshift	
 remmina	
+reptyr	
 ripgrep	
 rofi	"is a window switcher, application launcher and dmenu replacement."
 rofimoji	
