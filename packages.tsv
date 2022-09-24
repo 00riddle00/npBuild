@@ -4,18 +4,18 @@ acpi
 adobe-source-code-pro-fonts	
 adwaita-icon-theme	
 alacritty	
-alsa-utils	
+alsa-utils	"provides amixer and other ALSA utilities."
 archlinux-keyring	
 ascii	
 asciiquarium	
 atbswp	
 autoconf	
 automake	
-base	
+base	"is a meta package which defines (and prevents from removing) a basic Arch Linux installation."
 bat	"can highlight code output and display files."
 bc	"is used for a dropdown calculator."
 biber	
-bind	
+bind	"is a versatile name server software which provides dig, host, and other utilities."
 binutils	
 bison	
 broot	
@@ -23,7 +23,7 @@ calcurse
 calibre	
 chromium	
 cloc	
-cmake	
+cmake	"is a cross-platform open-source make system, is needed to compile YCM vim plugin."
 cmatrix	
 cmus	
 code	
@@ -32,7 +32,7 @@ cool-retro-term
 cowfortune	
 cowsay	
 cronie	
-ctags	
+ctags	"generates an index file of language objects found in source files, is needed by TagBar, CtrlP vim plugins."
 cuda	
 cudnn	
 dhcpcd	
@@ -190,7 +190,7 @@ sxiv	"is a minimalist image viewer."
 sysfsutils	
 sysstat	
 tealdeer	
-termdown	
+termdown	"is a timer and a stopwatch in a terminal."
 terminator	
 tesseract	
 texinfo	
