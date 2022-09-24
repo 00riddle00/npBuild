@@ -1,7 +1,7 @@
 alacritty-themes
 anki-bin
-arch-wiki-man
 archlinux-java-run
+arch-wiki-man
 autotiling
 brave-bin
 cava
