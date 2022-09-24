@@ -11,8 +11,8 @@ asciiquarium
 autoconf	
 automake	
 base	
-bat	
-bc	"is a simple command line calculator."
+bat	"can highlight code output and display files."
+bc	"is used for a dropdown calculator."
 biber	
 bind	
 binutils	
@@ -37,8 +37,8 @@ dhcpcd
 discord	
 doge	
 dosbox	
-dosfstools	
-dunst	
+dosfstools	"allows your computer to access dos-like filesystems."
+dunst	"is a customizable and lightweight notification system."
 efibootmgr	
 emacs	
 espeak-ng	
@@ -54,7 +54,7 @@ firefox
 flameshot	
 flex	
 freerdp	
-fzf	
+fzf	"is a fuzzy finder tool."
 gawk	
 gcc	
 gettext	
@@ -91,7 +91,7 @@ libreoffice-fresh
 libtool	
 libxft	"is a FreeType-based font drawing library for X."
 licenses	
-links	
+links	"is a terminal browser."
 linux	
 linux-firmware	
 logrotate	
@@ -102,28 +102,28 @@ lsof
 lvm2	
 lxappearance-obconf	
 make	
-man-db	
+man-db	"lets you read man pages of programs."
 man-pages	
 mc	
 mdp	
 meld	
 mlocate	
-moreutils	
-mpc	
-mpd	
-mpv	
+moreutils	"is a collection of useful unix tools."
+mpc	"is a terminal interface for mpd."
+mpd	"is a lightweight music daemon."
+mpv	"is the patrician's choice video player."
 msmtp-mta	
 mypaint	
-ncmpcpp	
+ncmpcpp	"a ncurses interface for music with multiple formats and a powerful tag editor."
 neofetch	
 neomutt	
-newsboat	
+newsboat	"is a terminal RSS client."
 nmap	
 nomacs	
 notmuch-vim	
 noto-fonts	"is an expansive font package."
-noto-fonts-emoji	
-ntfs-3g	
+noto-fonts-emoji	"is an emoji font."
+ntfs-3g	"allows accessing NTFS partitions."
 ntp	
 nvidia	
 nvidia-settings	
@@ -141,7 +141,7 @@ pavucontrol
 perl-data-compare	
 perl-lingua-translit	
 perl-list-moreutils	
-picom	
+picom	"is for transparency and removing screen-tearing."
 pkgconf	
 playerctl	
 projectm	
@@ -179,7 +179,7 @@ sublime-text
 subversion	
 sudo	
 surfraw	
-sxiv	
+sxiv	"is a minimalist image viewer."
 sysfsutils	
 sysstat	
 tealdeer	
@@ -216,7 +216,7 @@ tree
 ttf-inconsolata	
 tumbler	
 unrar	
-unzip	
+unzip	"unzips zips."
 urxvt-perls	
 valgrind	
 vifm	
@@ -247,10 +247,10 @@ xorg-setxkbmap
 xorg-smproxy	
 xorg-x11perf	
 xorg-xauth	
-xorg-xbacklight	
+xorg-xbacklight	"enables changing screen brightness levels."
 xorg-xcmsdb	
 xorg-xcursorgen	
-xorg-xdpyinfo	
+xorg-xdpyinfo	"aids with resolution determination and screen recording."
 xorg-xdriinfo	
 xorg-xev	
 xorg-xgamma	
@@ -277,8 +277,8 @@ xorg-xwininfo	"allows querying information about windows."
 xorg-xwud	
 xscreensaver	
 youtube-dl	
-zathura	
-zathura-pdf-mupdf	
+zathura	"is a pdf viewer with vim-like bindings."
+zathura-pdf-mupdf	"allows mupdf pdf compatibility in zathura."
 zip	
 zsh	
 zstd	
