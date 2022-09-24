@@ -41,9 +41,6 @@ spotify
 teams
 tmuxinator
 ttf-symbola
-ultra-flat-icons-green
-urxvt-font-size-git
 weka
-xcursor-oxygen
 yay
 zoom

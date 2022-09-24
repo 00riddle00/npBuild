@@ -28,6 +28,7 @@ conky
 cool-retro-term
 cowfortune
 cowsay
+cronie
 ctags
 cuda
 cudnn
@@ -180,6 +181,7 @@ surfraw
 sxiv
 sysfsutils
 sysstat
+tealdeer
 termdown
 terminator
 tesseract
@@ -216,7 +218,6 @@ unrar
 unzip
 urxvt-perls
 valgrind
-vi
 vifm
 viu
 vlc
