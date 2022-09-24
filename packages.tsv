@@ -1,11 +1,11 @@
-NAME IN REPO	META PACKAGE	PACKAGE GROUP	PURPOSE (should be a verb phrase to sound right while installing)
+NAME IN REPO	META PACKAGE	PACKAGE GROUP(S)	PURPOSE (should be a verb phrase to sound right while installing)
 ack			
 acpi			
 adobe-source-code-pro-fonts			
 adwaita-icon-theme			
 alacritty			
 alsa-utils			"provides amixer and other ALSA utilities."
-archlinux-keyring	base		
+archlinux-keyring	base	base-devel	
 ascii			
 asciiquarium			
 atbswp			
@@ -78,8 +78,8 @@ gzip	base	base-devel
 hicolor-icon-theme			
 htop			"is a graphical and colorful system monitor."
 hwloc			
-i3blocks			
-i3lock			
+i3blocks		i3	
+i3lock		i3	
 inetutils			
 inkscape			
 iputils	base		
@@ -104,7 +104,7 @@ lostfiles
 lshw			
 lsof			
 lvm2			
-lxappearance-obconf			
+lxappearance-obconf		lxde	
 lynx			"is a terminal browser."
 make		base-devel	
 man-db			"lets you read man pages of programs."
@@ -135,7 +135,7 @@ nvidia-settings
 obs-studio			
 octave			
 offlineimap			
-openbox			
+openbox		lxde, lxde-gtk3, lxqt 	
 openconnect			
 openssh			
 p7zip			
@@ -194,26 +194,26 @@ termdown			"is a timer and a stopwatch in a terminal."
 terminator			
 tesseract			
 texinfo		base-devel	
-texlive-bibtexextra			
-texlive-core			
-texlive-fontsextra			
-texlive-formatsextra			
-texlive-games			
-texlive-humanities			
-texlive-langcyrillic			
-texlive-langextra			
-texlive-langgreek			
-texlive-latexextra			
-texlive-music			
-texlive-pictures			
-texlive-pstricks			
-texlive-publishers			
-texlive-science			
+texlive-bibtexextra		texlive-most	
+texlive-core		texlive-most	
+texlive-fontsextra		texlive-most	
+texlive-formatsextra		texlive-most	
+texlive-games		texlive-most	
+texlive-humanities		texlive-most	
+texlive-langcyrillic		texlive-lang	
+texlive-langextra		texlive-lang	
+texlive-langgreek		texlive-lang	
+texlive-latexextra		texlive-most	
+texlive-music		texlive-most	
+texlive-pictures		texlive-most	
+texlive-pstricks		texlive-most	
+texlive-publishers		texlive-most	
+texlive-science		texlive-most	
 the_silver_searcher			
-thunar			
-thunar-archive-plugin			
-thunar-media-tags-plugin			
-thunar-volman			
+thunar		xfce4	
+thunar-archive-plugin		xfce4-goodies	
+thunar-media-tags-plugin		xfce4-goodies	
+thunar-volman		xfce4	
 thunderbird			
 tig			
 tint2			
@@ -221,7 +221,7 @@ tk
 tmux			
 tree			
 ttf-inconsolata			
-tumbler			
+tumbler		xfce4	
 unrar			
 unzip			"unzips zips."
 urxvt-perls			
@@ -236,52 +236,52 @@ whois
 wmctrl			
 wpa_supplicant			
 xaos			
-xf86-video-vesa			
-xorg-bdftopcf			
-xorg-docs			
-xorg-fonts-encodings			
-xorg-font-util			
-xorg-iceauth			
-xorg-mkfontscale			
-xorg-server			"is the graphical server."
-xorg-server-common			
-xorg-server-devel			
-xorg-server-xephyr			
-xorg-server-xnest			
-xorg-server-xvfb			
-xorg-sessreg			
-xorg-setxkbmap			
-xorg-smproxy			
-xorg-x11perf			
-xorg-xauth			
-xorg-xbacklight			"enables changing screen brightness levels."
-xorg-xcmsdb			
-xorg-xcursorgen			
-xorg-xdpyinfo			"aids with resolution determination and screen recording."
-xorg-xdriinfo			
-xorg-xev			
-xorg-xgamma			
-xorg-xhost			
+xf86-video-vesa		xorg, xorg-drivers	
+xorg-bdftopcf		xorg, xorg-apps	
+xorg-docs		xorg	
+xorg-fonts-encodings		xorg, xorg-fonts	
+xorg-font-util		xorg, xorg-fonts	
+xorg-iceauth		xorg, xorg-apps	
+xorg-mkfontscale		xorg, xorg-apps	
+xorg-server		xorg	"is the graphical server."
+xorg-server-common		xorg	
+xorg-server-devel		xorg	
+xorg-server-xephyr		xorg	
+xorg-server-xnest		xorg	
+xorg-server-xvfb		xorg	
+xorg-sessreg		xorg, xorg-apps	
+xorg-setxkbmap		xorg, xorg-apps	
+xorg-smproxy		xorg, xorg-apps	
+xorg-x11perf		xorg, xorg-apps	
+xorg-xauth		xorg, xorg-apps	
+xorg-xbacklight		xorg, xorg-apps	"enables changing screen brightness levels."
+xorg-xcmsdb		xorg, xorg-apps	
+xorg-xcursorgen		xorg, xorg-apps	
+xorg-xdpyinfo		xorg, xorg-apps	"aids with resolution determination and screen recording."
+xorg-xdriinfo		xorg, xorg-apps	
+xorg-xev		xorg, xorg-apps	
+xorg-xgamma		xorg, xorg-apps	
+xorg-xhost		xorg, xorg-apps	
 xorg-xinit			"starts the graphical server."
-xorg-xinput			
-xorg-xkbcomp			
-xorg-xkbevd			
-xorg-xkbutils			
-xorg-xkill			
-xorg-xlsatoms			
-xorg-xlsclients			
-xorg-xmodmap			
-xorg-xpr			
-xorg-xprop			"is a tool for detecting window properties."
-xorg-xrandr			"allows to customize monitor arrangements."
-xorg-xrdb			
-xorg-xrefresh			
-xorg-xset			
-xorg-xsetroot			
-xorg-xvinfo			
-xorg-xwd			
-xorg-xwininfo			"allows querying information about windows."
-xorg-xwud			
+xorg-xinput		xorg, xorg-apps	
+xorg-xkbcomp		xorg, xorg-apps	
+xorg-xkbevd		xorg, xorg-apps	
+xorg-xkbutils		xorg, xorg-apps	
+xorg-xkill		xorg, xorg-apps	
+xorg-xlsatoms		xorg, xorg-apps	
+xorg-xlsclients		xorg, xorg-apps	
+xorg-xmodmap		xorg, xorg-apps	
+xorg-xpr		xorg, xorg-apps	
+xorg-xprop		xorg, xorg-apps	"is a tool for detecting window properties."
+xorg-xrandr		xorg, xorg-apps	"allows to customize monitor arrangements."
+xorg-xrdb		xorg, xorg-apps	
+xorg-xrefresh		xorg, xorg-apps	
+xorg-xset		xorg, xorg-apps	
+xorg-xsetroot		xorg, xorg-apps	
+xorg-xvinfo		xorg, xorg-apps	
+xorg-xwd		xorg, xorg-apps	
+xorg-xwininfo		xorg, xorg-apps	"allows querying information about windows."
+xorg-xwud		xorg, xorg-apps	
 xscreensaver			
 yasm			
 youtube-dl			"can download any YouTube video (or playlist or channel) when given the link."
