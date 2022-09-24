@@ -36,6 +36,7 @@ cudnn
 dhcpcd	
 discord	
 doge	
+dos2unix	
 dosbox	
 dosfstools	"allows your computer to access dos-like filesystems."
 dunst	"is a customizable and lightweight notification system."
@@ -49,6 +50,7 @@ fd
 feh	
 figlet	
 file	
+filezilla	
 findutils	
 firefox	
 flameshot	
@@ -62,6 +64,7 @@ gimp
 git	
 git-lfs	
 glances	
+gmrun	
 gnuplot	
 graphviz	
 grep	
@@ -168,6 +171,7 @@ remmina
 ripgrep	
 rofi	
 rofimoji	
+rtorrent	
 ruby-irb	
 rxvt-unicode	
 rxvt-unicode-terminfo	
@@ -276,6 +280,7 @@ xorg-xwd
 xorg-xwininfo	"allows querying information about windows."
 xorg-xwud	
 xscreensaver	
+yasm	
 youtube-dl	
 zathura	"is a pdf viewer with vim-like bindings."
 zathura-pdf-mupdf	"allows mupdf pdf compatibility in zathura."
