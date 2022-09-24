@@ -78,8 +78,8 @@ inetutils
 inkscape
 iputils
 irssi
-jdk-openjdk
 jdk8-openjdk
+jdk-openjdk
 jp2a
 jupyter-nbconvert
 keepass
@@ -231,8 +231,8 @@ xaos
 xf86-video-vesa
 xorg-bdftopcf
 xorg-docs
-xorg-font-util
 xorg-fonts-encodings
+xorg-font-util
 xorg-iceauth
 xorg-mkfontscale
 xorg-server
