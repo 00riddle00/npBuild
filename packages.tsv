@@ -12,7 +12,7 @@ autoconf
 automake	
 base	
 bat	
-bc	
+bc	"is a simple command line calculator."
 biber	
 bind	
 binutils	
@@ -71,7 +71,7 @@ gtk2
 gvim	
 gzip	
 hicolor-icon-theme	
-htop	
+htop	"is a graphical and colorful system monitor."
 hwloc	
 i3blocks	
 i3lock	
@@ -89,7 +89,7 @@ lftp
 lib32-nvidia-utils	
 libreoffice-fresh	
 libtool	
-libxft	
+libxft	"is a FreeType-based font drawing library for X"
 licenses	
 links	
 linux	
@@ -121,7 +121,7 @@ newsboat
 nmap	
 nomacs	
 notmuch-vim	
-noto-fonts	
+noto-fonts	"is an expansive font package."
 noto-fonts-emoji	
 ntfs-3g	
 ntp	
@@ -236,7 +236,7 @@ xorg-fonts-encodings
 xorg-font-util	
 xorg-iceauth	
 xorg-mkfontscale	
-xorg-server	
+xorg-server	"is the graphical server."
 xorg-server-common	
 xorg-server-devel	
 xorg-server-xephyr	
@@ -255,7 +255,7 @@ xorg-xdriinfo
 xorg-xev	
 xorg-xgamma	
 xorg-xhost	
-xorg-xinit	
+xorg-xinit	"starts the graphical server."
 xorg-xinput	
 xorg-xkbcomp	
 xorg-xkbevd	
@@ -265,15 +265,15 @@ xorg-xlsatoms
 xorg-xlsclients	
 xorg-xmodmap	
 xorg-xpr	
-xorg-xprop	
-xorg-xrandr	
+xorg-xprop	"is a tool for detecting window properties."
+xorg-xrandr	"allows to customize monitor arrangements."
 xorg-xrdb	
 xorg-xrefresh	
 xorg-xset	
 xorg-xsetroot	
 xorg-xvinfo	
 xorg-xwd	
-xorg-xwininfo	
+xorg-xwininfo	"allows querying information about windows."
 xorg-xwud	
 xscreensaver	
 youtube-dl	
