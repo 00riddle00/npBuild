@@ -91,7 +91,6 @@ libreoffice-fresh
 libtool	
 libxft	"is a FreeType-based font drawing library for X."
 licenses	
-links	"is a terminal browser."
 linux	
 linux-firmware	
 logrotate	
@@ -101,6 +100,7 @@ lshw
 lsof	
 lvm2	
 lxappearance-obconf	
+lynx	"is a terminal browser."
 make	
 man-db	"lets you read man pages of programs."
 man-pages	
