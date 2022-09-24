@@ -1,292 +1,292 @@
-NAME IN REPO	PURPOSE (should be a verb phrase to sound right while installing)
-ack	
-acpi	
-adobe-source-code-pro-fonts	
-adwaita-icon-theme	
-alacritty	
-alsa-utils	"provides amixer and other ALSA utilities."
-archlinux-keyring	
-ascii	
-asciiquarium	
-atbswp	
-autoconf	
-automake	
-base	"is a meta package which defines (and prevents from removing) a basic Arch Linux installation."
-bat	"can highlight code output and display files."
-bc	"is used for a dropdown calculator."
-biber	
-bind	"is a versatile name server software which provides dig, host, and other utilities."
-binutils	
-bison	
-broot	
-calcurse	
-calibre	
-chromium	
-cloc	
-cmake	"is a cross-platform open-source make system, is needed to compile YCM vim plugin."
-cmatrix	
-cmus	
-code	
-conky	
-cool-retro-term	
-cowfortune	
-cowsay	
-cronie	
-ctags	"generates an index file of language objects found in source files, is needed by TagBar, CtrlP vim plugins."
-cuda	
-cudnn	
-dhcpcd	
-discord	
-doge	
-dos2unix	
-dosbox	
-dosfstools	"allows your computer to access dos-like filesystems."
-dunst	"is a customizable and lightweight notification system."
-efibootmgr	
-emacs	
-espeak-ng	
-expac	
-fakeroot	
-fbgrab	
-fd	
-feh	"is an image viewer, useful to set a wallpaper."
-figlet	
-file	
-filezilla	
-findutils	
-firefox	
-flameshot	
-flex	
-freerdp	
-fzf	"is a fuzzy finder tool."
-gawk	
-gcc	
-gettext	
-gimp	
-git	
-git-lfs	
-glances	
-gmrun	
-gnuplot	
-graphviz	
-grep	
-groff	
-grub	
-gtk2	
-gvim	
-gzip	
-hicolor-icon-theme	
-htop	"is a graphical and colorful system monitor."
-hwloc	
-i3blocks	
-i3lock	
-inetutils	
-inkscape	
-iputils	
-irssi	
-jdk8-openjdk	
-jdk-openjdk	
-jp2a	
-jupyter-nbconvert	
-keepass	
-lazygit	
-lftp	
-lib32-nvidia-utils	
-libreoffice-fresh	
-libtool	
-libxft	"is a FreeType-based font drawing library for X."
-licenses	
-linux	
-linux-firmware	
-logrotate	
-lolcat	
-lostfiles	
-lshw	
-lsof	
-lvm2	
-lxappearance-obconf	
-lynx	"is a terminal browser."
-make	
-man-db	"lets you read man pages of programs."
-man-pages	
-mc	
-mdp	
-meld	
-mlocate	
-moreutils	"is a collection of useful unix tools."
-mpc	"is a terminal interface for mpd."
-mpd	"is a lightweight music daemon."
-mpv	"is the patrician's choice video player."
-msmtp-mta	
-mypaint	
-ncmpcpp	"a ncurses interface for music with multiple formats and a powerful tag editor."
-neofetch	
-neomutt	
-newsboat	"is a terminal RSS client."
-nmap	
-nomacs	
-notmuch-vim	
-noto-fonts	"is an expansive font package."
-noto-fonts-emoji	"is an emoji font."
-ntfs-3g	"allows accessing NTFS partitions."
-ntp	
-nvidia	
-nvidia-settings	
-obs-studio	
-octave	
-offlineimap	
-openbox	
-openconnect	
-openssh	
-p7zip	
-pacgraph	
-pacman	
-patch	
-pavucontrol	
-perl-data-compare	
-perl-lingua-translit	
-perl-list-moreutils	
-picom	"is for transparency and removing screen-tearing."
-pkgconf	
-playerctl	
-projectm	
-pulseaudio	
-pulseaudio-alsa	
-python	
-python-configobj	
-python-fsspec	
-python-jupyter_client	
-python-lxml	
-python-matplotlib	
-python-pip	
-python-pytorch-cuda	
-python-pyxdg	
-python-tensorflow-opt-cuda	
-python-wxpython	
-qalculate-gtk	
-qbittorrent	
-qutebrowser	
-r	
-ranger	
-redshift	
-remmina	
-reptyr	
-ripgrep	
-rofi	"is a window switcher, application launcher and dmenu replacement."
-rofimoji	
-rtorrent	
-ruby-irb	
-rxvt-unicode	
-rxvt-unicode-terminfo	
-scrot	
-sed	
-steam-native-runtime	
-strace	
-sublime-text	
-subversion	
-sudo	
-surfraw	
-sxiv	"is a minimalist image viewer."
-sysfsutils	
-sysstat	
-tealdeer	
-termdown	"is a timer and a stopwatch in a terminal."
-terminator	
-tesseract	
-texinfo	
-texlive-bibtexextra	
-texlive-core	
-texlive-fontsextra	
-texlive-formatsextra	
-texlive-games	
-texlive-humanities	
-texlive-langcyrillic	
-texlive-langextra	
-texlive-langgreek	
-texlive-latexextra	
-texlive-music	
-texlive-pictures	
-texlive-pstricks	
-texlive-publishers	
-texlive-science	
-the_silver_searcher	
-thunar	
-thunar-archive-plugin	
-thunar-media-tags-plugin	
-thunar-volman	
-thunderbird	
-tig	
-tint2	
-tk	
-tmux	
-tree	
-ttf-inconsolata	
-tumbler	
-unrar	
-unzip	"unzips zips."
-urxvt-perls	
-valgrind	
-vifm	
-viu	
-vlc	
-w3m	
-wdiff	
-which	
-whois	
-wmctrl	
-wpa_supplicant	
-xaos	
-xf86-video-vesa	
-xorg-bdftopcf	
-xorg-docs	
-xorg-fonts-encodings	
-xorg-font-util	
-xorg-iceauth	
-xorg-mkfontscale	
-xorg-server	"is the graphical server."
-xorg-server-common	
-xorg-server-devel	
-xorg-server-xephyr	
-xorg-server-xnest	
-xorg-server-xvfb	
-xorg-sessreg	
-xorg-setxkbmap	
-xorg-smproxy	
-xorg-x11perf	
-xorg-xauth	
-xorg-xbacklight	"enables changing screen brightness levels."
-xorg-xcmsdb	
-xorg-xcursorgen	
-xorg-xdpyinfo	"aids with resolution determination and screen recording."
-xorg-xdriinfo	
-xorg-xev	
-xorg-xgamma	
-xorg-xhost	
-xorg-xinit	"starts the graphical server."
-xorg-xinput	
-xorg-xkbcomp	
-xorg-xkbevd	
-xorg-xkbutils	
-xorg-xkill	
-xorg-xlsatoms	
-xorg-xlsclients	
-xorg-xmodmap	
-xorg-xpr	
-xorg-xprop	"is a tool for detecting window properties."
-xorg-xrandr	"allows to customize monitor arrangements."
-xorg-xrdb	
-xorg-xrefresh	
-xorg-xset	
-xorg-xsetroot	
-xorg-xvinfo	
-xorg-xwd	
-xorg-xwininfo	"allows querying information about windows."
-xorg-xwud	
-xscreensaver	
-yasm	
-youtube-dl	can download any YouTube video (or playlist or channel) when given the link.
-zathura	"is a pdf viewer with vim-like bindings."
-zathura-pdf-mupdf	"allows mupdf pdf compatibility in zathura."
-zip	
-zsh	"is a modern shell."
-zstd	
+NAME IN REPO	FROM A META PACKAGE	FROM A PACKAGE GROUP	PURPOSE (should be a verb phrase to sound right while installing)
+ack			
+acpi			
+adobe-source-code-pro-fonts			
+adwaita-icon-theme			
+alacritty			
+alsa-utils			"provides amixer and other ALSA utilities."
+archlinux-keyring	base		
+ascii			
+asciiquarium			
+atbswp			
+autoconf		base-devel	
+automake		base-devel	
+base			"is a meta package which defines (and prevents from removing) a basic Arch Linux installation."
+bat			"can highlight code output and display files."
+bc			"is used for a dropdown calculator."
+biber			
+bind			"is a versatile name server software which provides dig, host, and other utilities."
+binutils		base-devel	
+bison		base-devel	
+broot			
+calcurse			
+calibre			
+chromium			
+cloc			
+cmake			"is a cross-platform open-source make system, is needed to compile YCM vim plugin."
+cmatrix			
+cmus			
+code			
+conky			
+cool-retro-term			
+cowfortune			
+cowsay			
+cronie			
+ctags			"generates an index file of language objects found in source files, is needed by TagBar, CtrlP vim plugins."
+cuda			
+cudnn			
+dhcpcd			
+discord			
+doge			
+dos2unix			
+dosbox			
+dosfstools			"allows your computer to access dos-like filesystems."
+dunst			"is a customizable and lightweight notification system."
+efibootmgr			
+emacs			
+espeak-ng			
+expac			
+fakeroot		base-devel	
+fbgrab			
+fd			
+feh			"is an image viewer, useful to set a wallpaper."
+figlet			
+file	base	base-devel	
+filezilla			
+findutils	base	base-devel	
+firefox			
+flameshot			
+flex		base-devel	
+freerdp			
+fzf			"is a fuzzy finder tool."
+gawk	base	base-devel	
+gcc		base-devel	
+gettext	base	base-devel	
+gimp			
+git			
+git-lfs			
+glances			
+gmrun			
+gnuplot			
+graphviz			
+grep	base	base-devel	
+groff		base-devel	
+grub			
+gtk2			
+gvim			
+gzip	base	base-devel	
+hicolor-icon-theme			
+htop			"is a graphical and colorful system monitor."
+hwloc			
+i3blocks			
+i3lock			
+inetutils			
+inkscape			
+iputils	base		
+irssi			
+jdk8-openjdk			
+jdk-openjdk			
+jp2a			
+jupyter-nbconvert			
+keepass			
+lazygit			
+lftp			
+lib32-nvidia-utils			
+libreoffice-fresh			
+libtool		base-devel	
+libxft			"is a FreeType-based font drawing library for X."
+licenses	base		
+linux			
+linux-firmware			
+logrotate			
+lolcat			
+lostfiles			
+lshw			
+lsof			
+lvm2			
+lxappearance-obconf			
+lynx			"is a terminal browser."
+make		base-devel	
+man-db			"lets you read man pages of programs."
+man-pages			
+mc			
+mdp			
+meld			
+mlocate			
+moreutils			"is a collection of useful unix tools."
+mpc			"is a terminal interface for mpd."
+mpd			"is a lightweight music daemon."
+mpv			"is the patrician's choice video player."
+msmtp-mta			
+mypaint			
+ncmpcpp			"a ncurses interface for music with multiple formats and a powerful tag editor."
+neofetch			
+neomutt			
+newsboat			"is a terminal RSS client."
+nmap			
+nomacs			
+notmuch-vim			
+noto-fonts			"is an expansive font package."
+noto-fonts-emoji			"is an emoji font."
+ntfs-3g			"allows accessing NTFS partitions."
+ntp			
+nvidia			
+nvidia-settings			
+obs-studio			
+octave			
+offlineimap			
+openbox			
+openconnect			
+openssh			
+p7zip			
+pacgraph			
+pacman	base	base-devel	
+patch		base-devel	
+pavucontrol			
+perl-data-compare			
+perl-lingua-translit			
+perl-list-moreutils			
+picom			"is for transparency and removing screen-tearing."
+pkgconf		base-devel	
+playerctl			
+projectm			
+pulseaudio			
+pulseaudio-alsa			
+python			
+python-configobj			
+python-fsspec			
+python-jupyter_client			
+python-lxml			
+python-matplotlib			
+python-pip			
+python-pytorch-cuda			
+python-pyxdg			
+python-tensorflow-opt-cuda			
+python-wxpython			
+qalculate-gtk			
+qbittorrent			
+qutebrowser			
+r			
+ranger			
+redshift			
+remmina			
+reptyr			
+ripgrep			
+rofi			"is a window switcher, application launcher and dmenu replacement."
+rofimoji			
+rtorrent			
+ruby-irb			
+rxvt-unicode			
+rxvt-unicode-terminfo			
+scrot			
+sed	base	base-devel	
+steam-native-runtime			
+strace			
+sublime-text			
+subversion			
+sudo		base-devel	
+surfraw			
+sxiv			"is a minimalist image viewer."
+sysfsutils			
+sysstat			
+tealdeer			
+termdown			"is a timer and a stopwatch in a terminal."
+terminator			
+tesseract			
+texinfo		base-devel	
+texlive-bibtexextra			
+texlive-core			
+texlive-fontsextra			
+texlive-formatsextra			
+texlive-games			
+texlive-humanities			
+texlive-langcyrillic			
+texlive-langextra			
+texlive-langgreek			
+texlive-latexextra			
+texlive-music			
+texlive-pictures			
+texlive-pstricks			
+texlive-publishers			
+texlive-science			
+the_silver_searcher			
+thunar			
+thunar-archive-plugin			
+thunar-media-tags-plugin			
+thunar-volman			
+thunderbird			
+tig			
+tint2			
+tk			
+tmux			
+tree			
+ttf-inconsolata			
+tumbler			
+unrar			
+unzip			"unzips zips."
+urxvt-perls			
+valgrind			
+vifm			
+viu			
+vlc			
+w3m			
+wdiff			
+which		base-devel	
+whois			
+wmctrl			
+wpa_supplicant			
+xaos			
+xf86-video-vesa			
+xorg-bdftopcf			
+xorg-docs			
+xorg-fonts-encodings			
+xorg-font-util			
+xorg-iceauth			
+xorg-mkfontscale			
+xorg-server			"is the graphical server."
+xorg-server-common			
+xorg-server-devel			
+xorg-server-xephyr			
+xorg-server-xnest			
+xorg-server-xvfb			
+xorg-sessreg			
+xorg-setxkbmap			
+xorg-smproxy			
+xorg-x11perf			
+xorg-xauth			
+xorg-xbacklight			"enables changing screen brightness levels."
+xorg-xcmsdb			
+xorg-xcursorgen			
+xorg-xdpyinfo			"aids with resolution determination and screen recording."
+xorg-xdriinfo			
+xorg-xev			
+xorg-xgamma			
+xorg-xhost			
+xorg-xinit			"starts the graphical server."
+xorg-xinput			
+xorg-xkbcomp			
+xorg-xkbevd			
+xorg-xkbutils			
+xorg-xkill			
+xorg-xlsatoms			
+xorg-xlsclients			
+xorg-xmodmap			
+xorg-xpr			
+xorg-xprop			"is a tool for detecting window properties."
+xorg-xrandr			"allows to customize monitor arrangements."
+xorg-xrdb			
+xorg-xrefresh			
+xorg-xset			
+xorg-xsetroot			
+xorg-xvinfo			
+xorg-xwd			
+xorg-xwininfo			"allows querying information about windows."
+xorg-xwud			
+xscreensaver			
+yasm			
+youtube-dl			"can download any YouTube video (or playlist or channel) when given the link."
+zathura			"is a pdf viewer with vim-like bindings."
+zathura-pdf-mupdf			"allows mupdf pdf compatibility in zathura."
+zip			
+zsh			"is a modern shell."
+zstd			
