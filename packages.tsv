@@ -52,6 +52,7 @@ fd
 feh			"is an image viewer, useful to set a wallpaper."
 figlet			
 file	base	base-devel	
+file-roller		gnome	"is a backend used by thunar-archive-plugin to create and modify archives."
 filezilla			
 findutils	base	base-devel	
 firefox			
