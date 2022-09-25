@@ -73,6 +73,7 @@ grep	base	base-devel
 groff		base-devel	
 grub			
 gtk2			
+gvfs		gnome	"provides trash support, mounting with udisks and remote filesystems for Thunar."
 gvim			
 gzip	base	base-devel	
 hicolor-icon-theme			
