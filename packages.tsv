@@ -5,6 +5,7 @@ adobe-source-code-pro-fonts
 adwaita-icon-theme			
 alacritty			
 alsa-utils			"provides amixer and other ALSA utilities."
+archey3			"outputs a logo and various system information, need it for the matrix look."
 archlinux-keyring	base	base-devel	
 ascii			
 asciiquarium			
