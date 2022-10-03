@@ -92,7 +92,7 @@ jdk8-openjdk
 jdk-openjdk			
 jp2a			
 jupyter-nbconvert			
-keepass			
+keepassxc			"is a cross-platform community-driven port of Keepass password manager, provides org.freedesktop.secrets (optional for chromium, git, teams, necessary for code-features).
 lazygit			
 lftp			
 lib32-nvidia-utils			
