@@ -6,6 +6,7 @@ arch-wiki-man
 autotiling	
 brave-bin	
 cava	
+code-features	"unblocks some features in Code OSS, for ex. solves the 'extension activation failed' for 'Jupyter' extension."
 cli-visualizer	
 dia	
 downgrade	
