@@ -50,7 +50,7 @@ teams
 tmuxinator	
 ttf-symbola	
 urlview	
-urxvt-font-size-git	
+urxvt-resize-font-git	"adjusts urxvt font size on the fly."
 weka	
 zoom	
 zsh-fast-syntax-highlighting-git	"provides syntax highlighting in the shell."
