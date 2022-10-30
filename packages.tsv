@@ -240,6 +240,7 @@ whois
 wmctrl			
 wpa_supplicant			
 xaos			
+xclip			
 xf86-video-vesa		xorg, xorg-drivers	
 xorg-bdftopcf		xorg, xorg-apps	
 xorg-docs		xorg	
