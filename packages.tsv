@@ -109,6 +109,7 @@ lsof
 lvm2			
 lxappearance-obconf		lxde	
 lynx			"is a terminal browser."
+m4		base-devel	
 make		base-devel	
 man-db			"lets you read man pages of programs."
 man-pages			
