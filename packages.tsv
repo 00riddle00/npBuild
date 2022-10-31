@@ -91,6 +91,7 @@ jdk8-openjdk
 jdk-openjdk			
 jp2a			
 jupyter-nbconvert			
+keepass			"is a password manager, useful to save JetBrains IDEs passwords."
 keepassxc			"is a cross-platform community-driven port of Keepass password manager, provides org.freedesktop.secrets (optional for chromium, git, teams, necessary for code-features)."
 lazygit			
 lftp			
@@ -242,6 +243,7 @@ wpa_supplicant
 xaos			
 xclip			
 xf86-video-vesa		xorg, xorg-drivers	
+xfce4-settings			"manages Xfce desktop settings, needed for Thunar 'Open Terminal Here' custom action (which uses exo-open)."
 xorg-bdftopcf		xorg, xorg-apps	
 xorg-docs		xorg	
 xorg-fonts-encodings		xorg, xorg-fonts	
@@ -292,6 +294,7 @@ yasm
 youtube-dl			"can download any YouTube video (or playlist or channel) when given the link."
 zathura			"is a pdf viewer with vim-like bindings."
 zathura-pdf-mupdf			"allows mupdf pdf compatibility in zathura."
+zenity			"displays graphical dialog boxes from shell scripts, needed for Thunar 'Create New File' custom action."
 zip			
 zsh			"is a modern shell."
 zstd			
