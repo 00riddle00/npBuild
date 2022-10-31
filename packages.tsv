@@ -9,7 +9,6 @@ archey3			"outputs a logo and various system information, need it for the matrix
 archlinux-keyring	base	base-devel	
 ascii			
 asciiquarium			
-atbswp			
 autoconf		base-devel	
 automake		base-devel	
 base			"is a meta package which defines (and prevents from removing) a basic Arch Linux installation."
