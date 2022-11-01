@@ -404,7 +404,7 @@ install_arch() {
 
         # Creating a new initramfs is usually not required, because mkinitcpio was run on 
         # installation of the kernel package with pacstrap.
-        mkinitcpio -p linux
+        mkinitcpio -p linux # recreate the initramfs image just in case
 
         # [7. Users and groups]
         
