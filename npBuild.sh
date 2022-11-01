@@ -412,17 +412,17 @@ install_arch() {
 
         systemctl enable "dhcpcd@"$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' | sed 's/ //')""
 
+        # Install a Linux-capable boot loader
         case "$machine" in
             "vm") 
-                pacman --noconfirm -S grub-bios
+                pacman -S --noconfirm grub-bios
                 grub-install --recheck /dev/sda
                 grub-mkconfig -o /boot/grub/grub.cfg
                 ;;
             "desktop") 
-                mkdir /efi
-                mount /dev/sda1 /efi
-                pacman -S grub efibootmgr
-                grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=arch_grub --recheck
+                mount /dev/sda1 /boot
+                pacman -S --noconfirm grub efibootmgr
+                grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
                 grub-mkconfig -o /boot/grub/grub.cfg
                 ;;
             *) echo "unknown variable '$machine'" >2 && exit 1 ;;
