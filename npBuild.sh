@@ -387,14 +387,28 @@ install_arch() {
         # Generate the locales
         locale-gen
 
-        echo -e "127.0.0.1 localhost\n::1       localhost" > /etc/hosts
+        # [5. Network configuration]
+        
+        # Create the hostname and add it to /etc/hostname
+        hostname="$machine"-"$(head /dev/urandom -c 2 | base64 | cut -c -3)"-arch
+        echo "$hostname" > /etc/hostname
 
+        # Edit /etc/hosts file
+        echo -e "127.0.0.1 localhost\n::1       localhost" > /etc/hosts
+        
+        # Start the dhcpcd (DHCP client) daemon for wired interface by enabling the template unit
+        # dhcpcd@interface.service, where interface name can be found by listing network interfaces
+        systemctl enable "dhcpcd@"$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' | sed 's/ //')""
+
+        # [6. Initramfs]
+
+        # Creating a new initramfs is usually not required, because mkinitcpio was run on 
+        # installation of the kernel package with pacstrap.
         mkinitcpio -p linux
 
-        # Make pacman and yay colorful and adds eye candy on the progress bar because why not.
-        grep "^Color" /etc/pacman.conf >/dev/null || sed -i "s/^#Color$/Color/" /etc/pacman.conf
-        grep "ILoveCandy" /etc/pacman.conf >/dev/null || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
-
+        # [7. Users and groups]
+        
+        # Create a user and add it to wheel group
         useradd -m -G wheel "$username"
         echo -e "passwd\npasswd\n" | passwd "$username"
 
@@ -410,7 +424,13 @@ install_arch() {
         # Enable OpenSSH server daemon at boot
         systemctl enable sshd
 
-        systemctl enable "dhcpcd@"$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' | sed 's/ //')""
+        # [9. Pacman candy]
+        
+        # Before using pacman, make it colorful and add eye candy on the progress bar.
+        grep "^Color" /etc/pacman.conf >/dev/null || sed -i "s/^#Color$/Color/" /etc/pacman.conf
+        grep "^ILoveCandy" /etc/pacman.conf >/dev/null || sed -i "/^Color/a ILoveCandy" /etc/pacman.conf
+
+        # [10. Boot loader]
 
         # Install a Linux-capable boot loader
         case "$machine" in
@@ -427,8 +447,6 @@ install_arch() {
                 ;;
             *) echo "unknown variable '$machine'" >2 && exit 1 ;;
         esac
-
-        echo "$machine"-"$(head /dev/urandom -c 2 | base64 | cut -c -3)"-arch > /etc/hostname
 END
 
     # -------------------------------------------
