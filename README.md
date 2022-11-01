@@ -5,3 +5,4 @@ computer and virtual machine:
 * installs the Arch Linux OS
 * installs all the required packages
 * obtains and applies dotfiles
+* and more (possibly)
