@@ -431,13 +431,29 @@ install_arch() {
         echo "$machine"-"$(head /dev/urandom -c 2 | base64 | cut -c -3)"-arch > /etc/hostname
 END
 
-    # Copying this script
+    # -------------------------------------------
+    # A Little Recursion Never Killed Nobody
+    # -------------------------------------------
+    
+    # Copy this file (shell script) to the newly created user's home dir on the new system and
+    # assign it to the `wheel` group (the members of which have sudo access)
     cp "$0" "/mnt/home/$username/npBuild.sh"
     chgrp wheel "/mnt/home/$username/npBuild.sh"
 
+    # -------------------------------------------
+    # Installing more packages
+    # -------------------------------------------
+
+    # From inside the new system, run the copy of this file, passing the `-f` option to it with the
+    # argument `install_pkgs`, which makes the function `install_pkgs` from the copy of this file to
+    # be called. This function installs packages (both from the official repos and from AUR).
     arch-chroot /mnt /bin/bash <<END
         "sh npBuild.sh -f install_pkgs -u $username"
 END
+
+    # -------------------------------------------
+    # Getting and applying dotfiles
+    # -------------------------------------------
 
     allow_sudo_nopasswd
 
@@ -449,11 +465,12 @@ END
 
     disallow_sudo_nopasswd
 
-    rm "/mnt/home/$username/npBuild.sh"
-
     # -------------------------------------------
     # Rebooting
     # -------------------------------------------
+    
+    # Remove the copy of this file from the new system
+    rm "/mnt/home/$username/npBuild.sh"
 
     umount /mnt
     eject -m
