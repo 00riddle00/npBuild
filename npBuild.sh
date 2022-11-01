@@ -360,12 +360,19 @@ install_arch() {
     # Configuring the system
     # -------------------------------------------
 
-    # Generate an fstab file (used to define how disk partitions, various other block devices, or
-    # remote file systems should be mounted into the file system).
+    # [1. Fstab] 
+    
+    # Generate an fstab file (used to define how disk partitions, various other block
+    # devices, or remote file systems should be mounted into the file system).
     genfstab -U /mnt >> /mnt/etc/fstab
 
+    # [2. Chroot] 
+    
     # Change root into the new system
     arch-chroot /mnt /bin/bash <<END
+
+        # [3. Time zone]
+        
         # Set the time zone
         ln -s /usr/share/zoneinfo/Europe/Vilnius /etc/localtime
 
@@ -373,7 +380,11 @@ install_arch() {
         # This command assumes the hardware clock is set to UTC.
         hwclock --systohc
 
+        # [4. Localization]
+
+        # Edit /etc/locale.gen and uncomment the needed locales
         echo -e "en_US.UTF-8 UTF-8\nlt_LT.UTF-8 UTF-8" >> /etc/locale.gen
+        # Generate the locales
         locale-gen
 
         echo -e "127.0.0.1 localhost\n::1       localhost" > /etc/hosts
@@ -387,10 +398,16 @@ install_arch() {
         useradd -m -G wheel "$username"
         echo -e "passwd\npasswd\n" | passwd "$username"
 
+        # Give sudo access to the members of the wheel group
         sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
 
+        # [8. SSH]
+
+        # Disable SSH login as root user and enable SSH password authentication
         sed -Ei "s/^#? ?(PermitRootLogin).*/\1 no/" /etc/ssh/sshd_config
         sed -Ei "s/^#? ?(PasswordAuthentication).*/\1 yes/" /etc/ssh/sshd_config
+
+        # Enable OpenSSH server daemon at boot
         systemctl enable sshd
 
         systemctl enable "dhcpcd@"$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' | sed 's/ //')""
