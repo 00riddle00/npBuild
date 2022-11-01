@@ -1,11 +1,11 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 
 # ================================== ITEMS ===================================
 # * packages
 # * metapackages (base)
 # * groups (base-devel)
  
-items_main=(
+items_essential=(
     "base"
     "base-devel"
     "linux"
@@ -14,9 +14,9 @@ items_main=(
 
 items_additional=(
     "dhcpcd"
+    "git"
     "openssh"
     "vim"
-    "git"
 )
 
 items_vm=(
@@ -77,7 +77,7 @@ mkfs_vm() {
 # Format the newly created partitions with appropriate file systems
 mkfs_desktop() {
     # Format the EFI system partiton to FAT32
-    mkfs.fat -F32 /dev/sda1
+    mkfs.fat -F 32 /dev/sda1
 
     # Initialize partition for swap
     mkswap /dev/sda2
@@ -224,7 +224,7 @@ install_arch() {
     # Use the `pacstrap(8)` script to install:
     #
     # Essential packages: the `base` package, Linux kernel and firmware for common hardware, etc.
-    pacstrap /mnt "${main_items[@]}"
+    pacstrap /mnt "${essential_items[@]}"
     # Additional packages, like `vim`, `git`, etc.
     pacstrap /mnt "${additional_items[@]}"
     # Machine specific items, like Virtualbox modules/utilities.
