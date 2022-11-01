@@ -34,7 +34,6 @@ items_desktop=(
 
 # Use GNU Parted to modify partition tables
 mkpart_vm() {
-
     # Make the disk be MBR partitioned (aka DOS or MS-DOS partitioned)
     parted -s /dev/sda mklabel msdos
 
@@ -158,7 +157,6 @@ prepare_sublime_text() {
 }
 
 install_vim_plugins() {
-
     apps=(
         "cmake"
         "git"
