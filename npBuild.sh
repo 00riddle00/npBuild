@@ -224,11 +224,11 @@ install_arch() {
     # Use the `pacstrap(8)` script to install:
     #
     # Essential packages: the `base` package, Linux kernel and firmware for common hardware, etc.
-    pacstrap /mnt "${essential_items[@]}"
+    pacstrap -K /mnt "${essential_items[@]}"
     # Additional packages, like `vim`, `git`, etc.
-    pacstrap /mnt "${additional_items[@]}"
+    pacstrap -K /mnt "${additional_items[@]}"
     # Machine specific items, like Virtualbox modules/utilities.
-    pacstrap /mnt "${!machine_specific_items}"
+    pacstrap -K /mnt "${!machine_specific_items}"
 
     # -------------------------------------------
     # Configuring the system
