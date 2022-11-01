@@ -1,8 +1,10 @@
 #! /usr/bin/env bash
 
-# ======================= VARIABLES =======================
-
-# items = packages, groups (base-devel), metapackages (base)
+# ================================== ITEMS ===================================
+# * packages
+# * metapackages (base)
+# * groups (base-devel)
+ 
 items_main=(
     "base"
     "base-devel"
@@ -26,46 +28,81 @@ items_desktop=(
     "virtualbox-host-modules-arch"
 )
 
-# ==================== UTILITY FUNCTIONS ====================
+# ============================= UTILITY FUNCTIONS ============================
 
+# ================= Partitioning =================
+
+# Use GNU Parted to modify partition tables
 mkpart_vm() {
+
+    # Make the disk be MBR partitioned (aka DOS or MS-DOS partitioned)
     parted -s /dev/sda mklabel msdos
+
+    # Create a Linux root (/) partition
+    # Suggested size: Remainder of the device
     parted -s /dev/sda mkpart primary ext4 1MiB 100%
+    # Make the partition bootable
     parted -s /dev/sda set 1 boot on
 }
 
+# Use GNU Parted to modify partition tables
 mkpart_desktop() {
+    # Make the disk be GPT partitioned
     parted -s /dev/sda mklabel gpt
+
+    # Create an EFI system partition (ESP) for booting in UEFI mode
+    # Use `fat32` as the file system type
+    # Sugggested size: At least 300 MiB
     parted -s /dev/sda mkpart primary fat32 1MiB 551MiB
+    # Make the ESP partition bootable (`esp` is an alias for `boot` on GPT)
     parted -s /dev/sda set 1 esp on
+
+    # Create a Linux swap partition
+    # Suggested size: More than 512 MiB
     parted -s /dev/sda mkpart primary linux-swap 551MiB 4.501GiB
+
+    # Create a Linux root (/) partition
+    # Suggested size: Remainder of the device
     parted -s /dev/sda mkpart primary ext4 4.501GiB 100%
 }
 
+# ============= Creating filesystems =============
+
+# Format the newly created partitions with appropriate file systems
 mkfs_vm() {
+    # Create an Ext4 file system on Linux root partition
     mkfs.ext4 /dev/sda1
 }
 
+# Format the newly created partitions with appropriate file systems
 mkfs_desktop() {
+    # Format the EFI system partiton to FAT32
     mkfs.fat -F32 /dev/sda1
+
+    # Initialize partition for swap
     mkswap /dev/sda2
+    # Enable the swap volume
     swapon /dev/sda2
+
+    # Create an Ext4 file system on Linux root partition
     mkfs.ext4 /dev/sda3
 }
 
+# ============ Granting sudo access ==============
+
+# Allow sudo access without password (for the members of `wheel` group)
 allow_sudo_nopasswd() {
     sed -i "s/^%wheel ALL=(ALL) ALL/# %wheel ALL=(ALL) ALL/" /mnt/etc/sudoers
     sed -i "s/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/" /mnt/etc/sudoers
 }
 
+# Disallow sudo access without password (for the members of `wheel` group)
 disallow_sudo_nopasswd() {
     sed -i "s/^%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/" /mnt/etc/sudoers
     sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /mnt/etc/sudoers
 }
 
-# ================= CHROOT FUNCTIONS =================
-
-# ================= INSTALL FUNCTIONS =================
+# ============= Installing packages ==============
 
 install_yay() {
 	[[ -f "/usr/bin/yay" ]] || {
@@ -78,8 +115,8 @@ install_yay() {
 }
 
 install_from_aur() {
-    # if a package is not found, skips it
-    # if a package is already installed, skips it as well
+    # If a package is not found, skips it
+    # If a package is already installed, skips it as well
     runuser -l "$username" -c "yay -S --aur --noconfirm --needed --useask "$1""
 }
 
@@ -93,12 +130,12 @@ install_from_git() {
 }
 
 install_from_main() { # Installs all needed programs from main repos.
-    # if any package is not found, does not install anything from the list
-    # if package is already installed, skips it (shows "up-to date" message)
+    # If any package is not found, does not install anything from the list
+    # If package is already installed, skips it (shows "up-to date" message)
     sudo pacman -S --noconfirm --needed "$1" || yes | sudo pacman -S --needed "$1" 
 }
 
-# ================= DOTFILES FUNCTIONS =================
+# ============== Applying dotfiles ===============
 
 make_some_files_immutable() {
     sudo -S chattr +i "$DOTFILES_DIR/.config/Thunar/accels.scm"
@@ -147,32 +184,68 @@ apply_finishing_touches() {
     strfile "$HOME/.dotfiles/bin/cowsay/rms/rms_say"
 }
 
-# ================= STANDALONE FUNCTIONS =================
+# =========================== STANDALONE FUNCTIONS ===========================
 
-# run from arch LiveCD
+# Install Arch from Live CD/USB
 install_arch() {
+    # Check if Arch is to be installed on virtual machine or desktop computer
     [[ $machine =~ 'vm|desktop' ]] || echo "ERR: The machine type flag -m is empty or incorrect"
-    timedatectl set-ntp true
 
+    # -------------------------------------------
+    # Pre-installation
+    # -------------------------------------------
+
+    # Update the system clock
+    # 
+    # In the live environment `systemd-timesyncd` is enabled by default and time will be synced
+    # automatically once a connection to the internet is established.
+    #
+    # Use `timedatectl(1)` to ensure the system clock is accurate.
+    timedatectl set-ntp true # just in case
+
+    # Partition the disks
     eval "mkpart_$machine"
+
+    # Format the partitions
     eval "mkfs_$machine"
 
+    # Mount the file systems (the root volume)
+    # `genfstab(8)` will later detect mounted file systems and swap space
     [[ $machine =~ "vm" ]] && part="sda1" || part="sda3"
     mount "/dev/$part" /mnt
 
-    # variable indirection is used here
+    # -------------------------------------------
+    # Installation
+    # -------------------------------------------
+
+    # Variable indirection is used here
     machine_specific_items=items_$machine[@]
+
+    # Use the `pacstrap(8)` script to install:
+    #
+    # Essential packages: the `base` package, Linux kernel and firmware for common hardware, etc.
     pacstrap /mnt "${main_items[@]}"
+    # Additional packages, like `vim`, `git`, etc.
     pacstrap /mnt "${additional_items[@]}"
+    # Machine specific items, like Virtualbox modules/utilities.
     pacstrap /mnt "${!machine_specific_items}"
 
+    # -------------------------------------------
+    # Configuring the system
+    # -------------------------------------------
+
+    # Generate an fstab file (used to define how disk partitions, various other block devices, or
+    # remote file systems should be mounted into the file system).
     genfstab -U /mnt >> /mnt/etc/fstab
 
+    # Change root into the new system
     arch-chroot /mnt /bin/bash <<END
         echo -e "en_US.UTF-8 UTF-8\nlt_LT.UTF-8 UTF-8" >> /etc/locale.gen
         locale-gen
         ln -s /usr/share/zoneinfo/Europe/Vilnius /etc/localtime
 
+        # Run hwclock(8) to generate /etc/adjtime
+        # This command assumes the hardware clock is set to UTC.
         hwclock --systohc
 
         echo -e "127.0.0.1 localhost\n::1       localhost" > /etc/hosts
@@ -213,7 +286,7 @@ install_arch() {
         echo "$machine"-"$(head /dev/urandom -c 2 | base64 | cut -c -3)"-arch > /etc/hostname
 END
 
-    # copying this script
+    # Copying this script
     cp "$0" "/mnt/home/$username/npBuild.sh"
     chgrp wheel "/mnt/home/$username/npBuild.sh"
 
@@ -232,6 +305,11 @@ END
     disallow_sudo_nopasswd
 
     rm "/mnt/home/$username/npBuild.sh"
+
+    # -------------------------------------------
+    # Rebooting
+    # -------------------------------------------
+
     umount /mnt
     eject -m
     reboot -f
@@ -250,7 +328,7 @@ install_pkgs() {
 
     install_yay
 
-    # updating the system before installing new software
+    # Updating the system before installing new software
     pacman -Syu --noconfirm
     runuser --pty -s /bin/bash -l "$username" -c "yay -Sua --noconfirm"
 
@@ -264,14 +342,14 @@ install_pkgs() {
         esac
     done < /tmp/progs.csv
 
-    # cleanup
+    # Cleanup
     rmdir "$srcdir" 2> /dev/null 
 
 	# Reset makepkg settings
     sed -i "s/-j$(nproc)/-j2/;s/^MAKEFLAGS/#MAKEFLAGS/" /etc/makepkg.conf
 }
 
-# passwordless sudo must be enabled
+# Passwordless sudo must be enabled
 apply_dotfiles() {
     git clone -b "$repobranch" --depth 1 --recurse-submodules --shallow-submodules -j8 "$dotfilesrepo" "$HOME/.dotfiles"
     sed -i "s/^export MAIN_USER=.*/export MAIN_USER=$username/" "$HOME/.dotfiles/.zshenv"
@@ -294,7 +372,7 @@ symlink_dotfiles() {
     # $HOME
     for full_path in "$DOTFILES_DIR"/.[a-zA-Z]*; do
         file="$(basename "$full_path")"
-        # whenever you iterate over files/folders by globbing, it's good practice to avoid the corner 
+        # Whenever you iterate over files/folders by globbing, it's good practice to avoid the corner 
         # case where the glob does not match (which makes the loop variable expand to the 
         # (un-matching) glob pattern string itself), hence [[ -e "$full_path" ] is used
         [[ -e "$full_path" ]] && 
@@ -336,7 +414,7 @@ unlink_dotfiles() {
         [[ "$file" != ".config" ]] &&
         [[ "$file" != ".local" ]] &&
         [[ "$file" != .git* ]] &&
-        # also check if it's symbolic link before deleting
+        # Also check if it's symbolic link before deleting
         [[ -L "$HOME/$file" ]] &&
         rm -f "$HOME/$file"
     done
@@ -365,7 +443,7 @@ unlink_dotfiles() {
     done
 }
 
-# ======================= EXECUTION =======================
+# ========================== ENTRY POINT (EXECUTION) ==========================
 
 standalone_functions=(
     "install_arch"
