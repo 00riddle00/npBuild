@@ -300,7 +300,7 @@ END
 
     arch-chroot /mnt /bin/bash <<END
         runuser --pty -s /bin/bash -l "$username" -c "
-            sh npBuild.sh -f apply_dotfile -u $username
+            sh npBuild.sh -f apply_dotfiles -u $username
         "
 END
 
