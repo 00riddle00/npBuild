@@ -397,7 +397,10 @@ install_arch() {
         echo "$hostname" > /etc/hostname
 
         # Edit /etc/hosts file
-        echo -e "127.0.0.1 localhost\n::1       localhost" > /etc/hosts
+        echo -e "<ip-address>   <hostname.domain.org>   <hostname>\n" > /etc/hosts
+        echo -e "127.0.0.1  localhost\n" >> /etc/hosts
+        echo -e "::1        localhost\n" >> /etc/hosts
+        echo -e "127.0.1.1  $hostname.localdomain $hostname" >> /etc/hosts
         
         # Start the dhcpcd (DHCP client) daemon for wired interface by enabling the template unit
         # dhcpcd@interface.service, where interface name can be found by listing network interfaces
