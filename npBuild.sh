@@ -240,13 +240,15 @@ install_arch() {
 
     # Change root into the new system
     arch-chroot /mnt /bin/bash <<END
-        echo -e "en_US.UTF-8 UTF-8\nlt_LT.UTF-8 UTF-8" >> /etc/locale.gen
-        locale-gen
+        # Set the time zone
         ln -s /usr/share/zoneinfo/Europe/Vilnius /etc/localtime
 
         # Run hwclock(8) to generate /etc/adjtime
         # This command assumes the hardware clock is set to UTC.
         hwclock --systohc
+
+        echo -e "en_US.UTF-8 UTF-8\nlt_LT.UTF-8 UTF-8" >> /etc/locale.gen
+        locale-gen
 
         echo -e "127.0.0.1 localhost\n::1       localhost" > /etc/hosts
 
