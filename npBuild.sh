@@ -387,6 +387,9 @@ install_arch() {
         # Generate the locales
         locale-gen
 
+        # Create the locale.conf(5) file, and set the LANG variable accordingly
+        echo "LANG=en_US.UTF-8" > /etc/locale.conf
+
         # [5. Network configuration]
         
         # Create the hostname and add it to /etc/hostname
