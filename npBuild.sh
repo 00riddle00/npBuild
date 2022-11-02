@@ -327,7 +327,7 @@ install_arch() {
     # automatically once a connection to the internet is established.
     #
     # Use `timedatectl(1)` to ensure the system clock is accurate.
-    timedatectl set-ntp true # just in case
+    timedatectl set-ntp 1 # just in case
 
     # Partition the disks
     eval "mkpart_$machine"
