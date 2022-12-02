@@ -40,8 +40,8 @@ ruby-erubis
 ruby-filesize	
 ruby-xdg5	
 sc-im	"is an Excel-like terminal spreadsheet manager."
-smartgit	
-smartsvn	
+smartgit	"is a pretty good Git GUI client."
+smartsvn	"is a pretty good Subversion GUI client."
 spotify	
 task-spooler	"queues up tasks from the shell for batch execution."
 teams	
