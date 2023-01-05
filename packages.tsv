@@ -151,6 +151,7 @@ pacgraph
 pacman	base	base-devel	
 patch		base-devel	
 pavucontrol			
+perl			
 perl-data-compare			
 perl-lingua-translit			
 perl-list-moreutils			
