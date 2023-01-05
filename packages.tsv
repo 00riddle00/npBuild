@@ -87,14 +87,14 @@ inetutils
 inkscape			
 iputils	base		
 irssi			
-jdk8-openjdk			
+jdk11-openjdk			
 jdk-openjdk			
 jp2a			
 jupyter-nbconvert			
 keepass			"is a password manager, useful to save JetBrains IDEs passwords."
 keepassxc			"is a cross-platform community-driven port of Keepass password manager, provides org.freedesktop.secrets (optional for chromium, git, teams, necessary for code-features)."
-kwallet			"is a password store which I use for Subversion credentials."
-kwallet-pam			"is a PAM compatible module for KDE Wallet, used to unlock KDE Wallet automatically on login."
+kwallet		kf5	"is a password store which I use for Subversion credentials."
+kwallet-pam		plasma	"is a PAM compatible module for KDE Wallet, used to unlock KDE Wallet automatically on login."
 lazygit			
 lftp			
 lib32-nvidia-utils			
