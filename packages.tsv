@@ -9,6 +9,7 @@ archey3			"outputs a logo and various system information, need it for the matrix
 archlinux-keyring	base	base-devel	
 ascii			
 asciiquarium			
+asp			
 autoconf		base-devel	
 automake		base-devel	
 base			"is a meta package which defines (and prevents from removing) a basic Arch Linux installation."
@@ -146,6 +147,7 @@ offlineimap
 openbox		lxde, lxde-gtk3, lxqt 	
 openconnect			
 openssh			
+openssl			
 p7zip			
 pacgraph			
 pacman	base	base-devel	
@@ -183,8 +185,11 @@ reptyr
 ripgrep			
 rofi			"is a window switcher, application launcher and dmenu replacement."
 rofimoji			
+rsync			
 rtorrent			
+ruby			
 ruby-irb			
+ruby-english			
 ruby-unicode-display_width			
 rxvt-unicode			
 rxvt-unicode-terminfo			
