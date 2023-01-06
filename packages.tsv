@@ -97,7 +97,7 @@ kwallet		kf5	"is a password store which I use for Subversion credentials."
 kwallet-pam		plasma	"is a PAM compatible module for KDE Wallet, used to unlock KDE Wallet automatically on login."
 lazygit			
 lftp			
-lib32-nvidia-utils			
+lib32-nvidia-utils			"are 32-bit NVIDIA drivers utilities needed to run some games on Steam."
 libreoffice-fresh			
 libtool		base-devel	
 libxft			"is a FreeType-based font drawing library for X."
