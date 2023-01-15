@@ -13,6 +13,7 @@ asp
 autoconf		base-devel	
 automake		base-devel	
 base			"is a meta package which defines (and prevents from removing) a basic Arch Linux installation."
+bash	base		
 bat			"can highlight code output and display files."
 bc			"is used for a dropdown calculator."
 biber			
@@ -20,6 +21,7 @@ bind			"is a versatile name server software which provides dig, host, and other 
 binutils		base-devel	
 bison		base-devel	
 broot			
+bzip2	base		
 calcurse			
 calibre			
 chromium			
@@ -30,6 +32,7 @@ cmus
 code			
 conky			
 cool-retro-term			
+coreutils	base		
 cowfortune			
 cowsay			
 cronie			
@@ -54,6 +57,7 @@ feh			"is an image viewer, useful to set a wallpaper."
 figlet			
 file	base	base-devel	
 file-roller		gnome	"is a backend used by thunar-archive-plugin to create and modify archives."
+filesystem	base		
 filezilla			
 findutils	base	base-devel	
 firefox			
@@ -63,11 +67,13 @@ freerdp
 fzf			"is a fuzzy finder tool."
 gawk	base	base-devel	
 gcc		base-devel	
+gcc-libs	base		
 gettext	base	base-devel	
 gimp			
 git			
 git-lfs			
 glances			
+glibc	base		
 gmrun			
 gnuplot			
 graphviz			
@@ -85,6 +91,7 @@ i3blocks		i3
 i3lock		i3	
 inetutils			
 inkscape			
+iproute2	base		
 iputils	base		
 irssi			
 jdk11-openjdk			
@@ -152,6 +159,7 @@ pacgraph
 pacman	base	base-devel	
 patch		base-devel	
 pavucontrol			
+pciutils	base		
 perl			
 perl-data-compare			
 perl-lingua-translit			
@@ -159,7 +167,9 @@ perl-list-moreutils
 picom			"is for transparency and removing screen-tearing."
 pkgconf		base-devel	
 playerctl			
+procps-ng	base		
 projectm			
+psmisc	base		
 pulseaudio			
 pulseaudio-alsa			
 python			
@@ -195,6 +205,7 @@ rxvt-unicode
 rxvt-unicode-terminfo			
 scrot			
 sed	base	base-devel	
+shadow	base		
 steam			
 strace			
 subversion			
@@ -203,6 +214,9 @@ surfraw
 sxiv			"is a minimalist image viewer."
 sysfsutils			
 sysstat			
+systemd	base		
+systemd-sysvcompat	base		
+tar	base		
 tealdeer			
 termdown			"is a timer and a stopwatch in a terminal."
 terminator			
@@ -238,6 +252,7 @@ ttf-firacode-nerd
 ttf-inconsolata			
 tumbler		xfce4	
 unrar			
+util-linux	base		
 unzip			"unzips zips."
 urxvt-perls			
 valgrind			
@@ -300,6 +315,7 @@ xorg-xwd		xorg, xorg-apps
 xorg-xwininfo		xorg, xorg-apps	"allows querying information about windows."
 xorg-xwud		xorg, xorg-apps	
 xscreensaver			
+xz	base		
 yasm			
 youtube-dl			"can download any YouTube video (or playlist or channel) when given the link."
 zathura			"is a pdf viewer with vim-like bindings."
