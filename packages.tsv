@@ -39,6 +39,7 @@ cronie
 ctags			"generates an index file of language objects found in source files, is needed by TagBar, CtrlP vim plugins."
 cuda			
 cudnn			
+debugedit		base-devel	
 dhcpcd			
 discord			
 doge			
@@ -268,7 +269,7 @@ wpa_supplicant
 xaos			
 xclip			
 xf86-video-vesa		xorg, xorg-drivers	
-xfce4-settings			"manages Xfce desktop settings, needed for Thunar 'Open Terminal Here' custom action (which uses exo-open)."
+xfce4-settings		xfce4	"manages Xfce desktop settings, needed for Thunar 'Open Terminal Here' custom action (which uses exo-open)."
 xorg-bdftopcf		xorg, xorg-apps	
 xorg-docs		xorg	
 xorg-fonts-encodings		xorg, xorg-fonts	
