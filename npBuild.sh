@@ -320,6 +320,17 @@ install_arch() {
     # -------------------------------------------
     # Pre-installation
     # -------------------------------------------
+    #
+    # Verify the boot mode (by listing the efivars dir)
+    # If the command shows the directory without error, then the system is booted in UEFI mode.
+    # If the directory does not exist, the system may be booted in BIOS (or CSM) mode.
+    efivars_dir="/sys/firmware/efi/efivars"
+
+    if ( [[ $machine =~ "vm" ]] && [ -d "$efivars_dir" ] ) || \
+        ( [[ $machine =~ "desktop" ]] && [ ! -d "$efivars_dir" ] )
+    then
+        echo "ERR: The system did not boot in the correct mode"; exit 1
+    fi
 
     # Update the system clock
     # 
