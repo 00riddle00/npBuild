@@ -320,7 +320,7 @@ install_arch() {
     # -------------------------------------------
     # Pre-installation
     # -------------------------------------------
-    #
+    
     # Verify the boot mode (by listing the efivars dir)
     # 
     # If the command shows the directory without error, then the system is booted in UEFI mode.
