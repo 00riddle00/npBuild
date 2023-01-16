@@ -543,12 +543,16 @@ install_arch() {
         # Give sudo access to the members of the wheel group
         sed -E -i 's/^#?[ ]*(%wheel ALL=\(ALL:ALL\) ALL)[ ]*$/\1/' /etc/sudoers
 
-        # [3.11.(extra) Pacman candy]
-        # 
-        # Before using pacman, make it colorful and add eye candy on the progress bar.
-        #
-        grep "^[ ]*Color[ ]*$"      /etc/pacman.conf > /dev/null || sed -i 's/^#[ ]*Color[ ]*$/Color/'     /etc/pacman.conf
-        grep "^[ ]*ILoveCandy[ ]*$" /etc/pacman.conf > /dev/null || sed -i '/^[ ]*Color[ ]*$/a ILoveCandy' /etc/pacman.conf
+        # [3.XX.(extra) Pacman]
+        
+        # Enable multilib repo to run 32 bit apps on x86_64 system.
+        sed -i '/\[multilib\][ ]*$/,/Include/s/^#//' /etc/pacman.conf
+
+        # Make it colorful
+        sed -i '/^#[ ]*Color[ ]*$/s/^#//' /etc/pacman.conf
+
+        # Add eye candy to the progress bar
+        sed -i '/^[ ]*Color[ ]*$/a ILoveCandy' /etc/pacman.conf
 
 END
     # -------------------------------------------
