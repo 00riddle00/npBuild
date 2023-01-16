@@ -333,7 +333,10 @@ install_arch() {
         echo "ERR: The system did not boot in the correct mode"; exit 1
     fi
 
-    # Check wired network connection
+    # Check wired network connection (ethernet cable must be plugged in).
+    #
+    # DHCP: dynamic IP address and DNS server assignment (provided by systemd-networkd and
+    # systemd-resolved) should work out of the box for Ethernet
     # 
     ping -q -c1 archlinux.org &> /dev/null || { echo "ERR: No internet connection"; exit 1; }
 
