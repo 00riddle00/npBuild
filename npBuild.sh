@@ -494,7 +494,7 @@ install_arch() {
         # Creating a new initramfs is usually not required, because mkinitcpio was run on 
         # installation of the kernel package with pacstrap.
         #
-        mkinitcpio -p linux # recreate the initramfs image just in case
+        mkinitcpio -P linux # recreate the initramfs image just in case
 
         # [3.7. Root password]
         #
