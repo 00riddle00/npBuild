@@ -460,7 +460,8 @@ install_arch() {
         # [3.4. Localization]
         
         # Edit /etc/locale.gen and uncomment the needed locales
-        echo -e "en_US.UTF-8 UTF-8\nlt_LT.UTF-8 UTF-8" >> /etc/locale.gen
+        sed -E -i 's/^#(en_US\.UTF-8 UTF-8[ ]*)$/\1/' /etc/locale.gen
+        sed -E -i 's/^#(lt_LT\.UTF-8 UTF-8[ ]*)$/\1/' /etc/locale.gen
 
         # Generate the locales
         locale-gen
