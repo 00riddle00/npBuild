@@ -409,7 +409,7 @@ install_arch() {
     # The mirror list file will later be copied to the new system by pacstrap. It can then be
     # modified from inside the new system, according to the specific needs for that system.
 
-    # [2.2.] Install essential package
+    # [2.2.] Install essential packages
     
     # Variable indirection is used here
     machine_specific_items=items_$machine[@]
