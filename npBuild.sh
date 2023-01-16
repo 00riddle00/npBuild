@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
+# vim:ft=bash:tw=95
 
 # ================================== ITEMS ===================================
-# * packages
-# * metapackages (base)
-# * groups (base-devel)
+# Items can be:
+#   * packages
+#   * metapackages (base)
+#   * groups (base-devel)
  
 items_essential=(
     "base"
@@ -16,7 +18,7 @@ items_additional=(
     "dhcpcd"
     "git"
     "openssh"
-    "vim"
+    "gvim"
 )
 
 items_vm=(
@@ -424,7 +426,7 @@ install_arch() {
     #
     # Essential packages: the `base` package, Linux kernel and firmware for common hardware, etc.
     pacstrap -K /mnt "${essential_items[@]}"
-    # Additional packages, like `vim`, `git`, etc.
+    # Additional packages, like text editor, git, etc.
     pacstrap -K /mnt "${additional_items[@]}"
     # Machine specific items, like Virtualbox modules/utilities.
     pacstrap -K /mnt "${!machine_specific_items}"
