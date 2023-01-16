@@ -285,7 +285,7 @@ install_pkgs() {
 	sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
 
     # Synchronizing system time to ensure successful and secure installation of software
-    ntpdate 0.us.pool.ntp.org >/dev/null 2>&1
+    ntpdate 0.us.pool.ntp.org > /dev/null 2>&1
 
     srcdir="/home/$username/.local/src"; mkdir -p "$srcdir"; sudo chown -R "$username":wheel $(dirname "$srcdir")
 
@@ -522,8 +522,8 @@ install_arch() {
         # [3.9.(extra) SSH]
 
         # Disable SSH login as root user and enable SSH password authentication
-        sed -Ei "s/^#? ?(PermitRootLogin).*/\1 no/" /etc/ssh/sshd_config
-        sed -Ei "s/^#? ?(PasswordAuthentication).*/\1 yes/" /etc/ssh/sshd_config
+        sed -E -i 's/^#?[ ]*(PermitRootLogin)[ ]*(yes|no)[ ]*$/\1 no/'         /etc/ssh/sshd_config
+        sed -E -i 's/^#?[ ]*(PasswordAuthentication)[ ]*(yes|no)[ ]*$/\1 yes/' /etc/ssh/sshd_config
 
         # Enable OpenSSH server daemon at boot
         systemctl enable sshd
@@ -535,14 +535,14 @@ install_arch() {
         echo -e "passwd\npasswd\n" | passwd "$username"
 
         # Give sudo access to the members of the wheel group
-        sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
+        sed -E -i 's/^#?[ ]*(%wheel ALL=\(ALL:ALL\) ALL)[ ]*$/\1/' /etc/sudoers
 
         # [3.11.(extra) Pacman candy]
         # 
         # Before using pacman, make it colorful and add eye candy on the progress bar.
         #
-        grep "^Color" /etc/pacman.conf >/dev/null || sed -i "s/^#Color$/Color/" /etc/pacman.conf
-        grep "^ILoveCandy" /etc/pacman.conf >/dev/null || sed -i "/^Color/a ILoveCandy" /etc/pacman.conf
+        grep "^[ ]*Color[ ]*$"      /etc/pacman.conf > /dev/null || sed -i 's/^#[ ]*Color[ ]*$/Color/'     /etc/pacman.conf
+        grep "^[ ]*ILoveCandy[ ]*$" /etc/pacman.conf > /dev/null || sed -i '/^[ ]*Color[ ]*$/a ILoveCandy' /etc/pacman.conf
 
 END
     # -------------------------------------------
