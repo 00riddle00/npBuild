@@ -451,7 +451,7 @@ install_arch() {
         # [3.3. Time zone]
         
         # Set the time zone
-        ln -s /usr/share/zoneinfo/Europe/Vilnius /etc/localtime
+        ln -sf /usr/share/zoneinfo/Europe/Vilnius /etc/localtime
 
         # Run hwclock(8) to generate /etc/adjtime
         # This command assumes the hardware clock is set to UTC.
