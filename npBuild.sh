@@ -80,8 +80,6 @@ mkfs_desktop() {
 
     # Initialize partition for swap
     mkswap /dev/sda2
-    # Enable the swap volume
-    swapon /dev/sda2
 
     # Create an Ext4 file system on Linux root partition
     mkfs.ext4 /dev/sda3
@@ -374,7 +372,7 @@ install_arch() {
     # In the live environment `systemd-timesyncd` is enabled by default and time will be synced
     # automatically once a connection to the internet is established.
     #
-    # Use `timedatectl(1)` to ensure the system clock is accurate.
+    # Use `timedatectl(1)` to ensure the system clock is accurate (`timedatectl status`).
     #
     timedatectl set-ntp 1 # just in case
 
@@ -387,12 +385,20 @@ install_arch() {
     eval "mkfs_$machine"
 
     # [1.11. Mount the file systems]
+    
+    # Mount the root volume to /mnt
+    [[ $machine =~ "vm" ]] && root_part="sda1" || root_part="sda3"
+    mount "/dev/$root_part" /mnt
+
+    # Create any remaining mount points and mount their corresponding volumes.
     #
-    # Mount the root volume
+    # For UEFI systems, mount the EFI system partition:
+    [[ $machine =~ "desktop" ]] && mount --mkdir /dev/sda1 /mnt/boot
+
+    # If a swap volume is created, enable it with `swapon(8)`:
+    [[ $machine =~ "desktop" ]] && swapon /dev/sda2
+
     # `genfstab(8)` will later detect mounted file systems and swap space
-    #
-    [[ $machine =~ "vm" ]] && part="sda1" || part="sda3"
-    mount "/dev/$part" /mnt
 
     # -------------------------------------------
     # 2. Installation
