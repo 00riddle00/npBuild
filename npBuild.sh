@@ -520,7 +520,12 @@ install_arch() {
             *) echo "unknown machine type: '$machine'" >2 && exit 1 ;;
         esac
 
-        # [3.9.(extra) SSH]
+        # [3.9.(extra) Kernel parameters]
+        #
+        sed -E -i 's/^(GRUB_CMDLINE_LINUX_DEFAULT=)".*"[ ]*$/\1"loglevel=3"/' /etc/default/grub
+        grub-mkconfig -o /boot/grub/grub.cfg
+
+        # [3.XX.(extra) SSH]
 
         # Disable SSH login as root user and enable SSH password authentication
         sed -E -i 's/^#?[ ]*(PermitRootLogin)[ ]*(yes|no)[ ]*$/\1 no/'         /etc/ssh/sshd_config
