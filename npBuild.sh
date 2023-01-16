@@ -458,6 +458,9 @@ install_arch() {
         # This command assumes the hardware clock is set to UTC.
         hwclock --systohc
 
+        # Enable and start `systemd-timesyncd.service` just in case it's not running.
+        timedatectl set-ntp 1
+
         # [3.4. Localization]
         
         # Edit /etc/locale.gen and uncomment the needed locales
@@ -522,10 +525,12 @@ install_arch() {
 
         # [3.9.(extra) Kernel parameters]
         #
+        # Disable "quiet" and "splash" parameters
+        #
         sed -E -i 's/^(GRUB_CMDLINE_LINUX_DEFAULT=)".*"[ ]*$/\1"loglevel=3"/' /etc/default/grub
         grub-mkconfig -o /boot/grub/grub.cfg
 
-        # [3.XX.(extra) SSH]
+        # [3.10.(extra) SSH]
 
         # Disable SSH login as root user and enable SSH password authentication
         sed -E -i 's/^#?[ ]*(PermitRootLogin)[ ]*(yes|no)[ ]*$/\1 no/'         /etc/ssh/sshd_config
@@ -534,7 +539,7 @@ install_arch() {
         # Enable OpenSSH server daemon at boot
         systemctl enable sshd
 
-        # [3.10.(extra) Users and groups]
+        # [3.11.(extra) Users and groups]
         
         # Create a user and add it to wheel group
         useradd -m -G wheel "$username"
@@ -543,7 +548,7 @@ install_arch() {
         # Give sudo access to the members of the wheel group
         sed -E -i 's/^#?[ ]*(%wheel ALL=\(ALL:ALL\) ALL)[ ]*$/\1/' /etc/sudoers
 
-        # [3.XX.(extra) Pacman]
+        # [3.12.(extra) Pacman]
         
         # Enable multilib repo to run 32 bit apps on x86_64 system.
         sed -i '/\[multilib\][ ]*$/,/Include/s/^#//' /etc/pacman.conf
@@ -553,6 +558,12 @@ install_arch() {
 
         # Add eye candy to the progress bar
         sed -i '/^[ ]*Color[ ]*$/a ILoveCandy' /etc/pacman.conf
+
+        # [3.13.(extra) Vim]
+        #
+        # Show line numbers in Vim
+        #
+        echo "set nu" >> /etc/vimrc
 
 END
     # -------------------------------------------
