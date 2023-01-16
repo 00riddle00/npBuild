@@ -376,7 +376,8 @@ install_arch() {
     #
     # Use `timedatectl(1)` to ensure the system clock is accurate (`timedatectl status`).
     #
-    timedatectl set-ntp 1 # just in case
+    # Enable and start `systemd-timesyncd.service` just in case it's not running.
+    timedatectl set-ntp 1
 
     # [1.9. Partition the disks]
     #
