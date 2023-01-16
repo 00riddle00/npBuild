@@ -502,21 +502,21 @@ install_arch() {
        
         # [3.8. Boot loader]
         #
-        # Install a Linux-capable boot loader
+        # Install a GRUB 2: a Linux-capable boot loader
         #
         case "$machine" in
             "vm") 
-                pacman -S --noconfirm grub-bios
-                grub-install --recheck /dev/sda
+                pacman -S --noconfirm grub
+                grub-install --target=i386-pc /dev/sda
                 grub-mkconfig -o /boot/grub/grub.cfg
                 ;;
             "desktop") 
                 mount /dev/sda1 /boot
                 pacman -S --noconfirm grub efibootmgr
-                grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB --recheck
+                grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
                 grub-mkconfig -o /boot/grub/grub.cfg
                 ;;
-            *) echo "unknown variable '$machine'" >2 && exit 1 ;;
+            *) echo "unknown machine type: '$machine'" >2 && exit 1 ;;
         esac
 
         # [3.9.(extra) SSH]
