@@ -312,19 +312,43 @@ install_pkgs() {
     sed -i "s/-j$(nproc)/-j2/;s/^MAKEFLAGS/#MAKEFLAGS/" /etc/makepkg.conf
 }
 
-# Install Arch from Live CD/USB
 install_arch() {
+    # Installs Arch Linux using the live system booted from an installation medium
+    # (CD/USB/other) made from an official installation image.
+
+    # -------------------------------------------
+    # 1. Pre-installation
+    # -------------------------------------------
+    
+    # It is assumed that the following prerequisites are already satisfied:
+    #
+    # [1.1 Acquire an installation image]
+    #
+    # [1.2. Verify signature of the acquired image]
+    #
+    # [1.3. Prepare an installation medium]
+    #
+    # [1.4. Boot the live environment]
+
     # Check if Arch is to be installed on virtual machine or desktop computer
     [[ $machine =~ 'vm|desktop' ]] || echo "ERR: The machine type flag -m is empty or incorrect"
 
     # -------------------------------------------
-    # Pre-installation
+    # 1. Pre-installation (continued)
     # -------------------------------------------
     
-    # Verify the boot mode (by listing the efivars dir)
+    # [1.5. Set the console keyboard layout]
+    #
+    # No action is performed here, the default settings are used:
+    #   console keymap:           US
+    #   console keyboard layout:  us (us) 
+    #   console fonts:            default8xN
+    
+    # [1.6 Verify the boot mode (by listing the efivars dir)]
     # 
     # If the command shows the directory without error, then the system is booted in UEFI mode.
     # If the directory does not exist, the system may be booted in BIOS (or CSM) mode.
+    #
     efivars_dir="/sys/firmware/efi/efivars"
 
     if ( [[ $machine =~ "vm" ]] && [ -d "$efivars_dir" ] ) || \
@@ -333,36 +357,60 @@ install_arch() {
         echo "ERR: The system did not boot in the correct mode"; exit 1
     fi
 
+    # [1.7 Connect to the internet] 
+    #
     # Check wired network connection (ethernet cable must be plugged in).
     #
     # DHCP: dynamic IP address and DNS server assignment (provided by systemd-networkd and
     # systemd-resolved) should work out of the box for Ethernet
+    #
+    # NOTE: In the installation image, systemd-networkd and systemd-resolved are preconfigured
+    # and enabled by default. That will not be the case for the installed system.
     # 
     ping -q -c1 archlinux.org &> /dev/null || { echo "ERR: No internet connection"; exit 1; }
 
-    # Update the system clock
+    # [1.8. Update the system clock]
     # 
     # In the live environment `systemd-timesyncd` is enabled by default and time will be synced
     # automatically once a connection to the internet is established.
     #
     # Use `timedatectl(1)` to ensure the system clock is accurate.
+    #
     timedatectl set-ntp 1 # just in case
 
-    # Partition the disks
+    # [1.9. Partition the disks]
+    #
     eval "mkpart_$machine"
 
-    # Format the partitions
+    # [1.10. Format the partitions]
+    #
     eval "mkfs_$machine"
 
-    # Mount the file systems (the root volume)
+    # [1.11. Mount the file systems]
+    #
+    # Mount the root volume
     # `genfstab(8)` will later detect mounted file systems and swap space
+    #
     [[ $machine =~ "vm" ]] && part="sda1" || part="sda3"
     mount "/dev/$part" /mnt
 
     # -------------------------------------------
-    # Installation
+    # 2. Installation
     # -------------------------------------------
+    
+    # [2.1.] Select the mirrors
+    #
+    # No action is performed here.
+    #
+    # On the live system, after connecting to the internet, "reflector" updates the mirror list
+    # (/etc/pacman.d/mirrorlist) by choosing 20 most recently synchronized HTTPS mirrors and
+    # sorting them by download rate.
+    # 
+    # The mirror list file will later be copied to the new system by pacstrap. It can then be
+    # modified from inside the new system, according to the specific needs for that system.
 
+    # [2.2.] Install essential package
+    
     # Variable indirection is used here
     machine_specific_items=items_$machine[@]
 
@@ -376,21 +424,23 @@ install_arch() {
     pacstrap -K /mnt "${!machine_specific_items}"
 
     # -------------------------------------------
-    # Configuring the system
+    # 3. Configure the system
     # -------------------------------------------
 
-    # [1. Fstab] 
-    
+    # [3.1. Fstab] 
+    #
     # Generate an fstab file (used to define how disk partitions, various other block
     # devices, or remote file systems should be mounted into the file system).
+    #
     genfstab -U /mnt >> /mnt/etc/fstab
 
-    # [2. Chroot] 
-    
+    # [3.2. Chroot] 
+    #
     # Change root into the new system
+    #
     arch-chroot /mnt /bin/bash <<END
 
-        # [3. Time zone]
+        # [3.3. Time zone]
         
         # Set the time zone
         ln -s /usr/share/zoneinfo/Europe/Vilnius /etc/localtime
@@ -399,17 +449,18 @@ install_arch() {
         # This command assumes the hardware clock is set to UTC.
         hwclock --systohc
 
-        # [4. Localization]
-
+        # [3.4. Localization]
+        
         # Edit /etc/locale.gen and uncomment the needed locales
         echo -e "en_US.UTF-8 UTF-8\nlt_LT.UTF-8 UTF-8" >> /etc/locale.gen
+
         # Generate the locales
         locale-gen
 
         # Create the locale.conf(5) file, and set the LANG variable accordingly
         echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
-        # [5. Network configuration]
+        # [3.5. Network configuration]
         
         # Create the hostname and add it to /etc/hostname
         hostname="$machine"-"$(head /dev/urandom -c 2 | base64 | cut -c -3)"-arch
@@ -425,39 +476,21 @@ install_arch() {
         # dhcpcd@interface.service, where interface name can be found by listing network interfaces
         systemctl enable "dhcpcd@"$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' | sed 's/ //')""
 
-        # [6. Initramfs]
-
+        # [3.6. Initramfs]
+        #
         # Creating a new initramfs is usually not required, because mkinitcpio was run on 
         # installation of the kernel package with pacstrap.
+        #
         mkinitcpio -p linux # recreate the initramfs image just in case
 
-        # [7. Users and groups]
-        
-        # Create a user and add it to wheel group
-        useradd -m -G wheel "$username"
-        echo -e "passwd\npasswd\n" | passwd "$username"
-
-        # Give sudo access to the members of the wheel group
-        sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
-
-        # [8. SSH]
-
-        # Disable SSH login as root user and enable SSH password authentication
-        sed -Ei "s/^#? ?(PermitRootLogin).*/\1 no/" /etc/ssh/sshd_config
-        sed -Ei "s/^#? ?(PasswordAuthentication).*/\1 yes/" /etc/ssh/sshd_config
-
-        # Enable OpenSSH server daemon at boot
-        systemctl enable sshd
-
-        # [9. Pacman candy]
-        
-        # Before using pacman, make it colorful and add eye candy on the progress bar.
-        grep "^Color" /etc/pacman.conf >/dev/null || sed -i "s/^#Color$/Color/" /etc/pacman.conf
-        grep "^ILoveCandy" /etc/pacman.conf >/dev/null || sed -i "/^Color/a ILoveCandy" /etc/pacman.conf
-
-        # [10. Boot loader]
-
+        # [3.7. Root password]
+        #
+        # No action is performed here, the root password is left to be set later, manually
+       
+        # [3.8. Boot loader]
+        #
         # Install a Linux-capable boot loader
+        #
         case "$machine" in
             "vm") 
                 pacman -S --noconfirm grub-bios
@@ -472,32 +505,57 @@ install_arch() {
                 ;;
             *) echo "unknown variable '$machine'" >2 && exit 1 ;;
         esac
-END
 
+        # [3.9.(extra) SSH]
+
+        # Disable SSH login as root user and enable SSH password authentication
+        sed -Ei "s/^#? ?(PermitRootLogin).*/\1 no/" /etc/ssh/sshd_config
+        sed -Ei "s/^#? ?(PasswordAuthentication).*/\1 yes/" /etc/ssh/sshd_config
+
+        # Enable OpenSSH server daemon at boot
+        systemctl enable sshd
+
+        # [3.10.(extra) Users and groups]
+        
+        # Create a user and add it to wheel group
+        useradd -m -G wheel "$username"
+        echo -e "passwd\npasswd\n" | passwd "$username"
+
+        # Give sudo access to the members of the wheel group
+        sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /etc/sudoers
+
+        # [3.11.(extra) Pacman candy]
+        # 
+        # Before using pacman, make it colorful and add eye candy on the progress bar.
+        #
+        grep "^Color" /etc/pacman.conf >/dev/null || sed -i "s/^#Color$/Color/" /etc/pacman.conf
+        grep "^ILoveCandy" /etc/pacman.conf >/dev/null || sed -i "/^Color/a ILoveCandy" /etc/pacman.conf
+
+END
     # -------------------------------------------
-    # A Little Recursion Never Killed Nobody
+    # 4./5. Post-installation
     # -------------------------------------------
-    
+
+    # [A Little Recursion Never Killed Nobody]
+    #
     # Copy this file (shell script) to the newly created user's home dir on the new system and
     # assign it to the `wheel` group (the members of which have sudo access)
+    #
     cp "$0" "/mnt/home/$username/npBuild.sh"
     chgrp wheel "/mnt/home/$username/npBuild.sh"
 
-    # -------------------------------------------
-    # Installing more packages
-    # -------------------------------------------
-
+    # [Installing more packages]
+    #
     # From inside the new system, run the copy of this file, passing the `-f` option to it with the
     # argument `install_pkgs`, which makes the function `install_pkgs` from the copy of this file to
     # be called. This function installs packages (both from the official repos and from AUR).
+    #
     arch-chroot /mnt /bin/bash <<END
         "sh npBuild.sh -f install_pkgs -u $username"
 END
 
-    # -------------------------------------------
-    # Getting and applying dotfiles
-    # -------------------------------------------
-
+    # [Getting and applying dotfiles]
+    
     allow_sudo_nopasswd
 
     arch-chroot /mnt /bin/bash <<END
@@ -509,7 +567,7 @@ END
     disallow_sudo_nopasswd
 
     # -------------------------------------------
-    # Rebooting
+    # 4./5. Rebooting
     # -------------------------------------------
     
     # Remove the copy of this file from the new system
