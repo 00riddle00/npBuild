@@ -130,12 +130,12 @@ meld
 mesa-utils			"provides glxinfo among other essential Mesa utilities."
 mlocate			
 moreutils			"is a collection of useful unix tools."
-mpc			"is a terminal interface for mpd."
-mpd			"is a lightweight music daemon."
+mpc			"is a command line user interface for mpd."
+mpd			"is a lightweight server-client arch. music player daemon, which I mainly need for ncmpcpp."
 mpv			"is the patrician's choice video player."
 msmtp-mta			
 mypaint			
-ncmpcpp			"is an ncurses interface for music with multiple formats and a powerful tag editor."
+ncmpcpp			"is an mpd client with a ncurses UI for music with multiple formats and a powerful tag editor."
 neofetch			
 neomutt			
 newsboat			"is a terminal RSS client."
