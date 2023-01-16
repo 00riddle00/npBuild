@@ -469,17 +469,21 @@ install_arch() {
         # Create the locale.conf(5) file, and set the LANG variable accordingly
         echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
+        # If custom console keyb. layout is set, make changes persistent in `vconsole.conf(5)`
+        #
+        # No action is performed here, default console keyboard layout is used: `us (us)`
+
         # [3.5. Network configuration]
         
-        # Create the hostname and add it to /etc/hostname
+        # Create the hostname and add it to the newly created `/etc/hostname` file.
         hostname="$machine"-"$(head /dev/urandom -c 2 | base64 | cut -c -3)"-arch
         echo "$hostname" > /etc/hostname
 
         # Edit /etc/hosts file
-        echo -e "<ip-address>   <hostname.domain.org>   <hostname>\n" > /etc/hosts
-        echo -e "127.0.0.1  localhost\n" >> /etc/hosts
-        echo -e "::1        localhost\n" >> /etc/hosts
-        echo -e "127.0.1.1  $hostname.localdomain $hostname" >> /etc/hosts
+        echo -e "<ip-address>  <canonical (full) hostname>  <optional list of aliases>\n" >  /etc/hosts
+        echo -e "127.0.0.1  localhost\n"                                                  >> /etc/hosts
+        echo -e "::1        localhost\n"                                                  >> /etc/hosts
+        echo -e "127.0.1.1  $hostname.localdomain  $hostname"                             >> /etc/hosts
         
         # Start the dhcpcd (DHCP client) daemon for wired interface by enabling the template unit
         # dhcpcd@interface.service, where interface name can be found by listing network interfaces
