@@ -86,7 +86,6 @@ gvfs		gnome	"provides trash support, mounting with udisks and remote filesystems
 gvim			
 gzip	base	base-devel	
 hicolor-icon-theme			
-htop			"is a graphical and colorful system monitor."
 hwloc			
 i3blocks		i3	
 i3lock		i3	
