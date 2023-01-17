@@ -134,54 +134,6 @@ install_from_main() { # Installs all needed programs from main repos.
     sudo pacman -S --noconfirm --needed "$1" || yes | sudo pacman -S --needed "$1" 
 }
 
-# ============== Applying dotfiles ===============
-
-make_some_files_immutable() {
-    sudo -S chattr +i "$DOTFILES_DIR/.config/Thunar/accels.scm"
-    sudo -S chattr +i "$DOTFILES_DIR/.config/filezilla/filezilla.xml"
-    sudo -S chattr +i "$DOTFILES_DIR/.config/htop/htoprc"
-    sudo -S chattr +i "$DOTFILES_DIR/.config/mimeapps.list"
-
-    re='^[0-9.]+$'
-
-    for dir in $(ls "$DOTFILES_DIR/.config/GIMP"); do
-        if [[ $dir =~ $re ]] ; then
-            sudo -S chattr +i "$DOTFILES_DIR/.config/GIMP/$dir/menurc"
-        fi
-    done
-}
-
-prepare_sublime_text() {
-    mkdir "$XDG_CONFIG_HOME/sublime-text-3/Installed Packages"
-    wget -P "$XDG_CONFIG_HOME/sublime-text-3/Installed Packages" https://packagecontrol.io/Package%20Control.sublime-package
-}
-
-install_vim_plugins() {
-    apps=(
-        "cmake"
-        "git"
-        "python"
-        "zsh"
-    )
-
-    for app in "${apps[@]}"; do
-        res="$(pacman -Qqe | grep -E "(^|\s)$app($|\s)")";
-
-        if [[ -z "$res" ]]; then
-            sudo pacman -S --noconfirm "$app"
-        fi
-    done
-    # TODO replace with vim-plug's one-liner "vim +PlugInstall" and test it
-    rm -rf "$DOTFILES_DIR/.vim/bundle/Vundle.vim"
-    git clone https://github.com/VundleVim/Vundle.vim.git "$DOTFILES_DIR/.vim/bundle/Vundle.vim"
-    vim +PluginInstall +qall
-    python ~/.vim/bundle/YouCompleteMe/install.py
-}
-
-apply_finishing_touches() {
-    strfile "$HOME/.dotfiles/bin/cowsay/rms/rms_say"
-}
-
 # =========================== STANDALONE FUNCTIONS ===========================
 
 symlink_dotfiles() {
@@ -265,6 +217,28 @@ unlink_dotfiles() {
     done
 }
 
+install_vim_plugins() {
+    apps=(
+        "cmake"
+        "git"
+        "python"
+        "zsh"
+    )
+
+    for app in "${apps[@]}"; do
+        res="$(pacman -Qqe | grep -E "(^|\s)$app($|\s)")";
+
+        if [[ -z "$res" ]]; then
+            sudo pacman -S --noconfirm "$app"
+        fi
+    done
+    # TODO replace with vim-plug's one-liner "vim +PlugInstall" and test it
+    rm -rf "$DOTFILES_DIR/.vim/bundle/Vundle.vim"
+    git clone https://github.com/VundleVim/Vundle.vim.git "$DOTFILES_DIR/.vim/bundle/Vundle.vim"
+    vim +PluginInstall +qall
+    python ~/.vim/bundle/YouCompleteMe/install.py
+}
+
 # Passwordless sudo must be enabled
 apply_dotfiles() {
     git clone -b "$repobranch" --depth 1 --recurse-submodules --shallow-submodules -j8 "$dotfilesrepo" "$HOME/.dotfiles"
@@ -272,10 +246,7 @@ apply_dotfiles() {
     sudo chsh -s /bin/zsh "$username"
     source "$HOME/.dotfiles/.zshenv"
     symlink_dotfiles
-    prepare_sublime_text
-    make_some_files_immutable
     install_vim_plugins
-    apply_finishing_touches
 }
 
 install_pkgs() {
@@ -617,6 +588,7 @@ END
 standalone_functions=(
     "symlink_dotfiles"
     "unlink_dotfiles"
+    "install_vim_plugins"
     "apply_dotfiles"
     "install_pkgs"
     "install_arch"
@@ -634,6 +606,7 @@ while getopts ":f:m:u:b:p:h" opt; do
                 List of functions:
                     'symlink_dotfiles'
                     'unlink_dotfiles'
+                    'install_vim_plugins'
                     'apply_dotfiles'
                     'install_pkgs'
                     'install_arch'
