@@ -248,8 +248,12 @@ tint2
 tk			
 tmux			
 tree			
+otf-droid-nerd			
+ttf-dejavu-nerd			
 ttf-firacode-nerd			
 ttf-inconsolata			
+ttf-inconsolata-nerd			
+ttf-roboto-mono-nerd			
 tumbler		xfce4	
 unrar			
 util-linux	base		
