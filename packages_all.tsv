@@ -328,59 +328,59 @@ TAG	NAME IN REPO/NAME IN AUR/GIT URL	META PACKAGE	PACKAGE GROUP(S)	PURPOSE (shou
 	zip			
 	zsh			"is a modern shell."
 	zstd			
-A	alacritty-themes	
-A	anki-bin	
-A	archlinux-java-run	
-A	arch-wiki-man	
-A	atbswp	
-A	autotiling	
-A	brave-bin	
-A	cava	
-A	code-features	"unblocks some features in Code OSS, for ex. solves the 'extension activation failed' for 'Jupyter' extension."
-A	cli-visualizer	
-A	dia	
-A	diff-pdf	
-A	downgrade	
-A	dropbox	
-A	gotop-bin	
-A	grabc	
-A	grub2-theme-archlinux	
-A	hardinfo	
-A	htop-vim	"is a graphical and colorful system monitor with vim keybindings."
-A	i3-wm	
-A	jabref-bin	
-A	jetbrains-toolbox	
-A	simple-mtpfs	"enables the mounting of cell phones."
-A	la-capitaine-icon-theme	
-A	light-git	
-A	ninvaders	
-A	nsnake	
-A	numix-cursor-theme	
-A	numix-themes-archblue	
-A	pacnews-git	
-A	paru	
-A	postman-bin	
-A	rstudio-desktop-bin	
-A	ruby-clocale	
-A	ruby-colorls	
-A	ruby-erubis	
-A	ruby-filesize	
-A	ruby-xdg5	
-A	sc-im	"is an Excel-like terminal spreadsheet manager."
-A	smartgit	"is a pretty good Git GUI client."
-A	smartsvn	"is a pretty good Subversion GUI client."
-A	spotify	
-A	sublime-text-4	
-A	task-spooler	"queues up tasks from the shell for batch execution."
-A	teams	
-A	tmuxinator	
-A	ttf-symbola	
-A	urlview	
-A	urxvt-resize-font-git	"adjusts urxvt font size on the fly."
-A	weka	
-A	zoom	
-A	zsh-fast-syntax-highlighting-git	"provides syntax highlighting in the shell."
-G	https://github.com/00riddle00/dmenu.git	"runs commands and provides a UI for selection."
-G	https://github.com/00riddle00/dwm.git	"is the window manager."
-G	https://github.com/00riddle00/dwmblocks.git	"serves as the modular status bar."
-G	https://github.com/00riddle00/st.git	"is my custom build of suckless's terminal emulator."
+A	alacritty-themes			
+A	anki-bin			
+A	archlinux-java-run			
+A	arch-wiki-man			
+A	atbswp			
+A	autotiling			
+A	brave-bin			
+A	cava			
+A	code-features			"unblocks some features in Code OSS, for ex. solves the 'extension activation failed' for 'Jupyter' extension."
+A	cli-visualizer			
+A	dia			
+A	diff-pdf			
+A	downgrade			
+A	dropbox			
+A	gotop-bin			
+A	grabc			
+A	grub2-theme-archlinux			
+A	hardinfo			
+A	htop-vim			"is a graphical and colorful system monitor with vim keybindings."
+A	i3-wm			
+A	jabref-bin			
+A	jetbrains-toolbox			
+A	simple-mtpfs			"enables the mounting of cell phones."
+A	la-capitaine-icon-theme			
+A	light-git			
+A	ninvaders			
+A	nsnake			
+A	numix-cursor-theme			
+A	numix-themes-archblue			
+A	pacnews-git			
+A	paru			
+A	postman-bin			
+A	rstudio-desktop-bin			
+A	ruby-clocale			
+A	ruby-colorls			
+A	ruby-erubis			
+A	ruby-filesize			
+A	ruby-xdg5			
+A	sc-im			"is an Excel-like terminal spreadsheet manager."
+A	smartgit			"is a pretty good Git GUI client."
+A	smartsvn			"is a pretty good Subversion GUI client."
+A	spotify			
+A	sublime-text-4			
+A	task-spooler			"queues up tasks from the shell for batch execution."
+A	teams			
+A	tmuxinator			
+A	ttf-symbola			
+A	urlview			
+A	urxvt-resize-font-git			"adjusts urxvt font size on the fly."
+A	weka			
+A	zoom			
+A	zsh-fast-syntax-highlighting-git			"provides syntax highlighting in the shell."
+G	https://github.com/00riddle00/dmenu.git			"runs commands and provides a UI for selection."
+G	https://github.com/00riddle00/dwm.git			"is the window manager."
+G	https://github.com/00riddle00/dwmblocks.git			"serves as the modular status bar."
+G	https://github.com/00riddle00/st.git			"is my custom build of suckless's terminal emulator."
