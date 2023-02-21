@@ -13,6 +13,7 @@ asp
 autoconf	base-devel		
 automake	base-devel		
 base			"is a meta package which defines (and prevents from removing) a basic Arch Linux installation."
+base-devel			"is a meta package which contains a complete build environment for makepkg."
 bash	base		
 bat			"can highlight code output and display files."
 bc			"is used for a dropdown calculator."
@@ -89,6 +90,7 @@ hicolor-icon-theme
 hwloc			
 i3blocks		i3	
 i3lock		i3	
+i3-wm		i3	
 inetutils			
 inkscape			
 iproute2	base		
@@ -150,7 +152,7 @@ nvidia-settings
 obs-studio			
 octave			
 offlineimap			
-openbox		lxde, lxde-gtk3, lxqt 	
+openbox		lxde, lxde-gtk3, lxqt	
 openconnect			
 openssh			
 openssl			
