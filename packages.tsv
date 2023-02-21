@@ -1,4 +1,4 @@
-NAME IN REPO	META PACKAGE	PACKAGE GROUP(S)	PURPOSE (should be a verb phrase to sound right while installing)
+NAME IN REPO	META PACKAGE(S)	PACKAGE GROUP(S)	PURPOSE (should be a verb phrase to sound right while installing)
 ack			
 acpi			
 adobe-source-code-pro-fonts			
@@ -6,20 +6,20 @@ adwaita-icon-theme
 alacritty			
 alsa-utils			"provides amixer and other ALSA utilities."
 archey3			"outputs a logo and various system information, need it for the matrix look."
-archlinux-keyring	base	base-devel	
+archlinux-keyring	base, base-devel		
 ascii			
 asciiquarium			
 asp			
-autoconf		base-devel	
-automake		base-devel	
+autoconf	base-devel		
+automake	base-devel		
 base			"is a meta package which defines (and prevents from removing) a basic Arch Linux installation."
 bash	base		
 bat			"can highlight code output and display files."
 bc			"is used for a dropdown calculator."
 biber			
 bind			"is a versatile name server software which provides dig, host, and other utilities."
-binutils		base-devel	
-bison		base-devel	
+binutils	base-devel		
+bison	base-devel		
 broot			
 bzip2	base		
 calcurse			
@@ -39,7 +39,7 @@ cronie
 ctags			"generates an index file of language objects found in source files, is needed by TagBar, CtrlP vim plugins."
 cuda			
 cudnn			
-debugedit		base-devel	
+debugedit	base-devel		
 dhcpcd			
 discord			
 doge			
@@ -51,25 +51,25 @@ efibootmgr
 emacs			"...also needed by Doom Emacs..."
 espeak-ng			
 expac			
-fakeroot		base-devel	
+fakeroot	base-devel		
 fbgrab			
 fd			"...also needed by Doom Emacs..."
 feh			"is an image viewer, useful to set a wallpaper."
 figlet			
-file	base	base-devel	
+file	base, base-devel		
 file-roller		gnome	"is a backend used by thunar-archive-plugin to create and modify archives."
 filesystem	base		
 filezilla			
-findutils	base	base-devel	
+findutils	base, base-devel		
 firefox			
 flameshot			
-flex		base-devel	
+flex	base-devel		
 freerdp			
 fzf			"is a fuzzy finder tool."
-gawk	base	base-devel	
-gcc		base-devel	
+gawk	base, base-devel		
+gcc	base-devel		
 gcc-libs	base		
-gettext	base	base-devel	
+gettext	base, base-devel		
 gimp			
 git			
 git-lfs			
@@ -78,13 +78,13 @@ glibc	base
 gmrun			
 gnuplot			
 graphviz			
-grep	base	base-devel	
-groff		base-devel	
+grep	base, base-devel		
+groff	base-devel		
 grub			
 gtk2			
 gvfs		gnome	"provides trash support, mounting with udisks and remote filesystems for Thunar."
 gvim			
-gzip	base	base-devel	
+gzip	base, base-devel		
 hicolor-icon-theme			
 hwloc			
 i3blocks		i3	
@@ -106,7 +106,7 @@ lazygit
 lftp			
 lib32-nvidia-utils			"are 32-bit NVIDIA drivers utilities needed to run some games on Steam."
 libreoffice-fresh			
-libtool		base-devel	
+libtool	base-devel		
 libxft			"is a FreeType-based font drawing library for X."
 licenses	base		
 linux			
@@ -119,8 +119,8 @@ lsof
 lvm2			
 lxappearance-obconf		lxde	
 lynx			"is a terminal browser."
-m4		base-devel	
-make		base-devel	
+m4	base-devel		
+make	base-devel		
 man-db			"lets you read man pages of programs."
 man-pages			
 mc			
@@ -156,8 +156,8 @@ openssh
 openssl			
 p7zip			
 pacgraph			
-pacman	base	base-devel	
-patch		base-devel	
+pacman	base, base-devel		
+patch	base-devel		
 pavucontrol			
 pciutils	base		
 perl			
@@ -165,7 +165,7 @@ perl-data-compare
 perl-lingua-translit			
 perl-list-moreutils			
 picom			"is for transparency and removing screen-tearing."
-pkgconf		base-devel	
+pkgconf	base-devel		
 playerctl			
 procps-ng	base		
 projectm			
@@ -204,12 +204,12 @@ ruby-unicode-display_width
 rxvt-unicode			
 rxvt-unicode-terminfo			
 scrot			
-sed	base	base-devel	
+sed	base, base-devel		
 shadow	base		
 steam			
 strace			
 subversion			
-sudo		base-devel	
+sudo	base-devel		
 surfraw			
 sxiv			"is a minimalist image viewer."
 sysfsutils			
@@ -221,7 +221,7 @@ tealdeer
 termdown			"is a timer and a stopwatch in a terminal."
 terminator			
 tesseract			
-texinfo		base-devel	
+texinfo	base-devel		
 texlive-bibtexextra		texlive-most	
 texlive-core		texlive-most	
 texlive-fontsextra		texlive-most	
@@ -265,7 +265,7 @@ viu
 vlc			
 w3m			
 wdiff			
-which		base-devel	
+which	base-devel		
 whois			
 wmctrl			
 wpa_supplicant			
