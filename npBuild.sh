@@ -91,14 +91,16 @@ mkfs_desktop() {
 
 # Allow sudo access without password (for the members of `wheel` group)
 allow_sudo_nopasswd() {
-    sed -i "s/^%wheel ALL=(ALL) ALL/# %wheel ALL=(ALL) ALL/" /mnt/etc/sudoers
-    sed -i "s/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/" /mnt/etc/sudoers
+    mountpoint="$1" # optional argument
+    sed -E -i 's/^[ ]*(%wheel ALL=\(ALL:ALL\) ALL)[ ]*$/#\1/' "${mountpoint}/etc/sudoers"
+    sed -E -i 's/^#?[ ]*(%wheel ALL=\(ALL:ALL\) NOPASSWD: ALL)[ ]*$/\1/' "${mountpoint}/etc/sudoers"
 }
 
 # Disallow sudo access without password (for the members of `wheel` group)
 disallow_sudo_nopasswd() {
-    sed -i "s/^%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/" /mnt/etc/sudoers
-    sed -i "s/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/" /mnt/etc/sudoers
+    mountpoint="$1" # optional argument
+    sed -E -i 's/^#?[ ]*(%wheel ALL=\(ALL:ALL\) ALL)[ ]*$/\1/' "${mountpoint}/etc/sudoers"
+    sed -E -i 's/^#?[ ]*(%wheel ALL=\(ALL:ALL\) NOPASSWD: ALL)[ ]*$/#\1/' "${mountpoint}/etc/sudoers"
 }
 
 # ============= Installing packages ==============
@@ -539,7 +541,7 @@ END
 
     # [Getting and applying dotfiles]
     
-    allow_sudo_nopasswd
+    allow_sudo_nopasswd "/mnt"
 
     arch-chroot /mnt /bin/bash <<END
         runuser --pty -s /bin/bash -l "$username" -c "
@@ -547,7 +549,7 @@ END
         "
 END
 
-    disallow_sudo_nopasswd
+    disallow_sudo_nopasswd "/mnt"
 
     # -------------------------------------------
     # 4./5. Rebooting
