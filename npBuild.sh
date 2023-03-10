@@ -449,7 +449,7 @@ install_arch() {
         # Creating a new initramfs is usually not required, because mkinitcpio was run on 
         # installation of the kernel package with pacstrap.
         #
-        mkinitcpio -P linux # recreate the initramfs image just in case
+        mkinitcpio -P # recreate the initramfs image just in case
 
         # [3.7. Root password]
         #
@@ -491,7 +491,7 @@ install_arch() {
         systemctl enable sshd
 
         # [3.11.(extra) Users and groups]
-        
+       
         # Create a user and add it to wheel group
         useradd -m -G wheel "$username"
         echo -e "passwd\npasswd\n" | passwd "$username"
@@ -514,7 +514,7 @@ install_arch() {
         #
         # Show line numbers in Vim
         #
-        echo "set nu" >> /etc/vimrc
+        echo "set number" >> /etc/vimrc
 
 END
     # -------------------------------------------
@@ -558,7 +558,7 @@ END
     # Remove the copy of this file from the new system
     rm "/mnt/home/$username/npBuild.sh"
 
-    umount /mnt
+    umount -R /mnt
     eject -m
     reboot -f
 }
@@ -568,7 +568,6 @@ END
 standalone_functions=(
     "symlink_dotfiles"
     "unlink_dotfiles"
-    "install_vim_plugins"
     "apply_dotfiles"
     "install_pkgs"
     "install_arch"
@@ -586,7 +585,6 @@ while getopts ":f:m:u:b:p:h" opt; do
                 List of functions:
                     'symlink_dotfiles'
                     'unlink_dotfiles'
-                    'install_vim_plugins'
                     'apply_dotfiles'
                     'install_pkgs'
                     'install_arch'
