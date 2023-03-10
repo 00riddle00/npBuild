@@ -122,11 +122,11 @@ install_from_aur() {
 }
 
 install_from_git() {
-	progname="$(basename "$1" .git)"
-	dir="$srcdir/$progname"
-	sudo -u "$username" git clone --depth 1 "$1" "$dir" || { cd "$dir" || return ; sudo -u "$username" git pull --force origin master;}
-	cd "$dir" || exit
-	sudo make clean install
+    progname="$(basename "$1" .git)"
+    dir="/tmp/$progname"
+    sudo -u "$username" git clone --depth 1 "$1" "$dir" || { cd "$dir" || return ; sudo -u "$username" git pull --force origin master;}
+    cd "$dir" || exit
+    sudo make clean install
     rm -r "$dir"
 }
 
