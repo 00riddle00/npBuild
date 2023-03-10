@@ -41,7 +41,7 @@ mkpart_vm() {
 
     # Create a Linux root (/) partition
     # Suggested size: Remainder of the device
-    parted -s /dev/sda mkpart primary ext4 1MiB 100%
+    parted -s /dev/sda mkpart "main-partition" ext4 1MiB 100%
     # Make the partition bootable
     parted -s /dev/sda set 1 boot on
 }
@@ -54,17 +54,17 @@ mkpart_desktop() {
     # Create an EFI system partition (ESP) for booting in UEFI mode
     # Use `fat32` as the file system type
     # Sugggested size: At least 300 MiB
-    parted -s /dev/sda mkpart primary fat32 1MiB 551MiB
+    parted -s /dev/sda mkpart "EFI-system-partition" fat32 1MiB 551MiB
     # Make the ESP partition bootable (`esp` is an alias for `boot` on GPT)
     parted -s /dev/sda set 1 esp on
 
     # Create a Linux swap partition
     # Suggested size: More than 512 MiB
-    parted -s /dev/sda mkpart primary linux-swap 551MiB 4.501GiB
+    parted -s /dev/sda mkpart "swap-partition" linux-swap 551MiB 4.501GiB
 
     # Create a Linux root (/) partition
     # Suggested size: Remainder of the device
-    parted -s /dev/sda mkpart primary ext4 4.501GiB 100%
+    parted -s /dev/sda mkpart "main-partition" ext4 4.501GiB 100%
 }
 
 # ============= Creating filesystems =============
