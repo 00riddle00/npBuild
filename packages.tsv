@@ -273,7 +273,6 @@ wmctrl
 wpa_supplicant			
 xaos			
 xclip			
-xf86-video-vesa		xorg, xorg-drivers	
 xfce4-settings		xfce4	"manages Xfce desktop settings, needed for Thunar 'Open Terminal Here' custom action (which uses exo-open)."
 xorg-bdftopcf		xorg, xorg-apps	
 xorg-docs		xorg	
