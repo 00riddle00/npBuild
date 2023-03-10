@@ -229,11 +229,25 @@ apply_dotfiles() {
     vim +PlugInstall +qall
 }
 
-install_pkgs() {
-	[[ -f /etc/sudoers.pacnew ]] && cp /etc/sudoers.pacnew /etc/sudoers # just in case
+pre_make() {
+    # Use all cores for compilation
+    sed -E -i "s/(^#?[ ]*MAKEFLAGS=.*)/MAKEFLAGS=\"-j$(nproc)\"\n#\1/" /etc/makepkg.conf
 
-    # Use all cores for compilation (temporarily)
-	sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
+    allow_sudo_nopasswd
+}
+
+post_make() {
+    # Reset makepkg settings
+    sed -i "/^MAKEFLAGS=/d" /etc/makepkg.conf
+    sed -E -i "s/^#([# ]*MAKEFLAGS=.*)/\1/" /etc/makepkg.conf
+
+    disallow_sudo_nopasswd
+}
+
+install_pkgs() {
+    pre_make
+
+	[[ -f /etc/sudoers.pacnew ]] && cp /etc/sudoers.pacnew /etc/sudoers # just in case
 
     # Synchronizing system time to ensure successful and secure installation of software
     ntpdate 0.us.pool.ntp.org > /dev/null 2>&1
@@ -259,8 +273,7 @@ install_pkgs() {
     # Cleanup
     rmdir "$srcdir" 2> /dev/null 
 
-	# Reset makepkg settings
-    sed -i "s/-j$(nproc)/-j2/;s/^MAKEFLAGS/#MAKEFLAGS/" /etc/makepkg.conf
+    post_make
 }
 
 install_arch() {
