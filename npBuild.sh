@@ -247,8 +247,8 @@ install_pkgs() {
     runuser --pty -s /bin/bash -l "$username" -c "yay -Sua --noconfirm"
 
     [[ -f "$progsfile" ]] || curl -LO "$progsfile"
-    sed '/^#/d' "$progsfile" > /tmp/progs.csv
-    while IFS=, read -r tag program comment; do
+    tail +2 $(basename "$progsfile") > /tmp/progs.tsv
+    while IFS=$'\t' read -r tag program comment; do
         case "$tag" in
             "A") install_from_aur "$program" ;;
             "G") install_from_git "$program" ;;
@@ -603,7 +603,7 @@ done
 
 [[ -z "$username" ]] && username="userv"
 [[ -z "$repobranch" ]] && repobranch="master"
-[[ -z "$progsfile" ]] && progsfile="https://raw.githubusercontent.com/00riddle00/NPbuild/master/progs.csv"
+[[ -z "$progsfile" ]] && progsfile="https://raw.githubusercontent.com/00riddle00/NPbuild/$repobranch/packages_all.tsv"
 dotfilesrepo="https://github.com/00riddle00/dotfiles"
 
 if [[ -n "$function" ]]; then
