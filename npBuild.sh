@@ -105,20 +105,22 @@ disallow_sudo_nopasswd() {
 
 # ============= Installing packages ==============
 
-install_yay() {
-	[[ -f "/usr/bin/yay" ]] || {
-    git clone https://aur.archlinux.org/yay.git $srcdir/yay
-    chown -R $username:$username $srcdir/yay
-    pacman -S --noconfirm --needed go
-    runuser -l "$username" -c "{ cd $srcdir/yay || return } && makepkg --noconfirm -si"
-    rm -r "$srcdir/yay"
-    }
+install_aur_helper() {
+    if [[ -f "/usr/bin/$aurhelper" ]] ; then
+        echo "AUR helper '$aurhelper' is already installed."
+    else
+        tmp_dir="/tmp/make-$aurhelper"
+        git clone "https://aur.archlinux.org/${aurhelper}.git" "$tmp_dir"
+        chown -R $username:$username "$tmp_dir"
+        runuser -l "$username" -c "{ cd "$tmp_dir" || return } && makepkg --noconfirm -sri"
+        rm -r "$tmp_dir"
+    fi
 }
 
 install_from_aur() {
     # If a package is not found, skips it
     # If a package is already installed, skips it as well
-    runuser -l "$username" -c "yay -S --aur --noconfirm --needed --useask "$1""
+    runuser -l "$username" -c "$aur_helper -S --aur --noconfirm --needed --useask "$1""
 }
 
 install_from_git() {
@@ -247,18 +249,11 @@ post_make() {
 install_pkgs() {
     pre_make
 
-	[[ -f /etc/sudoers.pacnew ]] && cp /etc/sudoers.pacnew /etc/sudoers # just in case
+    install_aur_helper
 
-    # Synchronizing system time to ensure successful and secure installation of software
-    ntpdate 0.us.pool.ntp.org > /dev/null 2>&1
-
-    srcdir="/home/$username/.local/src"; mkdir -p "$srcdir"; sudo chown -R "$username":wheel $(dirname "$srcdir")
-
-    install_yay
-
-    # Updating the system before installing new software
+    # Update the system before installing new software
     pacman -Syu --noconfirm
-    runuser --pty -s /bin/bash -l "$username" -c "yay -Sua --noconfirm"
+    runuser --pty -s /bin/bash -l "$username" -c "$aurhelper -Syua --noconfirm"
 
     [[ -f "$progsfile" ]] || curl -LO "$progsfile"
     tail +2 $(basename "$progsfile") > /tmp/progs.tsv
@@ -268,10 +263,7 @@ install_pkgs() {
             "G") install_from_git "$program" ;;
             *) install_from_main "$program" ;;
         esac
-    done < /tmp/progs.csv
-
-    # Cleanup
-    rmdir "$srcdir" 2> /dev/null 
+    done < /tmp/progs.tsv
 
     post_make
 }
@@ -583,11 +575,14 @@ standalone_functions=(
     "unlink_dotfiles"
     "apply_dotfiles"
     "install_pkgs"
+    "install_aur_helper"
     "install_arch"
 )
 
-while getopts ":f:m:u:b:p:h" opt; do 
+# TODO validate if standalone "install_pkgs" when no username - now the cryptic error "chown: userv not found"
+while getopts "a:f:m:u:b:p:h" opt; do 
     case "${opt}" in
+        a) aurhelper=${OPTARG} ;;
         f) function=${OPTARG} ;;
         m) machine=${OPTARG} ;;
         u) username=${OPTARG} ;;
@@ -600,8 +595,10 @@ while getopts ":f:m:u:b:p:h" opt; do
                     'unlink_dotfiles'
                     'apply_dotfiles'
                     'install_pkgs'
+                    'install_aur_helper'
                     'install_arch'
 
+        -a  [Optional] Pacman wrapper to install packages from AUR'
         -m  [Required only for the function 'install_arch'] Machine type. One of two values: {'vm', 'desktop'}
         -u  [Optional] User name. Defaults to 'userv'
         -b  [Optional] Branch of the repo. Defaults to 'master'
@@ -612,6 +609,7 @@ while getopts ":f:m:u:b:p:h" opt; do
     esac
 done
 
+[[ -z "$aurhelper" ]] && aurhelper="paru"
 [[ -z "$username" ]] && username="userv"
 [[ -z "$repobranch" ]] && repobranch="master"
 [[ -z "$progsfile" ]] && progsfile="https://raw.githubusercontent.com/00riddle00/NPbuild/$repobranch/packages_all.tsv"
