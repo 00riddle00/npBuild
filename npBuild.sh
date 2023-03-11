@@ -142,6 +142,10 @@ install_from_main() { # Installs all needed programs from main repos.
 
 symlink_dotfiles() {
     source "$HOME/.dotfiles/.zshenv"
+    # TODO maybe use this var definition instead of sourcing the whole .zshenv:
+    #DOTFILES="$HOME/.dotfiles"
+    #XDG_CONFIG_HOME="$HOME/.config"
+    #XDG_DATA_HOME="$HOME/.local/share"
 
     [[ ! -d "$HOME/.config" ]] && mkdir -p "$HOME/.config"
 
@@ -160,7 +164,7 @@ symlink_dotfiles() {
         ln -sf "$full_path" "$HOME/$file"
     done
 
-    # $XDG_CONFIG_HOME
+    # ~/.config ($XDG_CONFIG_HOME)
     for full_path in "$DOTFILES/.config"/[a-zA-Z]*; do
         file="$(basename "$full_path")"
         [[ -e "$full_path" ]] &&
@@ -184,6 +188,10 @@ symlink_dotfiles() {
 
 unlink_dotfiles() {
     source "$HOME/.dotfiles/.zshenv"
+    # TODO maybe use this var definition instead of sourcing the whole .zshenv:
+    #DOTFILES="$HOME/.dotfiles"
+    #XDG_CONFIG_HOME="$HOME/.config"
+    #XDG_DATA_HOME="$HOME/.local/share"
 
     # $HOME
     for full_path in "$DOTFILES"/.[a-zA-Z]*; do
@@ -197,7 +205,7 @@ unlink_dotfiles() {
         rm -f "$HOME/$file"
     done
 
-    # $XDG_CONFIG_HOME
+    # ~/.config ($XDG_CONFIG_HOME)
     for full_path in "$DOTFILES/.config"/[a-zA-Z]*; do
         file="$(basename "$full_path")"
         [[ -e "$full_path" ]] &&
