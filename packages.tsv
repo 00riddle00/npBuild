@@ -123,8 +123,8 @@ lxappearance-obconf		lxde
 lynx			"is a terminal browser."
 m4	base-devel		
 make	base-devel		
-man-db			"lets you read man pages of programs."
-man-pages			
+man-db			"is used for accessing documentation in man pages."
+man-pages			"document the Linux kernel and C library interfaces that are employed by user-space programs."
 mc			
 mdp			
 meld			
@@ -223,7 +223,7 @@ tealdeer
 termdown			"is a timer and a stopwatch in a terminal."
 terminator			
 tesseract			
-texinfo	base-devel		
+texinfo	base-devel		"is used for accessing documentation in info pages."
 texlive-bibtexextra		texlive-most	
 texlive-core		texlive-most	
 texlive-fontsextra		texlive-most	
