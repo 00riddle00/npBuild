@@ -423,6 +423,10 @@ install_arch() {
         hwclock --systohc
 
         # Enable and start `systemd-timesyncd.service` just in case it's not running.
+        #
+        # NB: a chroot environment has no active init system - systemd managed services (or
+        # anything with *ctl) cannot be started in a chroot. (??)
+        #
         timedatectl set-ntp 1
 
         # [3.4. Localization]
@@ -455,6 +459,10 @@ install_arch() {
         
         # Start the dhcpcd (DHCP client) daemon for wired interface by enabling the template unit
         # dhcpcd@interface.service, where interface name can be found by listing network interfaces
+        #
+        # NB: a chroot environment has no active init system - systemd managed services (or
+        # anything with *ctl) cannot be started in a chroot. (??)
+        #
         systemctl enable "dhcpcd@"$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' | sed 's/ //')""
 
         # [3.6. Initramfs]
@@ -501,6 +509,10 @@ install_arch() {
         sed -E -i 's/^#?[ ]*(PasswordAuthentication)[ ]*(yes|no)[ ]*$/\1 yes/' /etc/ssh/sshd_config
 
         # Enable OpenSSH server daemon at boot
+        #
+        # NB: a chroot environment has no active init system - systemd managed services (or
+        # anything with *ctl) cannot be started in a chroot. (??)
+        #
         systemctl enable sshd
 
         # [3.11.(extra) Users and groups]
