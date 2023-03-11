@@ -172,8 +172,8 @@ symlink_dotfiles() {
     [[ -e "$local_bin" ]] && ln -sf "$local_bin" "$HOME/.local/bin"
 
     # ~/.local/share ($XDG_DATA_HOME)
-    local_shared="$DOTFILES/.local/share/riddle00"
-    [[ -e "$local_shared" ]] && ln -sf "$local_shared" "$XDG_DATA_HOME/riddle00"
+    local_shared="$DOTFILES/.local/share/dotshare"
+    [[ -e "$local_shared" ]] && ln -sf "$local_shared" "$XDG_DATA_HOME/dotshare"
 
     for full_path in "$DOTFILES/.local/share/applications"/[a-zA-Z]*; do
         file="$(basename "$full_path")"
@@ -211,7 +211,7 @@ unlink_dotfiles() {
     [[ -e "$full_path" ]] && [[ -L "$HOME/.local/$file" ]] && rm -f "$HOME/.local/$file"
 
     # ~/.local/share ($XDG_DATA_HOME)
-    full_path="$DOTFILES/.local/share/riddle00"
+    full_path="$DOTFILES/.local/share/dotshare"
     file="$(basename "$full_path")"
     [[ -e "$full_path" ]] && [[ -L "$XDG_DATA_HOME/$file" ]] && rm -f "$XDG_DATA_HOME/$file"
 
