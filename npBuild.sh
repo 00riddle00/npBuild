@@ -497,7 +497,7 @@ install_arch() {
 
         # [3.9.(extra) Kernel parameters]
         #
-        # Disable "quiet" and "splash" parameters
+        # Disable "quiet" and "splash" parameters, use level 3 logging.
         #
         sed -E -i 's/^(GRUB_CMDLINE_LINUX_DEFAULT=)".*"[ ]*$/\1"loglevel=3"/' /etc/default/grub
         grub-mkconfig -o /boot/grub/grub.cfg
