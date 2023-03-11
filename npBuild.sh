@@ -148,7 +148,7 @@ symlink_dotfiles() {
     [[ ! -d "$XDG_DATA_HOME/applications" ]] && mkdir -p "$XDG_DATA_HOME/applications"
 
     # $HOME
-    for full_path in "$DOTFILES_DIR"/.[a-zA-Z]*; do
+    for full_path in "$DOTFILES"/.[a-zA-Z]*; do
         file="$(basename "$full_path")"
         # Whenever you iterate over files/folders by globbing, it's good practice to avoid the corner 
         # case where the glob does not match (which makes the loop variable expand to the 
@@ -161,21 +161,21 @@ symlink_dotfiles() {
     done
 
     # $XDG_CONFIG_HOME
-    for full_path in "$DOTFILES_DIR/.config"/[a-zA-Z]*; do
+    for full_path in "$DOTFILES/.config"/[a-zA-Z]*; do
         file="$(basename "$full_path")"
         [[ -e "$full_path" ]] &&
         ln -sf "$full_path" "$XDG_CONFIG_HOME/$file"
     done
 
     # ~/.local/bin
-    local_bin="$DOTFILES_DIR/.local/bin"
+    local_bin="$DOTFILES/.local/bin"
     [[ -e "$local_bin" ]] && ln -sf "$local_bin" "$HOME/.local/bin"
 
     # ~/.local/share ($XDG_DATA_HOME)
-    local_shared="$DOTFILES_DIR/.local/share/riddle00"
+    local_shared="$DOTFILES/.local/share/riddle00"
     [[ -e "$local_shared" ]] && ln -sf "$local_shared" "$XDG_DATA_HOME/riddle00"
 
-    for full_path in "$DOTFILES_DIR/.local/share/applications"/[a-zA-Z]*; do
+    for full_path in "$DOTFILES/.local/share/applications"/[a-zA-Z]*; do
         file="$(basename "$full_path")"
         [[ -e "$full_path" ]] &&
         ln -sf $full_path "$XDG_DATA_HOME/applications/$file"
@@ -186,7 +186,7 @@ unlink_dotfiles() {
     source "$HOME/.dotfiles/.zshenv"
 
     # $HOME
-    for full_path in "$DOTFILES_DIR"/.[a-zA-Z]*; do
+    for full_path in "$DOTFILES"/.[a-zA-Z]*; do
         file="$(basename "$full_path")"
         [[ -e "$full_path" ]] && 
         [[ "$file" != ".config" ]] &&
@@ -198,7 +198,7 @@ unlink_dotfiles() {
     done
 
     # $XDG_CONFIG_HOME
-    for full_path in "$DOTFILES_DIR/.config"/[a-zA-Z]*; do
+    for full_path in "$DOTFILES/.config"/[a-zA-Z]*; do
         file="$(basename "$full_path")"
         [[ -e "$full_path" ]] &&
         [[ -L "$XDG_CONFIG_HOME/$file" ]] &&
@@ -206,16 +206,16 @@ unlink_dotfiles() {
     done
 
     # ~/.local/bin
-    full_path="$DOTFILES_DIR/.local/bin"
+    full_path="$DOTFILES/.local/bin"
     file="$(basename "$full_path")"
     [[ -e "$full_path" ]] && [[ -L "$HOME/.local/$file" ]] && rm -f "$HOME/.local/$file"
 
     # ~/.local/share ($XDG_DATA_HOME)
-    full_path="$DOTFILES_DIR/.local/share/riddle00"
+    full_path="$DOTFILES/.local/share/riddle00"
     file="$(basename "$full_path")"
     [[ -e "$full_path" ]] && [[ -L "$XDG_DATA_HOME/$file" ]] && rm -f "$XDG_DATA_HOME/$file"
 
-    for full_path in "$DOTFILES_DIR/.local/share/applications"/[a-zA-Z]*; do
+    for full_path in "$DOTFILES/.local/share/applications"/[a-zA-Z]*; do
         file="$(basename "$full_path")"
         [[ -e "$full_path" ]] && [[ -L "$XDG_DATA_HOME/applications/$file" ]] && rm -f "$XDG_DATA_HOME/applications/$file"
     done
