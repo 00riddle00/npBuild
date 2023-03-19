@@ -99,7 +99,8 @@ irssi
 jdk11-openjdk			
 jdk-openjdk			
 jp2a			
-jupyter-nbconvert			
+jupyterlab			
+jupyter-notebook			
 keepass			"is a password manager, useful to save JetBrains IDEs passwords."
 keepassxc			"is a cross-platform community-driven port of Keepass password manager, provides org.freedesktop.secrets (optional for chromium, git, teams, necessary for code-features)."
 kwallet		kf5	"is a password store which I use for Subversion credentials."
@@ -177,7 +178,6 @@ pulseaudio-alsa
 python			
 python-configobj			
 python-fsspec			
-python-jupyter_client			
 python-lxml			
 python-matplotlib			
 python-pip			
