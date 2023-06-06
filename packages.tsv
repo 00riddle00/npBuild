@@ -128,6 +128,7 @@ man-db			"is used for accessing documentation in man pages."
 man-pages			"document the Linux kernel and C library interfaces that are employed by user-space programs."
 mc			
 mdp			
+mediainfo			"provides viewing information about media files for ranger."
 meld			
 mesa-utils			"provides glxinfo among other essential Mesa utilities."
 mlocate			
@@ -142,7 +143,6 @@ neofetch
 neomutt			
 newsboat			"is a terminal RSS client."
 nmap			
-nomacs			
 notmuch-vim			
 noto-fonts			"is an expansive font package."
 noto-fonts-emoji			"is an emoji font."
@@ -158,7 +158,6 @@ openconnect
 openssh			
 openssl			
 p7zip			
-pacgraph			
 pacman	base, base-devel		
 patch	base-devel		
 pavucontrol			
@@ -322,7 +321,7 @@ xorg-xwud		xorg, xorg-apps
 xscreensaver			
 xz	base		
 yasm			
-youtube-dl			"can download any YouTube video (or playlist or channel) when given the link."
+yt-dlp			"can download any YouTube video (or playlist or channel) when given the link."
 zathura			"is a pdf viewer with vim-like bindings."
 zathura-pdf-mupdf			"allows mupdf pdf compatibility in zathura."
 zenity			"displays graphical dialog boxes from shell scripts, needed for Thunar 'Create New File' custom action."
