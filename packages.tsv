@@ -223,21 +223,22 @@ termdown			"is a timer and a stopwatch in a terminal."
 terminator			
 tesseract			
 texinfo	base-devel		"is used for accessing documentation in info pages."
-texlive-bibtexextra		texlive-most	
-texlive-core		texlive-most	
-texlive-fontsextra		texlive-most	
-texlive-formatsextra		texlive-most	
-texlive-games		texlive-most	
-texlive-humanities		texlive-most	
+texlive-basic		texlive	
+texlive-bibtexextra		texlive	
+texlive-bin			
+texlive-fontsextra		texlive	
+texlive-fontsrecommended		texlive	
 texlive-langcyrillic		texlive-lang	
-texlive-langextra		texlive-lang	
+texlive-langenglish		texlive-lang	
+texlive-langeuropean		texlive-lang	
+texlive-langgerman		texlive-lang	
 texlive-langgreek		texlive-lang	
-texlive-latexextra		texlive-most	
-texlive-music		texlive-most	
-texlive-pictures		texlive-most	
-texlive-pstricks		texlive-most	
-texlive-publishers		texlive-most	
-texlive-science		texlive-most	
+texlive-langspanish		texlive-lang	
+texlive-latex		texlive	
+texlive-latexextra		texlive	
+texlive-latexrecommended		texlive	
+texlive-pictures		texlive	
+texlive-xetex		texlive	
 the_silver_searcher			
 thunar		xfce4	
 thunar-archive-plugin		xfce4-goodies	
