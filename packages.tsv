@@ -157,6 +157,7 @@ openbox		lxde, lxde-gtk3, lxqt
 openconnect			
 openssh			
 openssl			
+otf-droid-nerd			
 p7zip			
 pacman	base, base-devel		
 patch	base-devel		
@@ -199,8 +200,8 @@ rofimoji
 rsync			
 rtorrent			
 ruby			
-ruby-irb			
 ruby-english			
+ruby-irb			
 ruby-unicode-display_width			
 rxvt-unicode			
 rxvt-unicode-terminfo			
@@ -250,7 +251,6 @@ tint2
 tk			
 tmux			
 tree			
-otf-droid-nerd			
 ttf-dejavu-nerd			
 ttf-firacode-nerd			
 ttf-inconsolata			

@@ -6,7 +6,6 @@ atbswp
 autotiling	
 brave-bin	
 cava	
-chromedriver	
 code-features	"unblocks some features in Code OSS, for ex. solves the 'extension activation failed' for 'Jupyter' extension. No need for this package if a proprietary Microsoft-branded release of VS Code is installed instead of the Code OSS."
 cli-visualizer	
 diff-pdf	
