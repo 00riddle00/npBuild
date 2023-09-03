@@ -11,6 +11,7 @@ cli-visualizer
 diff-pdf	
 downgrade	
 dropbox	
+github-copilot-cli	
 gotop-bin	
 grabc	
 grub2-theme-archlinux	
@@ -29,7 +30,6 @@ pacnews-git
 pacgraph	
 paru	
 postman-bin	
-rstudio-desktop-bin	
 ruby-clocale	
 ruby-colorls	
 ruby-erubis	
@@ -47,6 +47,8 @@ tmuxinator
 ttf-symbola	
 urlview	
 urxvt-resize-font-git	"adjusts urxvt font size on the fly."
+visual-studio-code-bin	"is a proprietary Microsoft-branded release of VS Code which supports more extensions like GitHub Copilot.'
 weka	
+xscreensaver-arch-logo	
 zoom	
 zsh-fast-syntax-highlighting-git	"provides syntax highlighting in the shell."

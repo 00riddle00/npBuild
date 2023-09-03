@@ -30,7 +30,6 @@ cloc
 cmake			"is a cross-platform open-source make system, is needed to compile YCM vim plugin."
 cmatrix			
 cmus			
-code			
 conky			
 cool-retro-term			
 coreutils	base		
@@ -41,6 +40,7 @@ ctags			"generates an index file of language objects found in source files, is n
 cuda			
 cudnn			
 debugedit	base-devel		
+detox			
 dhcpcd			
 discord			
 doge			
@@ -267,6 +267,7 @@ viu
 vlc			
 w3m			
 wdiff			
+wget			
 which	base-devel		
 whois			
 wmctrl			
@@ -319,7 +320,6 @@ xorg-xvinfo		xorg, xorg-apps
 xorg-xwd		xorg, xorg-apps	
 xorg-xwininfo		xorg, xorg-apps	"allows querying information about windows."
 xorg-xwud		xorg, xorg-apps	
-xscreensaver			
 xz	base		
 yasm			
 yt-dlp			"can download any YouTube video (or playlist or channel) when given the link."
