@@ -6,7 +6,6 @@ atbswp
 autotiling	
 brave-bin	
 cava	
-code-features	"unblocks some features in Code OSS, for ex. solves the 'extension activation failed' for 'Jupyter' extension. No need for this package if a proprietary Microsoft-branded release of VS Code is installed instead of the Code OSS."
 cli-visualizer	
 diff-pdf	
 downgrade	
@@ -20,6 +19,7 @@ htop-vim	"is a graphical and colorful system monitor with vim keybindings."
 jabref-bin	
 jetbrains-toolbox	
 la-capitaine-icon-theme	
+lazydocker	
 light-git	
 ninvaders-git	
 nomacs	
@@ -35,6 +35,7 @@ ruby-colorls
 ruby-erubis	
 ruby-filesize	
 ruby-xdg5	
+rxvt-unicode-pixbuf	
 sc-im	"is an Excel-like terminal spreadsheet manager."
 simple-mtpfs	"enables the mounting of cell phones."
 smartgit	"is a pretty good Git GUI client."

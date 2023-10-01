@@ -43,6 +43,7 @@ debugedit	base-devel
 detox			
 dhcpcd			
 discord			
+dmidecode			
 doge			
 dos2unix			
 dosbox			
@@ -103,7 +104,7 @@ jupyterlab
 jupyter-notebook			
 keepass			"is a password manager, useful to save JetBrains IDEs passwords."
 keepassxc			"is a cross-platform community-driven port of Keepass password manager, provides org.freedesktop.secrets (optional for chromium, git, teams, necessary for code-features)."
-kwallet		kf5	"is a password store which I use for Subversion credentials."
+kwallet5		kf5	"is a password store which I use for Subversion credentials."
 kwallet-pam		plasma	"is a PAM compatible module for KDE Wallet, used to unlock KDE Wallet automatically on login."
 lazygit			
 lftp			
@@ -148,8 +149,6 @@ noto-fonts			"is an expansive font package."
 noto-fonts-emoji			"is an emoji font."
 ntfs-3g			"allows accessing NTFS partitions."
 ntp			
-nvidia			
-nvidia-settings			
 obs-studio			
 octave			
 offlineimap			
@@ -203,7 +202,6 @@ ruby
 ruby-english			
 ruby-irb			
 ruby-unicode-display_width			
-rxvt-unicode			
 rxvt-unicode-terminfo			
 scrot			
 sed	base, base-devel		
