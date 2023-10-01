@@ -59,7 +59,7 @@ fd			"...also needed by Doom Emacs..."
 feh			"is an image viewer, useful to set a wallpaper."
 figlet			
 file	base, base-devel		
-file-roller		gnome	"is a backend used by thunar-archive-plugin to create and modify archives."
+file-roller		gnome-extra	"is a backend used by thunar-archive-plugin to create and modify archives."
 filesystem	base		
 filezilla			
 findutils	base, base-devel		
@@ -156,7 +156,7 @@ openbox		lxde, lxde-gtk3, lxqt
 openconnect			
 openssh			
 openssl			
-otf-droid-nerd			
+otf-droid-nerd		nerd-fonts	
 p7zip			
 pacman	base, base-devel		
 patch	base-devel		
@@ -249,11 +249,11 @@ tint2
 tk			
 tmux			
 tree			
-ttf-dejavu-nerd			
-ttf-firacode-nerd			
+ttf-dejavu-nerd		nerd-fonts	
+ttf-firacode-nerd		nerd-fonts	
 ttf-inconsolata			
-ttf-inconsolata-nerd			
-ttf-roboto-mono-nerd			
+ttf-inconsolata-nerd		nerd-fonts	
+ttf-roboto-mono-nerd		nerd-fonts	
 tumbler		xfce4	
 unrar			
 util-linux	base		
