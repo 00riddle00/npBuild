@@ -30,6 +30,7 @@ pacnews-git
 pacgraph	
 paru	
 postman-bin	
+redshift-minimal	"adjusts the color temperature of screen according to surroundings, with minimal dependencies."
 ruby-clocale	
 ruby-colorls	
 ruby-erubis	
