@@ -57,7 +57,7 @@ fakeroot	base-devel
 fbgrab			
 fd			"...also needed by Doom Emacs..."
 feh			"is an image viewer, useful to set a wallpaper."
-figlet			
+figlet			"is a program for making large letters (ascii art) out of ordinary text."
 file	base, base-devel		
 file-roller		gnome-extra	"is a backend used by thunar-archive-plugin to create and modify archives."
 filesystem	base		
