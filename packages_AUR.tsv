@@ -31,13 +31,14 @@ pacnews-git
 pacgraph	
 paru	
 postman-bin	
+ranger_devicons-git	
 redshift-minimal	"adjusts the color temperature of screen according to surroundings, with minimal dependencies."
 ruby-clocale	
 ruby-colorls	
 ruby-erubis	
 ruby-filesize	
 ruby-xdg5	
-rxvt-unicode-pixbuf	
+rxvt-unicode-truecolor-wide-glyphs	
 sc-im	"is an Excel-like terminal spreadsheet manager."
 simple-mtpfs	"enables the mounting of cell phones."
 skippy-xd-git	"is a full-screen task-switcher for X11, similar to Apple's Expose."
@@ -47,10 +48,10 @@ spotify
 sublime-text-4	
 task-spooler	"queues up tasks from the shell for batch execution."
 teams	
+tmux-plugin-manager	
 tmuxinator	
 ttf-symbola	
 urlview	
-urxvt-resize-font-git	"adjusts urxvt font size on the fly."
 visual-studio-code-bin	"is a proprietary Microsoft-branded release of VS Code which supports more extensions like GitHub Copilot."
 weka	
 xscreensaver-arch-logo	

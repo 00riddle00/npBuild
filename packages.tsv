@@ -44,6 +44,7 @@ detox
 dhcpcd			
 discord			
 dmidecode			
+docker			
 doge			
 dos2unix			
 dosbox			
@@ -74,7 +75,9 @@ gcc-libs	base
 gettext	base, base-devel		
 gimp			
 git			
+git-delta			
 git-lfs			
+github-cli			
 glances			
 glibc	base		
 gmrun			
@@ -97,8 +100,9 @@ inkscape
 iproute2	base		
 iputils	base		
 irssi			
-jdk11-openjdk			
-jdk-openjdk			
+jre-openjdk			
+jre11-openjdk			
+jre11-openjdk-headless			
 jp2a			
 jupyterlab			
 jupyter-notebook			
@@ -169,6 +173,7 @@ perl-list-moreutils
 picom			"is for transparency and removing screen-tearing."
 pkgconf	base-devel		
 playerctl			
+prettier			
 procps-ng	base		
 projectm			
 psmisc	base		
@@ -201,7 +206,6 @@ ruby
 ruby-english			
 ruby-irb			
 ruby-unicode-display_width			
-rxvt-unicode-terminfo			
 scrot			
 sed	base, base-devel		
 shadow	base		
@@ -257,7 +261,6 @@ tumbler		xfce4
 unrar			
 util-linux	base		
 unzip			"unzips zips."
-urxvt-perls			
 valgrind			
 vifm			
 viu			
