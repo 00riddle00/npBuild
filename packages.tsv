@@ -30,6 +30,7 @@ cloc
 cmake			"is a cross-platform open-source make system, is needed to compile YCM vim plugin."
 cmatrix			
 cmus			
+colordiff			"provides a colorful diff, useful for e.g. SVN diffs."
 conky			
 cool-retro-term			
 coreutils	base		
@@ -37,8 +38,6 @@ cowfortune
 cowsay			
 cronie			
 ctags			"generates an index file of language objects found in source files, is needed by TagBar, CtrlP vim plugins."
-cuda			
-cudnn			
 debugedit	base-devel		
 detox			
 dhcpcd			
@@ -80,7 +79,6 @@ git-lfs
 github-cli			
 glances			
 glibc	base		
-gmrun			
 gnuplot			
 graphviz			
 grep	base, base-devel		
@@ -91,25 +89,27 @@ gvfs		gnome	"provides trash support, mounting with udisks and remote filesystems
 gvim			
 gzip	base, base-devel		
 hicolor-icon-theme			
+highlight			"CLI source code highlighter, needed for colorful ranger file preview."
 hwloc			
+i3-wm		i3	
 i3blocks		i3	
 i3lock		i3	
-i3-wm		i3	
 inetutils			
 inkscape			
 iproute2	base		
 iputils	base		
 irssi			
+jp2a			
 jre-openjdk			
 jre11-openjdk			
 jre11-openjdk-headless			
-jp2a			
-jupyterlab			
 jupyter-notebook			
+jupyterlab			
 keepass			"is a password manager, useful to save JetBrains IDEs passwords."
 keepassxc			"is a cross-platform community-driven port of Keepass password manager, provides org.freedesktop.secrets (optional for chromium, git, teams, necessary for code-features)."
-kwallet5		kf5	"is a password store which I use for Subversion credentials."
+keybase			"is a CLI tool for GPG with keybase.io "
 kwallet-pam		plasma	"is a PAM compatible module for KDE Wallet, used to unlock KDE Wallet automatically on login."
+kwallet5		kf5	"is a password store which I use for Subversion credentials."
 lazygit			
 lftp			
 lib32-nvidia-utils			"are 32-bit NVIDIA drivers utilities needed to run some games on Steam."
@@ -146,6 +146,7 @@ mypaint
 ncmpcpp			"is an mpd client with a ncurses UI for music with multiple formats and a powerful tag editor."
 neofetch			
 neomutt			
+neovim			
 newsboat			"is a terminal RSS client."
 nmap			
 notmuch-vim			
@@ -163,6 +164,7 @@ openssl
 otf-droid-nerd		nerd-fonts	
 p7zip			
 pacman	base, base-devel		
+parallel			"lets you build and execute shell command lines from STDIN in parallel."
 patch	base-devel		
 pavucontrol			
 pciutils	base		
@@ -185,6 +187,7 @@ python-fsspec
 python-lxml			
 python-matplotlib			
 python-pip			
+python-pynvim			"is a Python client for Neovim."
 python-pytorch-cuda			
 python-pyxdg			
 python-tensorflow-opt-cuda			
@@ -259,8 +262,8 @@ ttf-inconsolata-nerd		nerd-fonts
 ttf-roboto-mono-nerd		nerd-fonts	
 tumbler		xfce4	
 unrar			
-util-linux	base		
 unzip			"unzips zips."
+util-linux	base		
 valgrind			
 vifm			
 viu			
@@ -277,8 +280,8 @@ xclip
 xfce4-settings		xfce4	"manages Xfce desktop settings, needed for Thunar 'Open Terminal Here' custom action (which uses exo-open)."
 xorg-bdftopcf		xorg, xorg-apps	
 xorg-docs		xorg	
-xorg-fonts-encodings		xorg, xorg-fonts	
 xorg-font-util		xorg, xorg-fonts	
+xorg-fonts-encodings		xorg, xorg-fonts	
 xorg-iceauth		xorg, xorg-apps	
 xorg-mkfontscale		xorg, xorg-apps	
 xorg-server		xorg	"is the graphical server."

@@ -1,4 +1,5 @@
 NAME IN AUR REPO	PURPOSE (should be a verb phrase to sound right while installing)
+autojump	
 alacritty-themes	
 archlinux-java-run	
 arch-wiki-man	
@@ -12,11 +13,13 @@ downgrade
 dropbox	
 github-copilot-cli	
 github-desktop	
+google-chrome	
 gotop-bin	
 grabc	
 grub2-theme-archlinux	
 hardinfo	
 htop-vim	"is a graphical and colorful system monitor with vim keybindings."
+insomnium-bin	
 jabref-bin	
 jetbrains-toolbox	
 la-capitaine-icon-theme	
@@ -42,6 +45,7 @@ rxvt-unicode-truecolor-wide-glyphs
 sc-im	"is an Excel-like terminal spreadsheet manager."
 simple-mtpfs	"enables the mounting of cell phones."
 skippy-xd-git	"is a full-screen task-switcher for X11, similar to Apple's Expose."
+slack-desktop	
 smartgit	"is a pretty good Git GUI client."
 smartsvn	"is a pretty good Subversion GUI client."
 spotify	
