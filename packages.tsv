@@ -187,9 +187,7 @@ python-lxml
 python-matplotlib			
 python-pip			
 python-pynvim			"is a Python client for Neovim."
-python-pytorch-cuda			
 python-pyxdg			
-python-tensorflow-opt-cuda			
 python-wxpython			
 qalculate-gtk			
 qbittorrent			
