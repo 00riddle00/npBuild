@@ -551,8 +551,8 @@ END
     # Copy this file (shell script) to the newly created user's home dir on the new system and
     # assign it to the `wheel` group (the members of which have sudo access)
     #
-    cp "$0" "/mnt/home/$username/npBuild.sh"
-    chgrp wheel "/mnt/home/$username/npBuild.sh"
+    cp "$0" "/mnt/home/$username/npBuild"
+    chgrp wheel "/mnt/home/$username/npBuild"
 
     # [Installing more packages]
     #
@@ -561,7 +561,7 @@ END
     # be called. This function installs packages (both from the official repos and from AUR).
     #
     arch-chroot /mnt /bin/bash <<END
-        "sh npBuild.sh -f install_pkgs -u $username"
+        "sh npBuild -f install_pkgs -u $username"
 END
 
     # [Getting and applying dotfiles]
@@ -570,7 +570,7 @@ END
 
     arch-chroot /mnt /bin/bash <<END
         runuser --pty -s /bin/bash -l "$username" -c "
-            sh npBuild.sh -f apply_dotfiles -u $username
+            sh npBuild -f apply_dotfiles -u $username
         "
 END
 
@@ -581,7 +581,7 @@ END
     # -------------------------------------------
     
     # Remove the copy of this file from the new system
-    rm "/mnt/home/$username/npBuild.sh"
+    rm "/mnt/home/$username/npBuild"
 
     umount -R /mnt
     eject -m
