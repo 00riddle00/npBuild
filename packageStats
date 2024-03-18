@@ -1,0 +1,153 @@
+#!/usr/bin/env bash
+# vim:ft=bash:tw=79
+COLOR_BLUE=4
+
+bold="$(tput bold)"
+blue="$(tput setaf $COLOR_BLUE)"
+normal="$(tput sgr0)"
+
+a_minus_b() { grep -Fvx -f "${2}" "${1}" | sort ; }
+
+a_and_b() { comm -12 <( sort "${1}" ) <( sort "${2}" ) ; }
+
+all_pkgs() { pacman -Qq | sort ; }
+
+base_remote_pkgs() { expac -S %E base | xargs -n1 | sort ; }
+
+base_pkgs() { a_and_b <(all_pkgs) <(base_remote_pkgs) ; }
+
+base_devel_remote_pkgs() { expac -S %E base-devel | xargs -n1 | sort ; }
+
+base_devel_pkgs() { a_and_b <(all_pkgs) <(base_devel_remote_pkgs) ; }
+
+aur_pkgs() { pacman -Qmq | sort ; }
+
+explicit_pkgs() { pacman -Qeq ; }
+
+official_pkgs() {
+    a_minus_b \
+        <(cat <(explicit_pkgs) <(base_pkgs) <(base_devel_pkgs)) \
+        <(aur_pkgs)
+}
+
+# Some packages may be shown as installed explicitly, but are actually
+# installed as dependencies of other packages. Some of them - as dependencies
+# of some package listed in npBuild. In this case, we should check that and
+# possibly mark them as dependencies instead of explicitly installed packages.
+mark_explicit_as_dependency() {
+    explicit_pkgs="${1}"
+
+    explicit_deps="$( \
+        echo "${explicit_pkgs}" \
+        | xargs -I{} sh -c '
+            pacman -Qi {} \
+            | grep "Required By" \
+            | awk -v pkg={} -F: '\''$2 !~ /(\s)*None(\s)*/ {print pkg}'\'' \
+         '
+     )"
+
+    [ -z "${explicit_deps}" ] && return
+
+    total="$(echo "${explicit_deps}" | wc -l)"
+    echo
+    echo " ^---- ${total} of them can be marked as dependencies:"
+
+    i=1
+    for pkg in ${explicit_deps}; do
+        required_by="$(pacman -Qi ${pkg} | grep "Required By" | awk -F: '{print $2}')"
+
+        echo
+        echo "($((i++))/${total}) ${bold}${pkg}${normal} is required by: \
+            $(echo ${required_by} | sed 's/^/ /' | sed 's/ /\n /g')";
+
+        # Ask if each package should be marked as a dependency.
+         while true; do
+             echo
+             prompt=("${bold}${blue}::${normal} Change ${bold}${pkg}${normal} "
+                 "install type from explicit to dependency? ${bold}[Y/n]:${normal} ")
+              prompt="$(printf "%s" "${prompt[@]}")"
+
+             read -p "${prompt}" yn
+             case "${yn}" in
+                 [Yy]* ) sudo pacman -D --asdeps "${pkg}"; break;;
+                 [Nn]* ) break;;
+                 * ) echo "Please answer yes or no.";;
+             esac
+         done
+    done
+}
+
+npbuild_aur_packages_not_installed() {
+    msg=("${bold}${blue}::${normal} "
+        "${bold}npBuild's AUR packages which are not installed:${normal}")
+    printf "%s" "${msg[@]}"; printf "\n"
+
+    a_minus_b \
+        <(awk -F$'\t' '{print $1}' <(tail +3 pkgs-from-aur.ttsv)) \
+        <(aur_pkgs)
+}
+
+npbuild_official_pkgs_not_installed() {
+    msg=("${bold}${blue}::${normal} "
+        "${bold}npBuild's official pkgs which are not installed:${normal}")
+    printf "%s" "${msg[@]}"; printf "\n"
+
+    a_minus_b \
+        <(awk -F$'\t' '{print $1}' \
+            <(tail +3 pkgs-from-official.ttsv) \
+            <(test -f "pkgs-host-${HOSTNAME}.ttsv" && 
+              tail +3 "pkgs-host-${HOSTNAME}.ttsv"
+            )
+        ) \
+            <(official_pkgs) \
+    | while read pkg; do
+        # Show only if package is really not installed (since it could have
+        # been installed as a dependency).
+        if ! (pacman -Qq | grep -q "${pkg}"); then
+            echo "${pkg}"
+        fi
+    done \
+    | sed 's/^/ /'
+}
+
+installed_aur_pkgs_not_in_npbuild() {
+    msg=("${bold}${blue}::${normal} "
+        "${bold}Installed AUR packages which are not in npBuild:${normal}")
+    printf "%s" "${msg[@]}"; printf "\n"
+
+    a_minus_b \
+        <(aur_pkgs) \
+        <(awk -F$'\t' '{print $1}' <(tail +3 pkgs-from-aur.ttsv)) \
+    | sed 's/^/ /'
+}
+
+installed_official_pkgs_not_in_npbuild() {
+    msg=("${bold}${blue}::${normal} "
+        "${bold}Installed official pkgs which aren't in npBuild:${normal}")
+    printf "%s" "${msg[@]}"; printf "\n"
+
+    pkgs=$(
+        a_minus_b \
+            <(official_pkgs) \
+            <(awk -F$'\t' '{print $1}' \
+                <(tail +3 pkgs-from-official.ttsv) \
+                <(test -f "pkgs-host-${HOSTNAME}.ttsv" &&
+                  tail +3 "pkgs-host-${HOSTNAME}.ttsv"
+                )
+             )
+    )
+    echo "${pkgs}" \
+    | tr ' ' '\n' \
+    | sed 's/^/ /'
+
+    mark_explicit_as_dependency "${pkgs}"
+}
+
+main() {
+    npbuild_aur_packages_not_installed
+    npbuild_official_pkgs_not_installed
+    installed_aur_pkgs_not_in_npbuild
+    installed_official_pkgs_not_in_npbuild
+}
+
+main
