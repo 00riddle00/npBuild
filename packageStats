@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # vim:ft=bash:tw=79
 COLOR_BLUE=4
+PKG_TSV_DIR="package-lists"
 
 bold="$(tput bold)"
 blue="$(tput setaf $COLOR_BLUE)"
@@ -144,6 +145,7 @@ installed_official_pkgs_not_in_npbuild() {
 }
 
 main() {
+    cd "${PKG_TSV_DIR}" || exit 1
     npbuild_aur_packages_not_installed
     npbuild_official_pkgs_not_installed
     installed_aur_pkgs_not_in_npbuild
