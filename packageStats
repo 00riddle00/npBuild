@@ -83,7 +83,7 @@ npbuild_aur_packages_not_installed() {
     printf "%s" "${msg[@]}"; printf "\n"
 
     a_minus_b \
-        <(awk -F$'\t' '{print $1}' <(tail +3 pkgs-from-aur.ttsv)) \
+        <(awk -F$'\t' '{print $1}' <(tail +2 pkgs-from-aur.tsv)) \
         <(aur_pkgs)
 }
 
@@ -94,9 +94,9 @@ npbuild_official_pkgs_not_installed() {
 
     a_minus_b \
         <(awk -F$'\t' '{print $1}' \
-            <(tail +3 pkgs-from-official.ttsv) \
-            <(test -f "pkgs-host-${HOSTNAME}.ttsv" && 
-              tail +3 "pkgs-host-${HOSTNAME}.ttsv"
+            <(tail +2 pkgs-from-official.tsv) \
+            <(test -f "pkgs-host-${HOSTNAME}.tsv" && 
+              tail +2 "pkgs-host-${HOSTNAME}.tsv"
             )
         ) \
             <(official_pkgs) \
@@ -117,7 +117,7 @@ installed_aur_pkgs_not_in_npbuild() {
 
     a_minus_b \
         <(aur_pkgs) \
-        <(awk -F$'\t' '{print $1}' <(tail +3 pkgs-from-aur.ttsv)) \
+        <(awk -F$'\t' '{print $1}' <(tail +2 pkgs-from-aur.tsv)) \
     | sed 's/^/ /'
 }
 
@@ -130,9 +130,9 @@ installed_official_pkgs_not_in_npbuild() {
         a_minus_b \
             <(official_pkgs) \
             <(awk -F$'\t' '{print $1}' \
-                <(tail +3 pkgs-from-official.ttsv) \
-                <(test -f "pkgs-host-${HOSTNAME}.ttsv" &&
-                  tail +3 "pkgs-host-${HOSTNAME}.ttsv"
+                <(tail +2 pkgs-from-official.tsv) \
+                <(test -f "pkgs-host-${HOSTNAME}.tsv" &&
+                  tail +2 "pkgs-host-${HOSTNAME}.tsv"
                 )
              )
     )
