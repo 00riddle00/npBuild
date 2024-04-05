@@ -6,7 +6,7 @@ adobe-source-code-pro-fonts
 adwaita-icon-theme			
 alacritty			
 alsa-utils			"provides amixer and other ALSA utilities."
-archey3			"outputs a logo and various system information, need it for the matrix look."
+archey4			"outputs a logo and various system information, need it for the matrix look."
 archlinux-keyring	base, base-devel		
 ascii			
 asciiquarium			
@@ -210,6 +210,8 @@ ruby-unicode-display_width
 scrot			
 sed	base, base-devel		
 shadow	base		
+shellcheck			
+shfmt			
 steam			
 strace			
 subversion			
@@ -240,6 +242,7 @@ texlive-langspanish		texlive-lang
 texlive-latex		texlive	
 texlive-latexextra		texlive	
 texlive-latexrecommended		texlive	
+texlive-mathscience		texlive	
 texlive-pictures		texlive	
 texlive-xetex		texlive	
 the_silver_searcher			

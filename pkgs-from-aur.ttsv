@@ -4,6 +4,7 @@ autojump
 alacritty-themes	
 archlinux-java-run	
 arch-wiki-man	
+archey4	"outputs a logo and various system information, need it for the matrix look."
 atbswp	
 autotiling	
 brave-bin	
@@ -34,6 +35,7 @@ pacnews-git
 pacgraph	
 paru	
 postman-bin	
+python-xlsx2csv	"is a Python script that converts XLSX files to CSV format."
 ranger_devicons-git	
 redshift-minimal	"adjusts the color temperature of screen according to surroundings, with minimal dependencies."
 ruby-clocale	
