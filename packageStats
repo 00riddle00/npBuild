@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 # vim:ft=bash:tw=79
+#==============================================================================
+# Author: 00riddle00 (Tomas Giedraitis)
+# Date:   2024-04-06 01:21:03 EEST
+# Path:   ./packageStats
+# URL:    https://github.com:00riddle00/npBuild
+#==============================================================================
+
 COLOR_BLUE=4
 PKG_TSV_DIR="package-lists"
 
