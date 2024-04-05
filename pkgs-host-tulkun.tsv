@@ -4,5 +4,5 @@ cuda
 cudnn			
 nvidia			
 nvidia-settings			
-python-pytorch-cuda		
-python-tensorflow-opt-cuda		
+python-pytorch-cuda			
+python-tensorflow-opt-cuda			
