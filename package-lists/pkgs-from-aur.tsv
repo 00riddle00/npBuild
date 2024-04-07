@@ -1,6 +1,5 @@
 NAME IN AUR REPO	PURPOSE (should be a verb phrase to sound right while installing)
 autojump	
-alacritty-themes	
 archlinux-java-run	
 arch-wiki-man	
 archey4	"outputs a logo and various system information, need it for the matrix look."
@@ -12,24 +11,26 @@ cli-visualizer
 diff-pdf	
 downgrade	
 dropbox	
+gimp-git	
+gimp-git-debug	
 github-copilot-cli	
 google-chrome	
 gotop-bin	
 grabc	
 grub2-theme-archlinux	
-hardinfo	
+hardinfo2	
 htop-vim	"is a graphical and colorful system monitor with vim keybindings."
 insomnium-bin	
 jabref-bin	
 jetbrains-toolbox	
 la-capitaine-icon-theme	
 lazydocker	
+libart-lgpl	"is a 2D graphics library required by gimp-git."
 light-git	
 ninvaders-git	
 nomacs	
 nsnake	
 numix-cursor-theme	
-numix-themes-archblue	
 pacnews-git	
 pacgraph	
 paru	
@@ -50,7 +51,6 @@ slack-desktop
 smartgit	"is a pretty good Git GUI client."
 smartsvn	"is a pretty good Subversion GUI client."
 spotify	
-sublime-text-4	
 task-spooler	"queues up tasks from the shell for batch execution."
 teams	
 tmux-plugin-manager	

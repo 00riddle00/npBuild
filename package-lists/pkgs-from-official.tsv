@@ -3,7 +3,6 @@ ack
 acpi			
 adobe-source-code-pro-fonts			
 adwaita-icon-theme			
-alacritty			
 alsa-utils			"provides amixer and other ALSA utilities."
 archey4			"outputs a logo and various system information, need it for the matrix look."
 archlinux-keyring	base, base-devel		
@@ -20,7 +19,6 @@ biber
 bind			"is a versatile name server software which provides dig, host, and other utilities."
 binutils	base-devel		
 bison	base-devel		
-broot			
 bzip2	base		
 calcurse			
 calibre			
@@ -60,7 +58,6 @@ figlet			"is a program for making large letters (ascii art) out of ordinary text
 file	base, base-devel		
 file-roller		gnome-extra	"is a backend used by thunar-archive-plugin to create and modify archives."
 filesystem	base		
-filezilla			
 findutils	base, base-devel		
 firefox			
 flameshot			
@@ -83,9 +80,7 @@ graphviz
 grep	base, base-devel		
 groff	base-devel		
 grub			
-gtk2			
 gvfs		gnome	"provides trash support, mounting with udisks and remote filesystems for Thunar."
-gvim			
 gzip	base, base-devel		
 hicolor-icon-theme			
 highlight			"CLI source code highlighter, needed for colorful ranger file preview."
@@ -123,7 +118,8 @@ lostfiles
 lshw			
 lsof			
 lvm2			
-lxappearance-obconf		lxde	
+lxappearance-gtk3		lxde-gtk3	
+lxappearance-obconf-gtk3		lxde-gtk3	
 lynx			"is a terminal browser."
 m4	base-devel		
 make	base-devel		
@@ -223,7 +219,6 @@ systemd-sysvcompat	base
 tar	base		
 tealdeer			
 termdown			"is a timer and a stopwatch in a terminal."
-terminator			
 tesseract			
 texinfo	base-devel		"is used for accessing documentation in info pages."
 texlive-basic		texlive	
@@ -265,6 +260,7 @@ unzip			"unzips zips."
 util-linux	base		
 valgrind			
 vifm			
+vim			
 viu			
 vlc			
 w3m			
