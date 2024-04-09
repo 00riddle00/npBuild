@@ -236,6 +236,7 @@ texlive-latex		texlive
 texlive-latexextra		texlive	
 texlive-latexrecommended		texlive	
 texlive-mathscience		texlive	
+texlive-plaingeneric		texlive	
 texlive-pictures		texlive	
 texlive-xetex		texlive	
 the_silver_searcher			
