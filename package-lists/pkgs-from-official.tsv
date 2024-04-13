@@ -84,6 +84,7 @@ gvfs		gnome	"provides trash support, mounting with udisks and remote filesystems
 gzip	base, base-devel		
 hicolor-icon-theme			
 highlight			"CLI source code highlighter, needed for colorful ranger file preview."
+hsetroot			"is like xsetroot, but the background is preserved no matter how many times picom is restarted."
 hwloc			
 i3-wm		i3	
 i3blocks		i3	
@@ -315,7 +316,6 @@ xorg-xrandr		xorg, xorg-apps	"allows to customize monitor arrangements."
 xorg-xrdb		xorg, xorg-apps	
 xorg-xrefresh		xorg, xorg-apps	
 xorg-xset		xorg, xorg-apps	
-xorg-xsetroot		xorg, xorg-apps	
 xorg-xvinfo		xorg, xorg-apps	
 xorg-xwd		xorg, xorg-apps	
 xorg-xwininfo		xorg, xorg-apps	"allows querying information about windows."
