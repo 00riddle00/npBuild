@@ -178,6 +178,7 @@ pulseaudio-alsa
 python			
 python-configobj			
 python-fsspec			
+python-ipdb			
 python-lxml			
 python-matplotlib			
 python-pip			
