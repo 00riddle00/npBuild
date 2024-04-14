@@ -34,6 +34,8 @@ numix-cursor-theme
 pacnews-git	
 pacgraph	
 paru	
+perl-cpan-distnameinfo	"is needed by cpan-outdated."
+perl-cpan-outdated	"detects outdated CPAN modules in your environment."
 postman-bin	
 python-fancycompleter	"is needed by python-pdbpp."
 python-pdbpp	
