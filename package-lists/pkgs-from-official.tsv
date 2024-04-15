@@ -157,7 +157,6 @@ openbox		lxde, lxde-gtk3, lxqt
 openconnect			
 openssh			
 openssl			
-otf-droid-nerd		nerd-fonts	
 p7zip			
 pacman	base, base-devel		
 parallel			"lets you build and execute shell command lines from STDIN in parallel."
@@ -253,11 +252,10 @@ tint2
 tk			
 tmux			
 tree			
+ttf-dejavu			
 ttf-dejavu-nerd		nerd-fonts	
-ttf-firacode-nerd		nerd-fonts	
-ttf-inconsolata			
-ttf-inconsolata-nerd		nerd-fonts	
-ttf-roboto-mono-nerd		nerd-fonts	
+ttf-jetbrains-mono			
+ttf-jetbrains-mono-nerd		nerd-fonts	
 tumbler		xfce4	
 unrar			
 unzip			"unzips zips."

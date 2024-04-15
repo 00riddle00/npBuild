@@ -27,6 +27,7 @@ libart-lgpl	"is a 2D graphics library required by gimp-git."
 light-git	
 ninvaders-git	
 nomacs	
+noto-color-emoji-fontconfig	
 nsnake	
 numix-cursor-theme	
 pacnews-git	
@@ -57,7 +58,6 @@ task-spooler	"queues up tasks from the shell for batch execution."
 teams	
 tmux-plugin-manager	
 tmuxinator	
-ttf-symbola	
 urlview	
 visual-studio-code-bin	"is a proprietary Microsoft-branded release of VS Code which supports more extensions like GitHub Copilot."
 weka	
