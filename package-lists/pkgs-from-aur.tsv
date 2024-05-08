@@ -41,10 +41,8 @@ python-pdbpp
 python-xlsx2csv	"is a Python script that converts XLSX files to CSV format."
 ranger_devicons-git	
 redshift-minimal	"adjusts the color temperature of screen according to surroundings, with minimal dependencies."
-ruby-clocale	
 ruby-colorls	
 ruby-erubis	
-ruby-filesize	
 ruby-xdg5	
 rxvt-unicode-truecolor-wide-glyphs	
 sc-im	"is an Excel-like terminal spreadsheet manager."
