@@ -39,6 +39,7 @@ ctags			"generates an index file of language objects found in source files, is n
 debugedit	base-devel		
 detox			
 dhcpcd			
+diffpdf			
 discord			
 dmidecode			
 docker			
@@ -102,7 +103,6 @@ jupyter-notebook
 jupyterlab			
 keepass			"is a password manager, useful to save JetBrains IDEs passwords."
 keepassxc			"is a cross-platform community-driven port of Keepass password manager, provides org.freedesktop.secrets (optional for chromium, git, teams, necessary for code-features)."
-keybase			"is a CLI tool for GPG with keybase.io "
 kwallet-pam		plasma	"is a PAM compatible module for KDE Wallet, used to unlock KDE Wallet automatically on login."
 kwallet5		kf5	"is a password store which I use for Subversion credentials."
 lazygit			
@@ -119,6 +119,7 @@ lolcat
 lostfiles			
 lshw			
 lsof			
+lua-language-server			
 lvm2			
 lxappearance-gtk3		lxde-gtk3	
 lxappearance-obconf-gtk3		lxde-gtk3	
@@ -226,6 +227,7 @@ texinfo	base-devel		"is used for accessing documentation in info pages."
 texlive-basic		texlive	
 texlive-bibtexextra		texlive	
 texlive-bin			
+texlive-binextra			
 texlive-fontsextra		texlive	
 texlive-fontsrecommended		texlive	
 texlive-langcyrillic		texlive-lang	
@@ -238,8 +240,8 @@ texlive-latex		texlive
 texlive-latexextra		texlive	
 texlive-latexrecommended		texlive	
 texlive-mathscience		texlive	
-texlive-plaingeneric		texlive	
 texlive-pictures		texlive	
+texlive-plaingeneric		texlive	
 texlive-xetex		texlive	
 the_silver_searcher			
 thunar		xfce4	
@@ -252,6 +254,7 @@ tint2
 tk			
 tmux			
 tree			
+tree-sitter-cli			
 ttf-dejavu			
 ttf-dejavu-nerd		nerd-fonts	
 ttf-jetbrains-mono			
@@ -320,6 +323,7 @@ xorg-xwd		xorg, xorg-apps
 xorg-xwininfo		xorg, xorg-apps	"allows querying information about windows."
 xorg-xwud		xorg, xorg-apps	
 xz	base		
+yapf			
 yasm			
 yt-dlp			"can download any YouTube video (or playlist or channel) when given the link."
 zathura			"is a pdf viewer with vim-like bindings."

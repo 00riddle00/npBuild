@@ -1,14 +1,13 @@
 NAME IN AUR REPO	PURPOSE (should be a verb phrase to sound right while installing)
-autojump	
-archlinux-java-run	
 arch-wiki-man	
 archey4	"outputs a logo and various system information, need it for the matrix look."
+archlinux-java-run	
 atbswp	
+autojump	
 autotiling	
 brave-bin	
 cava	
 cli-visualizer	
-diff-pdf	
 downgrade	
 dropbox	
 gimp-git	
@@ -21,6 +20,7 @@ htop-vim	"is a graphical and colorful system monitor with vim keybindings."
 insomnium-bin	
 jabref-bin	
 jetbrains-toolbox	
+keybase-bin	"is a CLI tool for GPG with keybase.io "
 la-capitaine-icon-theme	
 lazydocker-bin	
 libart-lgpl	"is a 2D graphics library required by gimp-git."
@@ -30,8 +30,9 @@ nomacs
 noto-color-emoji-fontconfig	
 nsnake	
 numix-cursor-theme	
-pacnews-git	
+nvim-packer-git	
 pacgraph	
+pacnews-git	
 paru	
 perl-cpan-distnameinfo	"is needed by cpan-outdated."
 perl-cpan-outdated	"detects outdated CPAN modules in your environment."
@@ -52,6 +53,7 @@ slack-desktop
 smartgit	"is a pretty good Git GUI client."
 smartsvn	"is a pretty good Subversion GUI client."
 spotify	
+sql-formatter	
 task-spooler	"queues up tasks from the shell for batch execution."
 teams	
 tmux-plugin-manager	
