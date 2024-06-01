@@ -36,6 +36,7 @@ cowsay
 cpanminus			"extends Perl module management from CPAN and aims to be zero configuration and integrates with local::db."
 cronie			
 ctags			"generates an index file of language objects found in source files, is needed by TagBar, CtrlP vim plugins."
+cups			
 debugedit	base-devel		
 detox			
 dhcpcd			
@@ -86,6 +87,7 @@ gvfs		gnome	"provides trash support, mounting with udisks and remote filesystems
 gzip	base, base-devel		
 hicolor-icon-theme			
 highlight			"CLI source code highlighter, needed for colorful ranger file preview."
+hplip			
 hsetroot			"is like xsetroot, but the background is preserved no matter how many times picom is restarted."
 hwloc			
 i3-wm		i3	
@@ -101,6 +103,7 @@ jre-openjdk
 jre11-openjdk			
 jupyter-notebook			
 jupyterlab			
+kdeconnect			
 keepass			"is a password manager, useful to save JetBrains IDEs passwords."
 keepassxc			"is a cross-platform community-driven port of Keepass password manager, provides org.freedesktop.secrets (optional for chromium, git, teams, necessary for code-features)."
 kwallet-pam		plasma	"is a PAM compatible module for KDE Wallet, used to unlock KDE Wallet automatically on login."
@@ -217,6 +220,7 @@ surfraw
 sxiv			"is a minimalist image viewer."
 sysfsutils			
 sysstat			
+system-config-printer			
 systemd	base		
 systemd-sysvcompat	base		
 tar	base		

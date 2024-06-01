@@ -10,7 +10,6 @@ cava
 cli-visualizer	
 downgrade	
 dropbox	
-gimp-git	
 github-copilot-cli	
 google-chrome	
 gotop-bin	
@@ -23,7 +22,6 @@ jetbrains-toolbox
 keybase-bin	"is a CLI tool for GPG with keybase.io "
 la-capitaine-icon-theme	
 lazydocker-bin	
-libart-lgpl	"is a 2D graphics library required by gimp-git."
 light-git	
 ninvaders-git	
 nomacs	
