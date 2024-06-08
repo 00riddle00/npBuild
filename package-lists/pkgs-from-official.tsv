@@ -181,12 +181,15 @@ psmisc	base
 pulseaudio			
 pulseaudio-alsa			
 python			
+python-black			
 python-configobj			
 python-fsspec			
 python-ipdb			
+python-isort			
 python-lxml			
 python-matplotlib			
 python-pip			
+python-pydocstyle			
 python-pynvim			"is a Python client for Neovim."
 python-pyxdg			
 python-wxpython			
@@ -212,6 +215,7 @@ sed	base, base-devel
 shadow	base		
 shellcheck			
 shfmt			
+sqlitebrowser			
 steam			
 strace			
 subversion			

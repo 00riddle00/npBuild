@@ -43,6 +43,7 @@ redshift-minimal	"adjusts the color temperature of screen according to surroundi
 ruby-colorls	
 ruby-erubis	
 ruby-xdg5	
+rustdesk-bin	"provides remote desktop access."
 rxvt-unicode-truecolor-wide-glyphs	
 sc-im	"is an Excel-like terminal spreadsheet manager."
 simple-mtpfs	"enables the mounting of cell phones."
