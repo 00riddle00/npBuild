@@ -19,6 +19,8 @@ biber
 bind			"is a versatile name server software which provides dig, host, and other utilities."
 binutils	base-devel		
 bison	base-devel		
+bluez			
+bluez-utils			
 bzip2	base		
 calcurse			
 calibre			
@@ -174,12 +176,14 @@ perl-list-moreutils
 picom			"is for transparency and removing screen-tearing."
 pkgconf	base-devel		
 playerctl			
+polkit-kde-agent			"needed for RustDesk."
 prettier			
 procps-ng	base		
 projectm			
 psmisc	base		
 pulseaudio			
 pulseaudio-alsa			
+pulseaudio-bluetooth			
 python			
 python-black			
 python-configobj			
