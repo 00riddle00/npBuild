@@ -51,7 +51,6 @@ skippy-xd-git	"is a full-screen task-switcher for X11, similar to Apple's Expose
 slack-desktop	
 smartgit	"is a pretty good Git GUI client."
 smartsvn	"is a pretty good Subversion GUI client."
-spotify	
 sql-formatter	
 task-spooler	"queues up tasks from the shell for batch execution."
 teams	
@@ -63,3 +62,4 @@ weka
 xscreensaver-arch-logo	
 zoom	
 zsh-fast-syntax-highlighting-git	"provides syntax highlighting in the shell."
+youtube-music-bin	
