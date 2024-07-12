@@ -29,6 +29,7 @@ noto-color-emoji-fontconfig
 nsnake	
 numix-cursor-theme	
 nvim-packer-git	
+obs-pipewire-audio-capture-bin	
 pacgraph	
 pacnews-git	
 paru	
@@ -59,5 +60,5 @@ urlview
 visual-studio-code-bin	"is a proprietary Microsoft-branded release of VS Code which supports more extensions like GitHub Copilot."
 weka	
 xscreensaver-arch-logo	
-zsh-fast-syntax-highlighting-git	"provides syntax highlighting in the shell."
 youtube-music-bin	
+zsh-fast-syntax-highlighting-git	"provides syntax highlighting in the shell."
