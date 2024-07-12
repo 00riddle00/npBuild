@@ -175,6 +175,7 @@ perl-data-compare
 perl-lingua-translit			
 perl-list-moreutils			
 picom			"is for transparency and removing screen-tearing."
+pipewire			
 pipewire-alsa			
 pipewire-jack			
 pipewire-pulse			
