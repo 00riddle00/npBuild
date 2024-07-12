@@ -286,6 +286,7 @@ wdiff
 wget			
 which	base-devel		
 whois			
+wireplumber			"is a session / policy manager for PipeWire"
 wmctrl			
 wpa_supplicant			
 xaos			
