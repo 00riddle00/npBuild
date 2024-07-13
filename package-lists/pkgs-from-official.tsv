@@ -155,6 +155,7 @@ nmap
 notmuch-vim			
 noto-fonts			"is an expansive font package."
 noto-fonts-emoji			"is an emoji font."
+nsxiv			"is a minimalist image viewer."
 ntfs-3g			"allows accessing NTFS partitions."
 ntp			
 obs-studio			
@@ -177,6 +178,7 @@ perl-list-moreutils
 picom			"is for transparency and removing screen-tearing."
 pipewire			
 pipewire-alsa			
+pipewire-audio			
 pipewire-jack			
 pipewire-pulse			
 pkgconf	base-devel		
@@ -227,7 +229,6 @@ strace
 subversion			
 sudo	base-devel		
 surfraw			
-sxiv			"is a minimalist image viewer."
 sysfsutils			
 sysstat			
 system-config-printer			
