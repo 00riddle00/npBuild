@@ -111,7 +111,6 @@ keepass			"is a password manager, useful to save JetBrains IDEs passwords."
 keepassxc			"is a cross-platform community-driven port of Keepass password manager, provides org.freedesktop.secrets (optional for chromium, git, teams, necessary for code-features)."
 kwallet-pam		plasma	"is a PAM compatible module for KDE Wallet, used to unlock KDE Wallet automatically on login."
 kwallet5		kf5	"is a password store which I use for Subversion credentials."
-lazygit			
 lftp			
 lib32-nvidia-utils			"are 32-bit NVIDIA drivers utilities needed to run some games on Steam."
 libreoffice-fresh			
@@ -142,11 +141,10 @@ mesa-utils			"provides glxinfo among other essential Mesa utilities."
 mlocate			
 moreutils			"is a collection of useful unix tools."
 mpc			"is a command line user interface for mpd."
-mpd			"is a lightweight server-client arch. music player daemon, which I mainly need for ncmpcpp."
+mpd			"is a lightweight server-client arch. music player daemon."
 mpv			"is the patrician's choice video player."
 msmtp-mta			
 mypaint			
-ncmpcpp			"is an mpd client with a ncurses UI for music with multiple formats and a powerful tag editor."
 neofetch			
 neomutt			
 neovim			
