@@ -40,8 +40,10 @@ python-pdbpp
 python-xlsx2csv	"is a Python script that converts XLSX files to CSV format."
 ranger_devicons-git	
 redshift-minimal	"adjusts the color temperature of screen according to surroundings, with minimal dependencies."
+ruby-clocale	"is needed for colorls."
 ruby-colorls	
 ruby-erubis	
+ruby-filesize	"is needed for colorls."
 ruby-xdg5	
 rustdesk-bin	"provides remote desktop access."
 rxvt-unicode-truecolor-wide-glyphs	

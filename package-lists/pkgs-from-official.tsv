@@ -215,6 +215,7 @@ rtorrent
 ruby			
 ruby-english			
 ruby-irb			
+ruby-public_suffix			"is needed for colorls."
 ruby-unicode-display_width			
 scrot			
 sed	base, base-devel		
