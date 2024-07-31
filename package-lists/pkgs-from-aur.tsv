@@ -38,7 +38,6 @@ postman-bin
 python-fancycompleter	"is needed by python-pdbpp."
 python-pdbpp	
 python-xlsx2csv	"is a Python script that converts XLSX files to CSV format."
-ranger_devicons-git	
 redshift-minimal	"adjusts the color temperature of screen according to surroundings, with minimal dependencies."
 ruby-clocale	"is needed for colorls."
 ruby-colorls	
@@ -62,4 +61,4 @@ visual-studio-code-bin	"is a proprietary Microsoft-branded release of VS Code wh
 weka	
 xscreensaver-arch-logo	
 youtube-music-bin	
-zsh-fast-syntax-highlighting-git	"provides syntax highlighting in the shell."
+zsh-fast-syntax-highlighting	"provides syntax highlighting in the shell."
