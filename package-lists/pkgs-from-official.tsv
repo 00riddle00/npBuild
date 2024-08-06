@@ -24,6 +24,7 @@ bluez-utils
 bzip2	base		
 calcurse			
 calibre			
+cgdb			
 chromium			
 cloc			
 cmake			"is a cross-platform open-source make system, is needed to compile YCM vim plugin."
