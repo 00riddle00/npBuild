@@ -59,7 +59,7 @@ espeak-ng
 expac			
 fakeroot	base-devel		
 fbgrab			
-fd			"...also needed by Doom Emacs..."
+fd			"is needed for shell functions using FZF, and by Doom Emacs as well."
 feh			"is an image viewer, useful to set a wallpaper."
 figlet			"is a program for making large letters (ascii art) out of ordinary text."
 file	base, base-devel		
