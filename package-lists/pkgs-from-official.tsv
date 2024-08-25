@@ -10,6 +10,7 @@ ascii
 asciiquarium			
 autoconf	base-devel		
 automake	base-devel		
+autotiling			"uses the python-i3ipc library to switch the layout between horizontal and vertical splits depending on the currently focused window dimensions in i3."
 base			"is a meta package which defines (and prevents from removing) a basic Arch Linux installation."
 base-devel			"is a meta package which contains a complete build environment for makepkg."
 bash	base		
