@@ -2,10 +2,18 @@
 # vim:ft=bash:tw=95
 #==============================================================================
 # Author: 00riddle00 (Tomas Giedraitis)
-# Date:   2024-04-06 01:20:19 EEST
+# Date:   2024-08-31 19:00:05 EEST
 # Path:   ./npBuild
 # URL:    https://github.com:00riddle00/npBuild
 #==============================================================================
+
+# Last tested: <TODO add date>
+#
+# It was a fun experience to write your own Arch install script, but I actually do not
+# use it as planned. 
+#
+# On Arch install, I just check and update instructions in this file with the Arch Wiki. 
+# Therefore, this script servers as a customized reference (including comments) for me.
 
 # ================================== ITEMS ===================================
 # Items can be:
