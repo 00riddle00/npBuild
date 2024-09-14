@@ -140,7 +140,6 @@ mdp
 mediainfo			"provides viewing information about media files for ranger."
 meld			
 mesa-utils			"provides glxinfo among other essential Mesa utilities."
-mlocate			
 moreutils			"is a collection of useful unix tools."
 mpc			"is a command line user interface for mpd."
 mpd			"is a lightweight server-client arch. music player daemon."
@@ -183,6 +182,7 @@ pipewire-jack
 pipewire-pulse			
 pkgconf	base-devel		
 playerctl			
+plocate			
 polkit-kde-agent			"needed for RustDesk."
 prettier			
 procps-ng	base		
