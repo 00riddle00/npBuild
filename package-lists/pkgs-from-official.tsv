@@ -104,6 +104,7 @@ iproute2	base
 iputils	base		
 irssi			
 jp2a			
+jq			"is needed to parse i3 workspace information JSON."
 jre-openjdk			
 jre11-openjdk			
 jupyter-notebook			
