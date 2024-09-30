@@ -103,6 +103,7 @@ inkscape
 iproute2	base		
 iputils	base		
 irssi			
+iw			"is needed to check Wi-Fi signal strength for i3blocks."
 jp2a			
 jq			"is needed to parse i3 workspace information JSON."
 jre-openjdk			
