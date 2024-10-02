@@ -1,5 +1,5 @@
 NAME IN REPO	META PACKAGE(S)	PACKAGE GROUP(S)	PURPOSE (should be a verb phrase to sound right while installing)
-amd-ucode			
+amd-ucode			"contains Intel CPU microcode updates for hardware bug and security fixes."
 cuda			
 cudnn			
 nvidia			

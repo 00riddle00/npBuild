@@ -1,3 +1,4 @@
 NAME IN REPO	META PACKAGE(S)	PACKAGE GROUP(S)	PURPOSE (should be a verb phrase to sound right while installing)
-intel-ucode			
+intel-gpu-tools			"is needed for getting Intel GPU usage info for i3blocks."
+intel-ucode			"contains Intel CPU microcode updates for hardware bug and security fixes."
 sof-firmware			"is an open source audio firmware needed for sound to work."
