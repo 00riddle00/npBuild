@@ -1,4 +1,5 @@
 NAME IN REPO	META PACKAGE(S)	PACKAGE GROUP(S)	PURPOSE (should be a verb phrase to sound right while installing)
+7zip			
 ack			
 acpi			
 adobe-source-code-pro-fonts			
@@ -8,6 +9,7 @@ archey4			"outputs a logo and various system information, need it for the matrix
 archlinux-keyring	base, base-devel		
 ascii			
 asciiquarium			
+at			"is a job scheduler."
 autoconf	base-devel		
 automake	base-devel		
 autotiling			"uses the python-i3ipc library to switch the layout between horizontal and vertical splits depending on the currently focused window dimensions in i3."
@@ -49,6 +51,7 @@ diffpdf
 discord			
 dmidecode			
 docker			
+docker-compose			"allows to run multiple Docker containers at once."
 doge			
 dos2unix			
 dosbox			
@@ -107,7 +110,6 @@ iw			"is needed to check Wi-Fi signal strength for i3blocks."
 jp2a			
 jq			"is needed to parse i3 workspace information JSON."
 jre-openjdk			
-jre11-openjdk			
 jupyter-notebook			
 jupyterlab			
 kdeconnect			
@@ -153,6 +155,7 @@ neomutt
 neovim			
 newsboat			"is a terminal RSS client."
 nmap			
+nodejs-lts-jod			""provides the latest LTS version of Node.js."
 notmuch-vim			
 noto-fonts			"is an expansive font package."
 noto-fonts-emoji			"is an emoji font."
@@ -166,7 +169,6 @@ openbox		lxde, lxde-gtk3, lxqt
 openconnect			
 openssh			
 openssl			
-p7zip			
 pacman	base, base-devel		
 parallel			"lets you build and execute shell command lines from STDIN in parallel."
 patch	base-devel		
@@ -186,10 +188,12 @@ pkgconf	base-devel
 playerctl			
 plocate			
 polkit-kde-agent			"needed for RustDesk."
+postgresql			"is a database server."
 prettier			
 procps-ng	base		
 projectm			
 psmisc	base		
+pyenv			"allows to manage multiple Python versions."
 python			
 python-black			
 python-configobj			
@@ -238,6 +242,7 @@ systemd	base
 systemd-sysvcompat	base		
 tar	base		
 tealdeer			
+telegram-desktop			"is a messaging app."
 termdown			"is a timer and a stopwatch in a terminal."
 tesseract			
 texinfo	base-devel		"is used for accessing documentation in info pages."

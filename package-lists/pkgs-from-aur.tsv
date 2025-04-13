@@ -1,28 +1,37 @@
 NAME IN AUR REPO	PURPOSE (should be a verb phrase to sound right while installing)
+anydesk-bin	"provides remote desktop access."
 arch-wiki-man	
 archey4	"outputs a logo and various system information, need it for the matrix look."
 archlinux-java-run	
 atbswp	
 auracle-git	
-autojump	
+autojump-rs	
+aws-cdk	"provides a framework for defining cloud infrastructure in code."
+aws-cli-v2	"provides a command-line interface for AWS services."
 brave-bin	
 cli-visualizer	
+cursor-bin	
 downgrade	
 dropbox	
 github-copilot-cli	
+gmrun	"is a very simple application launcher and run dialog."
 google-chrome	
 gotop-bin	
 grabc	
 hardinfo2	
 htop-vim	"is a graphical and colorful system monitor with vim keybindings."
+httpie-desktop-bin	
 insomnium-bin	
 jabref-bin	
 jetbrains-toolbox	
-krop	"is a decent tool for cropping PDFs."
 keybase-bin	"is a CLI tool for GPG with keybase.io "
+krop	"is a decent tool for cropping PDFs."
 la-capitaine-icon-theme	
 lazydocker-bin	
 light-git	
+mongodb-bin	
+mongodb-compass	
+mongosh-bin	
 ninvaders-git	
 nomacs	
 noto-color-emoji-fontconfig	
@@ -37,6 +46,7 @@ perl-cpan-distnameinfo	"is needed by cpan-outdated."
 perl-cpan-outdated	"detects outdated CPAN modules in your environment."
 postman-bin	
 python-fancycompleter	"is needed by python-pdbpp."
+python-ipdb	
 python-pdbpp	
 python-xlsx2csv	"is a Python script that converts XLSX files to CSV format."
 redshift-minimal	"adjusts the color temperature of screen according to surroundings, with minimal dependencies."
@@ -52,14 +62,12 @@ simple-mtpfs	"enables the mounting of cell phones."
 skippy-xd-git	"is a full-screen task-switcher for X11, similar to Apple's Expose."
 slack-desktop	
 smartgit	"is a pretty good Git GUI client."
-smartsvn	"is a pretty good Subversion GUI client."
 sql-formatter	
 task-spooler	"queues up tasks from the shell for batch execution."
 tmux-plugin-manager	
 tmuxinator	
 urlview	
 visual-studio-code-bin	"is a proprietary Microsoft-branded release of VS Code which supports more extensions like GitHub Copilot."
-weka	
 xscreensaver-arch-logo	
 youtube-music-bin	
 zsh-fast-syntax-highlighting	"provides syntax highlighting in the shell."
