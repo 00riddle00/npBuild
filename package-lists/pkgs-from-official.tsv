@@ -101,6 +101,7 @@ hwloc
 i3-wm		i3	
 i3blocks		i3	
 i3lock		i3	
+ifuse			"allows to mount iOS devices."
 inetutils			
 inkscape			
 iproute2	base		
@@ -206,6 +207,7 @@ python-pip
 python-pydocstyle			
 python-pynvim			"is a Python client for Neovim."
 python-pyxdg			
+python-uv			"is an extremely fast Python package and project manager."
 python-wxpython			
 qalculate-gtk			
 qbittorrent			
