@@ -156,7 +156,7 @@ neomutt
 neovim			
 newsboat			"is a terminal RSS client."
 nmap			
-nodejs-lts-jod			""provides the latest LTS version of Node.js."
+nodejs-lts-jod			"provides the latest LTS version of Node.js."
 notmuch-vim			
 noto-fonts			"is an expansive font package."
 noto-fonts-emoji			"is an emoji font."
