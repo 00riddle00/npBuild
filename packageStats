@@ -2,7 +2,7 @@
 # vim:ft=bash:tw=79
 #==============================================================================
 # Author: 00riddle00 (Tomas Giedraitis)
-# Date:   2024-04-06 01:21:03 EEST
+# Date:   2025-06-26 00:48:47 EEST
 # Path:   ./packageStats
 # URL:    https://github.com:00riddle00/npBuild
 #==============================================================================
@@ -14,7 +14,7 @@ bold="$(tput bold)"
 blue="$(tput setaf $COLOR_BLUE)"
 normal="$(tput sgr0)"
 
-a_minus_b() { grep -Fvx -f "${2}" "${1}" | sort ; }
+a_minus_b() { rg -Fvx -f "${2}" "${1}" | sort ; }
 
 a_and_b() { comm -12 <( sort "${1}" ) <( sort "${2}" ) ; }
 
@@ -49,7 +49,7 @@ mark_explicit_as_dependency() {
         echo "${explicit_pkgs}" \
         | xargs -I{} sh -c '
             pacman -Qi {} \
-            | grep "Required By" \
+            | rg "Required By" \
             | awk -v pkg={} -F: '\''$2 !~ /(\s)*None(\s)*/ {print pkg}'\'' \
          '
      )"
@@ -62,7 +62,7 @@ mark_explicit_as_dependency() {
 
     i=1
     for pkg in ${explicit_deps}; do
-        required_by="$(pacman -Qi ${pkg} | grep "Required By" | awk -F: '{print $2}')"
+        required_by="$(pacman -Qi ${pkg} | rg "Required By" | awk -F: '{print $2}')"
 
         echo
         echo "($((i++))/${total}) ${bold}${pkg}${normal} is required by: \
@@ -103,7 +103,7 @@ npbuild_official_pkgs_not_installed() {
     a_minus_b \
         <(awk -F$'\t' '{print $1}' \
             <(tail +2 pkgs-from-official.tsv) \
-            <(test -f "pkgs-host-${HOSTNAME}.tsv" && 
+            <(test -f "pkgs-host-${HOSTNAME}.tsv" &&
               tail +2 "pkgs-host-${HOSTNAME}.tsv"
             )
         ) \
@@ -111,7 +111,7 @@ npbuild_official_pkgs_not_installed() {
     | while read pkg; do
         # Show only if package is really not installed (since it could have
         # been installed as a dependency).
-        if ! (pacman -Qq | grep -q "${pkg}"); then
+        if ! (pacman -Qq | rg -q "${pkg}"); then
             echo "${pkg}"
         fi
     done \
