@@ -10,9 +10,9 @@
 # Last tested: <TODO add date>
 #
 # It was a fun experience to write your own Arch install script, but I actually do not
-# use it as planned. 
+# use it as planned.
 #
-# On Arch install, I just check and update instructions in this file with the Arch Wiki. 
+# On Arch install, I just check and update instructions in this file with the Arch Wiki.
 # Therefore, this script servers as a customized reference (including comments) for me.
 
 # ================================== ITEMS ===================================
@@ -20,7 +20,7 @@
 #   * packages
 #   * metapackages (base)
 #   * groups (base-devel)
- 
+
 items_essential=(
     "base"
     "base-devel"
@@ -149,7 +149,7 @@ install_from_git() {
 install_from_main() { # Installs all needed programs from main repos.
     # If any package is not found, does not install anything from the list
     # If package is already installed, skips it (shows "up-to date" message)
-    sudo pacman -S --noconfirm --needed "$1" || yes | sudo pacman -S --needed "$1" 
+    sudo pacman -S --noconfirm --needed "$1" || yes | sudo pacman -S --needed "$1"
 }
 
 # =========================== STANDALONE FUNCTIONS ===========================
@@ -168,10 +168,10 @@ symlink_dotfiles() {
     # $HOME
     for full_path in "$DOTFILES"/.[a-zA-Z]*; do
         file="$(basename "$full_path")"
-        # Whenever you iterate over files/folders by globbing, it's good practice to avoid the corner 
-        # case where the glob does not match (which makes the loop variable expand to the 
+        # Whenever you iterate over files/folders by globbing, it's good practice to avoid the corner
+        # case where the glob does not match (which makes the loop variable expand to the
         # (un-matching) glob pattern string itself), hence [[ -e "$full_path" ] is used
-        [[ -e "$full_path" ]] && 
+        [[ -e "$full_path" ]] &&
             [[ "$file" != ".config" ]] &&
             [[ "$file" != ".local" ]] &&
             [[ "$file" != .git* ]] &&
@@ -210,7 +210,7 @@ unlink_dotfiles() {
     # $HOME
     for full_path in "$DOTFILES"/.[a-zA-Z]*; do
         file="$(basename "$full_path")"
-        [[ -e "$full_path" ]] && 
+        [[ -e "$full_path" ]] &&
         [[ "$file" != ".config" ]] &&
         [[ "$file" != ".local" ]] &&
         [[ "$file" != .git* ]] &&
@@ -297,7 +297,7 @@ install_arch() {
     # -------------------------------------------
     # 1. Pre-installation
     # -------------------------------------------
-    
+
     # It is assumed that the following prerequisites are already satisfied:
     #
     # [1.1 Acquire an installation image]
@@ -314,16 +314,16 @@ install_arch() {
     # -------------------------------------------
     # 1. Pre-installation (continued)
     # -------------------------------------------
-    
+
     # [1.5. Set the console keyboard layout]
     #
     # No action is performed here, the default settings are used:
     #   console keymap:           US
-    #   console keyboard layout:  us (us) 
+    #   console keyboard layout:  us (us)
     #   console fonts:            default8xN
-    
+
     # [1.6 Verify the boot mode (by listing the efivars dir)]
-    # 
+    #
     # If the command shows the directory without error, then the system is booted in UEFI mode.
     # If the directory does not exist, the system may be booted in BIOS (or CSM) mode.
     #
@@ -335,7 +335,7 @@ install_arch() {
         echo "ERR: The system did not boot in the correct mode"; exit 1
     fi
 
-    # [1.7 Connect to the internet] 
+    # [1.7 Connect to the internet]
     #
     # Check wired network connection (ethernet cable must be plugged in).
     #
@@ -344,11 +344,11 @@ install_arch() {
     #
     # NOTE: In the installation image, systemd-networkd and systemd-resolved are preconfigured
     # and enabled by default. That will not be the case for the installed system.
-    # 
+    #
     ping -q -c1 archlinux.org &> /dev/null || { echo "ERR: No internet connection"; exit 1; }
 
     # [1.8. Update the system clock]
-    # 
+    #
     # In the live environment `systemd-timesyncd` is enabled by default and time will be synced
     # automatically once a connection to the internet is established.
     #
@@ -366,7 +366,7 @@ install_arch() {
     eval "mkfs_$machine"
 
     # [1.11. Mount the file systems]
-    
+
     # Mount the root volume to /mnt
     [[ $machine =~ "vm" ]] && root_part="sda1" || root_part="sda3"
     mount "/dev/$root_part" /mnt
@@ -384,7 +384,7 @@ install_arch() {
     # -------------------------------------------
     # 2. Installation
     # -------------------------------------------
-    
+
     # [2.1.] Select the mirrors
     #
     # No action is performed here.
@@ -392,12 +392,12 @@ install_arch() {
     # On the live system, after connecting to the internet, "reflector" updates the mirror list
     # (/etc/pacman.d/mirrorlist) by choosing 20 most recently synchronized HTTPS mirrors and
     # sorting them by download rate.
-    # 
+    #
     # The mirror list file will later be copied to the new system by pacstrap. It can then be
     # modified from inside the new system, according to the specific needs for that system.
 
     # [2.2.] Install essential packages
-    
+
     # Variable indirection is used here
     machine_specific_items=items_$machine[@]
 
@@ -414,21 +414,21 @@ install_arch() {
     # 3. Configure the system
     # -------------------------------------------
 
-    # [3.1. Fstab] 
+    # [3.1. Fstab]
     #
     # Generate an fstab file (used to define how disk partitions, various other block
     # devices, or remote file systems should be mounted into the file system).
     #
     genfstab -U /mnt >> /mnt/etc/fstab
 
-    # [3.2. Chroot] 
+    # [3.2. Chroot]
     #
     # Change root into the new system
     #
     arch-chroot /mnt /bin/bash <<END
 
         # [3.3. Time zone]
-        
+
         # Set the time zone
         ln -sf /usr/share/zoneinfo/Europe/Vilnius /etc/localtime
 
@@ -444,7 +444,7 @@ install_arch() {
         timedatectl set-ntp 1
 
         # [3.4. Localization]
-        
+
         # Edit /etc/locale.gen and uncomment the needed locales
         sed -i '/^#en_US\.UTF-8 UTF-8[ ]*$/s/^#//' /etc/locale.gen
         sed -i '/^#lt_LT\.UTF-8 UTF-8[ ]*$/s/^#//' /etc/locale.gen
@@ -460,7 +460,7 @@ install_arch() {
         # No action is performed here, default console keyboard layout is used: `us (us)`
 
         # [3.5. Network configuration]
-        
+
         # Create the hostname and add it to the newly created `/etc/hostname` file.
         hostname="$machine"-"$(head /dev/urandom -c 2 | base64 | cut -c -3)"-arch
         echo "$hostname" > /etc/hostname
@@ -470,7 +470,7 @@ install_arch() {
         echo -e "127.0.0.1  localhost\n"                                                  >> /etc/hosts
         echo -e "::1        localhost\n"                                                  >> /etc/hosts
         echo -e "127.0.1.1  $hostname.localdomain  $hostname"                             >> /etc/hosts
-        
+
         # Start the dhcpcd (DHCP client) daemon for wired interface by enabling the template unit
         # dhcpcd@interface.service, where interface name can be found by listing network interfaces
         #
@@ -481,7 +481,7 @@ install_arch() {
 
         # [3.6. Initramfs]
         #
-        # Creating a new initramfs is usually not required, because mkinitcpio was run on 
+        # Creating a new initramfs is usually not required, because mkinitcpio was run on
         # installation of the kernel package with pacstrap.
         #
         mkinitcpio -P # recreate the initramfs image just in case
@@ -489,18 +489,18 @@ install_arch() {
         # [3.7. Root password]
         #
         # No action is performed here, the root password is left to be set later, manually
-       
+
         # [3.8. Boot loader]
         #
         # Install a GRUB 2: a Linux-capable boot loader
         #
         case "$machine" in
-            "vm") 
+            "vm")
                 pacman -S --noconfirm grub
                 grub-install --target=i386-pc /dev/sda
                 grub-mkconfig -o /boot/grub/grub.cfg
                 ;;
-            "desktop") 
+            "desktop")
                 mount /dev/sda1 /boot
                 pacman -S --noconfirm grub efibootmgr
                 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
@@ -530,7 +530,7 @@ install_arch() {
         systemctl enable sshd
 
         # [3.11.(extra) Users and groups]
-       
+
         # Create a user and add it to wheel group
         useradd -m -G wheel "$username"
         echo -e "passwd\npasswd\n" | passwd "$username"
@@ -539,7 +539,7 @@ install_arch() {
         sed -E -i 's/^#?[ ]*(%wheel ALL=\(ALL:ALL\) ALL)[ ]*$/\1/' /etc/sudoers
 
         # [3.12.(extra) Pacman]
-        
+
         # Enable multilib repo to run 32 bit apps on x86_64 system.
         sed -i '/\[multilib\][ ]*$/,/Include/s/^#//' /etc/pacman.conf
 
@@ -579,7 +579,7 @@ END
 END
 
     # [Getting and applying dotfiles]
-    
+
     allow_sudo_nopasswd "/mnt"
 
     arch-chroot /mnt /bin/bash <<END
@@ -593,7 +593,7 @@ END
     # -------------------------------------------
     # 4./5. Rebooting
     # -------------------------------------------
-    
+
     # Remove the copy of this file from the new system
     rm "/mnt/home/$username/npBuild"
 
@@ -614,7 +614,7 @@ standalone_functions=(
 )
 
 # TODO validate if standalone "install_pkgs" when no username - now the cryptic error "chown: userv not found"
-while getopts "a:f:m:u:b:p:h" opt; do 
+while getopts "a:f:m:u:b:p:h" opt; do
     case "${opt}" in
         a) aurhelper=${OPTARG} ;;
         f) function=${OPTARG} ;;
@@ -637,7 +637,7 @@ while getopts "a:f:m:u:b:p:h" opt; do
         -u  [Optional] User name. Defaults to 'userv'
         -b  [Optional] Branch of the repo. Defaults to 'master'
         -p  [Optional] Dependencies and programs csv (local file or url).  Defaults to npBuild repo's 'progs.csv' file
-        -h  Show help\\n" 
+        -h  Show help\\n"
         exit ;;
         *) printf "Invalid option: -%s\\n" "$OPTARG" && exit ;;
     esac
@@ -651,7 +651,7 @@ dotfilesrepo="https://github.com/00riddle00/dotfiles"
 
 if [[ -n "$function" ]]; then
     if [[ " ${standalone_functions[@]} " =~ " ${function} " ]]; then
-        eval "$function" 
+        eval "$function"
     else
         echo "ERR: The function '$function' does not exist as standalone"
     fi
