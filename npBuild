@@ -68,6 +68,7 @@ mkpart_desktop() {
     # Create an EFI system partition (ESP) for booting in UEFI mode
     # Use `fat32` as the file system type
     # Sugggested size: At least 300 MiB
+    # @Update[2025-09-18]: 1 GiB is suggested (Arch Wiki)
     parted -s /dev/sda mkpart "EFI-system-partition" fat32 1MiB 551MiB
     # Make the ESP partition bootable (`esp` is an alias for `boot` on GPT)
     parted -s /dev/sda set 1 esp on
