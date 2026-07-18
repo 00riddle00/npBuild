@@ -11,22 +11,22 @@ arandr
 archlinux-keyring	base, base-devel		
 ascii			
 asciiquarium			
-at			"is a job scheduler."
+at			"schedules commands to run at a specified time."
 atop			
 autoconf	base-devel		
 automake	base-devel		
-autotiling			"uses the python-i3ipc library to switch the layout between horizontal and vertical splits depending on the currently focused window dimensions in i3."
+autotiling			"uses python-i3ipc to switch between horizontal and vertical splits based on the dimensions of the focused window in i3."
 aws-cli-v2			
 bandwhich			
-base			"is a meta package which defines (and prevents from removing) a basic Arch Linux installation."
-base-devel			"is a meta package which contains a complete build environment for makepkg."
+base			"is a metapackage that defines a minimal Arch Linux installation and prevents its essential packages from being removed as orphans."
+base-devel			"is a metapackage that provides the tools needed to build Arch packages with makepkg."
 bash	base		
 bash-language-server			
-bat			"can highlight code output and display files."
+bat			"displays files with syntax highlighting and other enhancements."
 bat-extras			
-bc			"is used for a dropdown calculator."
+bc			"provides the calculator used by a dropdown terminal."
 biber			
-bind			"is a versatile name server software which provides dig, host, and other utilities."
+bind			"provides dig, host, and other DNS utilities."
 binutils	base-devel		
 bison	base-devel		
 bluez			
@@ -43,19 +43,19 @@ chafa
 chromium			
 clamav			
 cloc			
-cmake			"is a cross-platform open-source make system, is needed to compile YCM vim plugin."
+cmake			"provides a cross-platform build system needed to compile the YouCompleteMe Vim plugin."
 cmatrix			
 cmus			
-colordiff			"provides a colorful diff, useful for e.g. SVN diffs."
+colordiff			"adds color to diff output, including SVN diffs."
 conky			
 cool-retro-term			
 copyq			
 coreutils	base		
 cowfortune			
 cowsay			
-cpanminus			"extends Perl module management from CPAN and aims to be zero configuration and integrates with local::db."
+cpanminus			"provides a zero-configuration client for installing Perl modules from CPAN and supports local::lib."
 cronie			
-ctags			"generates an index file of language objects found in source files, is needed by TagBar, CtrlP vim plugins."
+ctags			"generates indexes of language objects in source files and is needed by the Tagbar and CtrlP Vim plugins."
 ctop			
 cups			
 dbeaver			
@@ -70,20 +70,20 @@ dmidecode
 dnsmasq			
 docker			
 docker-buildx			
-docker-compose			"allows to run multiple Docker containers at once."
+docker-compose			"allows multiple Docker containers to be defined and run together."
 dog			
 doge			
 dos2unix			
 dosbox			
-dosfstools			"allows your computer to access dos-like filesystems."
+dosfstools			"provides tools for creating, checking, and repairing FAT filesystems."
 dua-cli			
 duckdb			
-dunst			"is a customizable and lightweight notification system."
+dunst			"provides a lightweight and customizable notification daemon."
 dust			
 dysk			
 edk2-ovmf			
 efibootmgr			
-emacs			"...also needed by Doom Emacs..."
+emacs			"is also needed by Doom Emacs."
 espeak-ng			
 ethtool			
 evtest			
@@ -92,11 +92,11 @@ eza
 fakeroot	base-devel		
 fastfetch			
 fbgrab			
-fd			"is needed for shell functions using FZF, and by Doom Emacs as well."
-feh			"is an image viewer, useful to set a wallpaper."
-figlet			"is a program for making large letters (ascii art) out of ordinary text."
+fd			"is needed by shell functions that use fzf and by Doom Emacs."
+feh			"is an image viewer that can also set the wallpaper."
+figlet			"creates large ASCII-art letters from ordinary text."
 file	base, base-devel		
-file-roller		gnome-extra	"is a backend used by thunar-archive-plugin to create and modify archives."
+file-roller		gnome-extra	"provides archive creation and modification support for thunar-archive-plugin."
 filesystem	base		
 findutils	base, base-devel		
 firefox			
@@ -104,7 +104,7 @@ firefox-tridactyl		firefox-addons
 flameshot			
 flex	base-devel		
 freerdp			
-fzf			"is a fuzzy finder tool."
+fzf			"provides a command-line fuzzy finder."
 gawk	base, base-devel		
 gcc	base-devel		
 gcc-libs	base		
@@ -127,21 +127,21 @@ grep	base, base-devel
 groff	base-devel		
 grub			
 gtop			
-gvfs		gnome	"provides trash support, mounting with udisks and remote filesystems for Thunar."
+gvfs		gnome	"provides trash, udisks-based mounting, and remote filesystem support for Thunar."
 gzip	base, base-devel		
 hardinfo2			
 harper			
 hicolor-icon-theme			
-highlight			"CLI source code highlighter, needed for colorful ranger file preview."
+highlight			"provides command-line source-code highlighting for colorful file previews in ranger."
 hplip			
-hsetroot			"is like xsetroot, but the background is preserved no matter how many times picom is restarted."
+hsetroot			"sets the X root-window background while preserving it across picom restarts."
 hwinfo			
 hwloc			
 hyperfine			
 i3-wm		i3	
 i3blocks		i3	
 i3lock		i3	
-ifuse			"allows to mount iOS devices."
+ifuse			"allows iOS devices to be mounted through FUSE."
 imagemagick			
 inetutils			
 inkscape			
@@ -151,19 +151,19 @@ iproute2	base
 iptables			
 iputils	base		
 irssi			
-iw			"is needed to check Wi-Fi signal strength for i3blocks."
+iw			"is needed to obtain Wi-Fi signal-strength information for i3blocks."
 jdk-openjdk			
 jp2a			
 jpegoptim			
-jq			"is needed to parse i3 workspace information JSON."
+jq			"is needed to parse JSON containing i3 workspace information."
 jupyter-notebook			
 jupyterlab			
-keepassxc			"is a cross-platform community-driven port of Keepass password manager, provides org.freedesktop.secrets (optional for chromium, git, teams, necessary for code-features)."
+keepassxc			"provides a cross-platform password manager and an org.freedesktop.secrets service used by Chromium, Git, Teams, and code-features."
 kitty			
 krita			
 lazygit			
 lftp			
-lib32-nvidia-utils			"are 32-bit NVIDIA drivers utilities needed to run some games on Steam."
+lib32-nvidia-utils			"provides 32-bit NVIDIA driver utilities needed by some Steam games."
 libappindicator			
 libguestfs			
 libreoffice-fresh			
@@ -184,24 +184,24 @@ luarocks
 lvm2			
 lxappearance		lxde	
 lxappearance-obconf		lxde	
-lynx			"is a terminal browser."
+lynx			"provides a terminal-based web browser."
 m4	base-devel		
 make	base-devel		
-man-db			"is used for accessing documentation in man pages."
-man-pages			"document the Linux kernel and C library interfaces that are employed by user-space programs."
+man-db			"provides access to documentation in manual pages."
+man-pages			"documents Linux kernel and C library interfaces used by user-space programs."
 mariadb			
 marksman			
 mattermost			
 mc			
 mdp			
-mediainfo			"provides viewing information about media files for ranger."
+mediainfo			"provides media-file information for ranger previews."
 meld			
 mermaid-cli			
-mesa-utils			"provides glxinfo among other essential Mesa utilities."
+mesa-utils			"provides glxinfo and other Mesa utilities."
 miller			
-moreutils			"is a collection of useful unix tools."
-mpc			"is a command line user interface for mpd."
-mpd			"is a lightweight server-client arch. music player daemon."
+moreutils			"provides a collection of useful Unix command-line tools."
+mpc			"provides a command-line client for MPD."
+mpd			"provides a lightweight client-server music player daemon."
 mpv			"is the patrician's choice video player."
 msmtp-mta			
 mypaint			
@@ -212,14 +212,14 @@ neomutt
 neovim			
 net-tools			
 nethogs			
-newsboat			"is a terminal RSS client."
+newsboat			"provides a terminal-based RSS and Atom feed reader."
 nmap			
-nodejs-lts-jod			"provides the latest LTS version of Node.js."
+nodejs-lts-jod			"provides the Jod LTS release of Node.js."
 notmuch-vim			
-noto-fonts			"is an expansive font package."
-noto-fonts-emoji			"is an emoji font."
-nsxiv			"is a minimalist image viewer."
-ntfs-3g			"allows accessing NTFS partitions."
+noto-fonts			"provides an extensive collection of fonts with broad language coverage."
+noto-fonts-emoji			"provides emoji fonts from the Noto family."
+nsxiv			"provides a minimalist X11 image viewer."
+ntfs-3g			"allows NTFS filesystems to be accessed through FUSE."
 ntp			
 obs-studio			
 obsidian			
@@ -236,7 +236,7 @@ openssl
 openvpn			
 oxipng			
 pacman	base, base-devel		
-parallel			"lets you build and execute shell command lines from STDIN in parallel."
+parallel			"builds and executes shell command lines from standard input in parallel."
 patch	base-devel		
 pavucontrol			
 pciutils	base		
@@ -245,7 +245,7 @@ perl
 perl-data-compare			
 perl-lingua-translit			
 perl-list-moreutils			
-picom			"is for transparency and removing screen-tearing."
+picom			"provides compositing effects such as transparency and helps prevent screen tearing."
 pipewire			
 pipewire-alsa			
 pipewire-audio			
@@ -256,13 +256,13 @@ playerctl
 plocate			
 pngquant			
 polybar			
-postgresql			"is a database server."
+postgresql			"provides the PostgreSQL database server."
 prettier			
 procps-ng	base		
 procs			
 projectm			
 psmisc	base		
-pyenv			"allows to manage multiple Python versions."
+pyenv			"allows multiple Python versions to be installed and managed."
 pyright			
 python			
 python-black			
@@ -275,10 +275,10 @@ python-matplotlib
 python-nltk			
 python-pip			
 python-pydocstyle			
-python-pynvim			"is a Python client for Neovim."
+python-pynvim			"provides the Python client for Neovim."
 python-pyxdg			
 python-ruff			
-python-uv			"is an extremely fast Python package and project manager."
+python-uv			"provides a fast Python package and project manager."
 python-wxpython			
 qalculate-gtk			
 qbittorrent			
@@ -289,15 +289,15 @@ qemu-system-x86	qemu-base, qemu-desktop
 qutebrowser			
 r			
 ranger			
-reflector			"retrieves and filters (by country, etc.) the latest Pacman mirror list."
+reflector			"retrieves and filters the latest Pacman mirror list by country and other criteria."
 remmina			
 renameutils			
 reptyr			
-ripgrep			"...also needed by Doom Emacs..."
+ripgrep			"is also needed by Doom Emacs."
 ripgrep-all			
 rkhunter			
 rnote			
-rofi			"is a window switcher, application launcher and dmenu replacement."
+rofi			"provides a window switcher, application launcher, and dmenu replacement."
 rofimoji			
 rsync			
 rtorrent			
@@ -329,15 +329,15 @@ systemd-sysvcompat	base
 tailscale			
 tar	base		
 tealdeer			
-telegram-desktop			"is a messaging app."
-termdown			"is a timer and a stopwatch in a terminal."
+telegram-desktop			"provides the Telegram desktop messaging client."
+termdown			"provides a terminal-based timer and stopwatch."
 tesseract			
 tesseract-data-eng			
-texinfo	base-devel		"is used for accessing documentation in info pages."
+texinfo	base-devel		"provides access to documentation in Info pages."
 texlive-basic		texlive	
 texlive-bibtexextra		texlive	
 texlive-bin			
-texlive-binextra			
+texlive-binextra		texlive	
 texlive-fontsextra		texlive	
 texlive-fontsrecommended		texlive	
 texlive-langcyrillic		texlive-lang	
@@ -374,7 +374,7 @@ tumbler		xfce4
 ueberzugpp			
 ufw			
 unrar			
-unzip			"unzips zips."
+unzip			"extracts files from ZIP archives."
 upower			
 util-linux	base		
 valgrind			
@@ -404,7 +404,7 @@ xorg-font-util		xorg, xorg-fonts
 xorg-fonts-encodings		xorg, xorg-fonts	
 xorg-iceauth		xorg, xorg-apps	
 xorg-mkfontscale		xorg, xorg-apps	
-xorg-server		xorg	"is the graphical server."
+xorg-server		xorg	"provides the Xorg display server."
 xorg-server-common		xorg	
 xorg-server-devel		xorg	
 xorg-server-xephyr		xorg	
@@ -415,15 +415,15 @@ xorg-setxkbmap		xorg, xorg-apps
 xorg-smproxy		xorg, xorg-apps	
 xorg-x11perf		xorg, xorg-apps	
 xorg-xauth		xorg, xorg-apps	
-xorg-xbacklight		xorg, xorg-apps	"enables changing screen brightness levels."
+xorg-xbacklight		xorg, xorg-apps	"allows screen brightness levels to be changed."
 xorg-xcmsdb		xorg, xorg-apps	
 xorg-xcursorgen		xorg, xorg-apps	
-xorg-xdpyinfo		xorg, xorg-apps	"aids with resolution determination and screen recording."
+xorg-xdpyinfo		xorg, xorg-apps	"provides display information used to determine resolution and configure screen recording."
 xorg-xdriinfo		xorg, xorg-apps	
 xorg-xev		xorg, xorg-apps	
 xorg-xgamma		xorg, xorg-apps	
 xorg-xhost		xorg, xorg-apps	
-xorg-xinit			"starts the graphical server."
+xorg-xinit			"starts the Xorg display server and user session."
 xorg-xinput		xorg, xorg-apps	
 xorg-xkbcomp		xorg, xorg-apps	
 xorg-xkbevd		xorg, xorg-apps	
@@ -433,14 +433,14 @@ xorg-xlsatoms		xorg, xorg-apps
 xorg-xlsclients		xorg, xorg-apps	
 xorg-xmodmap		xorg, xorg-apps	
 xorg-xpr		xorg, xorg-apps	
-xorg-xprop		xorg, xorg-apps	"is a tool for detecting window properties."
-xorg-xrandr		xorg, xorg-apps	"allows to customize monitor arrangements."
+xorg-xprop		xorg, xorg-apps	"displays properties of X windows."
+xorg-xrandr		xorg, xorg-apps	"allows monitor layouts, resolutions, and orientations to be configured."
 xorg-xrdb		xorg, xorg-apps	
 xorg-xrefresh		xorg, xorg-apps	
 xorg-xset		xorg, xorg-apps	
 xorg-xvinfo		xorg, xorg-apps	
 xorg-xwd		xorg, xorg-apps	
-xorg-xwininfo		xorg, xorg-apps	"allows querying information about windows."
+xorg-xwininfo		xorg, xorg-apps	"displays information about X windows."
 xorg-xwud		xorg, xorg-apps	
 xournalpp			
 xrootd			
@@ -449,11 +449,11 @@ yapf
 yarn			
 yasm			
 yazi			
-yt-dlp			"can download any YouTube video (or playlist or channel) when given the link."
-zathura			"is a pdf viewer with vim-like bindings."
-zathura-pdf-mupdf			"allows mupdf pdf compatibility in zathura."
-zenity			"displays graphical dialog boxes from shell scripts, needed for Thunar 'Create New File' custom action."
+yt-dlp			"downloads videos, playlists, and channels from YouTube and other supported websites."
+zathura			"provides a PDF viewer with Vim-like keybindings."
+zathura-pdf-mupdf			"adds MuPDF-based PDF support to Zathura."
+zenity			"displays graphical dialog boxes from shell scripts and is needed by the Thunar 'Create New File' custom action."
 zip			
 zoxide			
-zsh			"is a modern shell."
+zsh			"provides a modern interactive shell."
 zstd			

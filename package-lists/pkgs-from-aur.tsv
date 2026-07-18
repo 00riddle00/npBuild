@@ -1,14 +1,14 @@
 NAME IN AUR REPO	PURPOSE (should be a verb phrase to sound right while installing)
 aicommits	
-anydesk-bin	"provides remote desktop access."
+anydesk-bin	provides remote desktop access.
 apple-sf-fonts	
 arc-dark-osx-openbox-theme-git	
 arch-wiki-man	
-archey4	"outputs a logo and various system information, need it for the matrix look."
+archey4	"outputs a logo and various system information for the matrix look."
 archlinux-java-run	
 atbswp	
 auracle-git	
-aws-cdk	"provides a framework for defining cloud infrastructure in code."
+aws-cdk	provides a framework for defining cloud infrastructure in code.
 aws-cli-v2-python-awscrt	
 ayatana-indicator-application	
 brave-bin	
@@ -26,16 +26,16 @@ fastcompmgr
 flat-remix-gtk	
 franz-bin	
 github-copilot-cli	
-gmrun	"is a very simple application launcher and run dialog."
+gmrun	"is a simple application launcher and run dialog."
 gotop-bin	
 grabc	
 grub2-theme-archlinux	
-htop-vim	"is a graphical and colorful system monitor with vim keybindings."
+htop-vim	"is a colorful system monitor with vim keybindings."
 httpie-desktop-bin	
 insomnium-bin	
 jabref-bin	
-keybase-bin	"is a CLI tool for GPG with keybase.io "
-krop	"is a decent tool for cropping PDFs."
+keybase-bin	"is a CLI tool for interacting with keybase.io and managing GPG keys."
+krop	"is a tool for cropping PDF files."
 la-capitaine-icon-theme	
 layan-gtk-theme-git	
 lazydocker-bin	
@@ -61,8 +61,8 @@ pacnews-git
 par	
 paru	
 paru-debug	
-perl-cpan-distnameinfo	"is needed by cpan-outdated."
-perl-cpan-outdated	"detects outdated CPAN modules in your environment."
+perl-cpan-distnameinfo	"is needed by perl-cpan-outdated."
+perl-cpan-outdated	detects outdated CPAN modules in your environment.
 postman-bin	
 python-ipdb	
 python-pdbpp	
@@ -70,26 +70,26 @@ python-scikit-base
 python-ticktick-py	
 python-undetected-chromedriver	
 python-xlsx2csv	"is a Python script that converts XLSX files to CSV format."
-redshift-minimal	"adjusts the color temperature of screen according to surroundings, with minimal dependencies."
+redshift-minimal	"adjusts the screen color temperature according to the surroundings, with minimal dependencies."
 rstudio-desktop-bin	
 ruby-erubis	
 ruby-xdg5	
 rustdesk-bin	"provides remote desktop access."
 rxvt-unicode-truecolor-wide-glyphs	
-sc-im	"is an Excel-like terminal spreadsheet manager."
-simple-mtpfs	"enables the mounting of cell phones."
+sc-im	is an Excel-like terminal spreadsheet manager.
+simple-mtpfs	"enables mounting MTP devices such as cell phones."
 slack-desktop	
 smartsvn	
 smem	
 sql-formatter	
 sqlfmt-bin	
-task-spooler	"queues up tasks from the shell for batch execution."
+task-spooler	"queues tasks from the shell for batch execution."
 teams-for-linux-bin	
 ticktick	
 tmux-plugin-manager	
 tmuxinator	
 urlview	
-visual-studio-code-bin	"is a proprietary Microsoft-branded release of VS Code which supports more extensions like GitHub Copilot."
+visual-studio-code-bin	"is a proprietary Microsoft build of VS Code that supports extensions such as GitHub Copilot."
 wakatime	
 whitesur-gtk-theme	
 xdg-ninja	
@@ -97,4 +97,4 @@ xremap-x11-bin
 xscreensaver-arch-logo	
 youtube-music-bin	
 zoom	
-zsh-fast-syntax-highlighting	"provides syntax highlighting in the shell."
+zsh-fast-syntax-highlighting	"provides syntax highlighting for Zsh."
