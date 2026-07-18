@@ -1,73 +1,100 @@
 NAME IN AUR REPO	PURPOSE (should be a verb phrase to sound right while installing)
+aicommits	
 anydesk-bin	"provides remote desktop access."
+apple-sf-fonts	
+arc-dark-osx-openbox-theme-git	
 arch-wiki-man	
 archey4	"outputs a logo and various system information, need it for the matrix look."
 archlinux-java-run	
 atbswp	
 auracle-git	
-autojump-rs	
 aws-cdk	"provides a framework for defining cloud infrastructure in code."
-aws-cli-v2	"provides a command-line interface for AWS services."
+aws-cli-v2-python-awscrt	
+ayatana-indicator-application	
 brave-bin	
+bridge-utils	
+cheat-bin	
+claude-code	
 cli-visualizer	
+clipboard-bin	
 cursor-bin	
+dmg2img	
 downgrade	
 dropbox	
+ente-auth-bin	
+fastcompmgr	
+flat-remix-gtk	
+franz-bin	
 github-copilot-cli	
 gmrun	"is a very simple application launcher and run dialog."
-google-chrome	
 gotop-bin	
 grabc	
-hardinfo2	
+grub2-theme-archlinux	
 htop-vim	"is a graphical and colorful system monitor with vim keybindings."
 httpie-desktop-bin	
 insomnium-bin	
 jabref-bin	
-jetbrains-toolbox	
 keybase-bin	"is a CLI tool for GPG with keybase.io "
 krop	"is a decent tool for cropping PDFs."
 la-capitaine-icon-theme	
+layan-gtk-theme-git	
 lazydocker-bin	
+libayatana-appindicator-glib	
 light-git	
+mattermost-desktop-bin	
 mongodb-bin	
-mongodb-compass	
 mongosh-bin	
+neofetch	
+nerd-fonts-sf-mono	
 ninvaders-git	
 nomacs	
+nomacs-debug	
+normcap	
 noto-color-emoji-fontconfig	
 nsnake	
 numix-cursor-theme	
 nvim-packer-git	
 obs-pipewire-audio-capture-bin	
+otf-stix	
 pacgraph	
 pacnews-git	
+par	
 paru	
+paru-debug	
 perl-cpan-distnameinfo	"is needed by cpan-outdated."
 perl-cpan-outdated	"detects outdated CPAN modules in your environment."
 postman-bin	
-python-fancycompleter	"is needed by python-pdbpp."
 python-ipdb	
 python-pdbpp	
+python-scikit-base	
+python-ticktick-py	
+python-undetected-chromedriver	
 python-xlsx2csv	"is a Python script that converts XLSX files to CSV format."
 redshift-minimal	"adjusts the color temperature of screen according to surroundings, with minimal dependencies."
-ruby-clocale	"is needed for colorls."
-ruby-colorls	
+rstudio-desktop-bin	
 ruby-erubis	
-ruby-filesize	"is needed for colorls."
 ruby-xdg5	
 rustdesk-bin	"provides remote desktop access."
 rxvt-unicode-truecolor-wide-glyphs	
 sc-im	"is an Excel-like terminal spreadsheet manager."
 simple-mtpfs	"enables the mounting of cell phones."
-skippy-xd-git	"is a full-screen task-switcher for X11, similar to Apple's Expose."
 slack-desktop	
-smartgit	"is a pretty good Git GUI client."
+smartsvn	
+smem	
 sql-formatter	
+sqlfmt-bin	
 task-spooler	"queues up tasks from the shell for batch execution."
+teams-for-linux-bin	
+ticktick	
 tmux-plugin-manager	
 tmuxinator	
 urlview	
 visual-studio-code-bin	"is a proprietary Microsoft-branded release of VS Code which supports more extensions like GitHub Copilot."
+wakatime	
+whitesur-gtk-theme	
+xdg-ninja	
+xremap-x11-bin	
 xscreensaver-arch-logo	
 youtube-music-bin	
+zoom	
 zsh-fast-syntax-highlighting	"provides syntax highlighting in the shell."
