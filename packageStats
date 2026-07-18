@@ -2,7 +2,7 @@
 # vim:ft=bash:tw=79
 #==============================================================================
 # Author: 00riddle00 (Tomas Giedraitis)
-# Date:   2025-06-26 00:48:47 EEST
+# Date:   2026-07-18 12:34:38 CEST
 # Path:   ./packageStats
 # URL:    https://github.com:00riddle00/npBuild
 #==============================================================================
@@ -28,14 +28,14 @@ base_devel_remote_pkgs() { expac -S %E base-devel | xargs -n1 | sort ; }
 
 base_devel_pkgs() { a_and_b <(all_pkgs) <(base_devel_remote_pkgs) ; }
 
-aur_pkgs() { pacman -Qmq | sort ; }
+aur_explicit_pkgs() { pacman -Qemq | sort ; }
 
 explicit_pkgs() { pacman -Qeq ; }
 
 official_pkgs() {
     a_minus_b \
         <(cat <(explicit_pkgs) <(base_pkgs) <(base_devel_pkgs)) \
-        <(aur_pkgs)
+        <(aur_explicit_pkgs)
 }
 
 # Some packages may be shown as installed explicitly, but are actually
@@ -92,7 +92,7 @@ npbuild_aur_packages_not_installed() {
 
     a_minus_b \
         <(awk -F$'\t' '{print $1}' <(tail +2 pkgs-from-aur.tsv)) \
-        <(aur_pkgs)
+        <(aur_explicit_pkgs)
 }
 
 npbuild_official_pkgs_not_installed() {
@@ -118,13 +118,13 @@ npbuild_official_pkgs_not_installed() {
     | sed 's/^/ /'
 }
 
-installed_aur_pkgs_not_in_npbuild() {
+installed_aur_explicit_pkgs_not_in_npbuild() {
     msg=("${bold}${blue}::${normal} "
         "${bold}Installed AUR packages which are not in npBuild:${normal}")
     printf "%s" "${msg[@]}"; printf "\n"
 
     a_minus_b \
-        <(aur_pkgs) \
+        <(aur_explicit_pkgs) \
         <(awk -F$'\t' '{print $1}' <(tail +2 pkgs-from-aur.tsv)) \
     | sed 's/^/ /'
 }
@@ -155,7 +155,7 @@ main() {
     cd "${PKG_TSV_DIR}" || exit 1
     npbuild_aur_packages_not_installed
     npbuild_official_pkgs_not_installed
-    installed_aur_pkgs_not_in_npbuild
+    installed_aur_explicit_pkgs_not_in_npbuild
     installed_official_pkgs_not_in_npbuild
 }
 
