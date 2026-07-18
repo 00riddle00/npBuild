@@ -1,8 +1,8 @@
 NAME IN REPO	META PACKAGE(S)	PACKAGE GROUP(S)	PURPOSE (should be a verb phrase to sound right while installing)
 amd-ucode			"contains AMD CPU microcode updates for hardware bug and security fixes."
-cuda			
-cudnn			
-nvidia-open			
-nvidia-settings			
-python-pytorch-cuda			
-python-tensorflow-opt-cuda			
+cuda			"provides NVIDIA's CUDA toolkit for GPU-accelerated computing."
+cudnn			"provides NVIDIA's CUDA Deep Neural Network library for accelerating AI and machine learning workloads."
+nvidia-open			"provides NVIDIA's open-source kernel modules and userspace driver components for supported GPUs."
+nvidia-settings			"provides a graphical utility to configure NVIDIA driver settings."
+python-pytorch-cuda			"enables PyTorch to use NVIDIA CUDA GPUs for accelerated computation."
+python-tensorflow-opt-cuda			"enables the optimized TensorFlow build to use NVIDIA CUDA GPUs for accelerated computation."
