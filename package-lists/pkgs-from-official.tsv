@@ -1,459 +1,458 @@
 NAME IN REPO	META PACKAGE(S)	PACKAGE GROUP(S)	PURPOSE (should be a verb phrase to sound right while installing)
-7zip			
-acpi			
-adobe-source-code-pro-fonts			
-adobe-source-serif-fonts			
-adwaita-icon-theme			
-aerc			
-alacritty			
+7zip			"provides a file archiver with support for many archive formats."
+acpi			"displays information about ACPI devices, batteries, and thermal zones."
+adobe-source-code-pro-fonts			"provides the Adobe Source Code Pro font family."
+adobe-source-serif-fonts			"provides the Adobe Source Serif font family."
+adwaita-icon-theme			"provides the Adwaita icon theme."
+aerc			"provides a terminal-based email client."
+alacritty			"provides a GPU-accelerated terminal emulator."
 alsa-utils			"provides amixer and other ALSA utilities."
-arandr			
-archlinux-keyring	base, base-devel		
-ascii			
-asciiquarium			
+arandr			"provides a graphical interface for configuring RandR displays."
+archlinux-keyring	base, base-devel		"contains the trusted PGP keys used by Pacman."
+ascii			"displays ASCII tables and character information."
+asciiquarium			"displays an animated ASCII aquarium in the terminal."
 at			"schedules commands to run at a specified time."
-atop			
-autoconf	base-devel		
-automake	base-devel		
+atop			"provides an interactive system and process monitor."
+autoconf	base-devel		"provides tools for generating configure scripts."
+automake	base-devel		"provides tools for generating GNU Makefile.in files."
 autotiling			"uses python-i3ipc to switch between horizontal and vertical splits based on the dimensions of the focused window in i3."
-aws-cli-v2			
-bandwhich			
+aws-cli-v2			"provides the Amazon Web Services command-line interface."
+bandwhich			"displays network bandwidth usage by process, connection, and host."
 base			"is a metapackage that defines a minimal Arch Linux installation and prevents its essential packages from being removed as orphans."
 base-devel			"is a metapackage that provides the tools needed to build Arch packages with makepkg."
-bash	base		
-bash-language-server			
+bash	base		"provides the GNU Bourne Again Shell."
+bash-language-server			"provides Language Server Protocol support for Bash."
 bat			"displays files with syntax highlighting and other enhancements."
-bat-extras			
+bat-extras			"provides additional utilities built around the bat pager."
 bc			"provides the calculator used by a dropdown terminal."
-biber			
+biber			"provides a modern bibliography processor for LaTeX."
 bind			"provides dig, host, and other DNS utilities."
-binutils	base-devel		
-bison	base-devel		
-bluez			
-bluez-utils			
-bmon			
-bottom			
-btop			
-bzip2	base		
-calcurse			
-calibre			
-cdrtools			
-cgdb			
-chafa			
-chromium			
-clamav			
-cloc			
+binutils	base-devel		"provides the GNU assembler, linker, and binary utilities."
+bison	base-devel		"provides a parser generator compatible with Yacc."
+bluez			"provides the Linux Bluetooth protocol stack."
+bluez-utils			"provides Bluetooth management utilities."
+bmon			"provides a terminal-based bandwidth monitor."
+bottom			"provides a cross-platform terminal system monitor."
+btop			"provides an interactive system resource monitor."
+bzip2	base		"provides tools and libraries for bzip2 compression."
+calcurse			"provides a terminal-based calendar and scheduling application."
+calibre			"provides an e-book management application."
+cdrtools			"provides tools for recording and manipulating optical discs."
+cgdb			"provides a curses-based interface for the GNU Debugger."
+chafa			"converts images into terminal graphics using Unicode and ANSI escape sequences."
+chromium			"provides the Chromium web browser."
+clamav			"provides an open-source antivirus engine and utilities."
+cloc			"counts blank lines, comment lines, and lines of source code."
 cmake			"provides a cross-platform build system needed to compile the YouCompleteMe Vim plugin."
-cmatrix			
-cmus			
+cmatrix			"displays the Matrix digital rain effect in a terminal."
+cmus			"provides a terminal-based music player."
 colordiff			"adds color to diff output, including SVN diffs."
-conky			
-cool-retro-term			
-copyq			
-coreutils	base		
-cowfortune			
-cowsay			
+conky			"provides a highly configurable system monitor for the desktop."
+cool-retro-term			"provides a terminal emulator with a retro CRT appearance."
+copyq			"provides a clipboard manager with editing and scripting support."
+coreutils	base		"provides the GNU core file, shell, and text utilities."
+cowfortune			"displays fortune messages using cowsay."
+cowsay			"displays text as speech bubbles spoken by ASCII art characters."
 cpanminus			"provides a zero-configuration client for installing Perl modules from CPAN and supports local::lib."
-cronie			
+cronie			"provides a daemon for running scheduled tasks."
 ctags			"generates indexes of language objects in source files and is needed by the Tagbar and CtrlP Vim plugins."
-ctop			
-cups			
-dbeaver			
-debugedit	base-devel		
-detox			
-dhcpcd			
-diff-so-fancy			
-diffpdf			
-difftastic			
-discord			
-dmidecode			
-dnsmasq			
-docker			
-docker-buildx			
+ctop			"provides a terminal-based monitor for containers."
+cups			"provides the Common UNIX Printing System."
+dbeaver			"provides a universal graphical database management client."
+debugedit	base-devel		"rewrites source paths in debugging information."
+detox			"renames files to remove problematic characters from filenames."
+dhcpcd			"provides a DHCP and IPv6 autoconfiguration client."
+diff-so-fancy			"improves the readability of Git diff output."
+diffpdf			"provides a graphical tool for comparing PDF files."
+difftastic			"compares files using syntax-aware structural differences."
+discord			"provides the Discord desktop client."
+dmidecode			"displays hardware information from SMBIOS and DMI tables."
+dnsmasq			"provides a lightweight DNS forwarder and DHCP server."
+docker			"provides tools for building and running containers."
+docker-buildx			"extends Docker with advanced image build capabilities."
 docker-compose			"allows multiple Docker containers to be defined and run together."
-dog			
-doge			
-dos2unix			
-dosbox			
+dog			"provides a modern command-line DNS lookup utility."
+doge			"provides a command-line utility for generating Doge memes."
+dos2unix			"converts text files between DOS and Unix line endings."
+dosbox			"provides an x86 DOS emulator."
 dosfstools			"provides tools for creating, checking, and repairing FAT filesystems."
-dua-cli			
-duckdb			
+dua-cli			"analyzes disk usage and helps free storage space."
+duckdb			"provides an in-process analytical SQL database."
 dunst			"provides a lightweight and customizable notification daemon."
-dust			
-dysk			
-edk2-ovmf			
-efibootmgr			
+dust			"provides an intuitive command-line disk usage analyzer."
+dysk			"displays filesystem and disk usage information."
+edk2-ovmf			"provides UEFI firmware for virtual machines."
+efibootmgr			"manages UEFI boot entries from Linux."
 emacs			"is also needed by Doom Emacs."
-espeak-ng			
-ethtool			
-evtest			
-expac			
-eza			
-fakeroot	base-devel		
-fastfetch			
-fbgrab			
+espeak-ng			"provides a multilingual speech synthesis engine."
+ethtool			"displays and configures Ethernet device settings."
+evtest			"displays input events generated by Linux input devices."
+expac			"provides a command-line interface for querying Pacman databases."
+eza			"provides a modern replacement for the ls command."
+fakeroot	base-devel		"allows programs to simulate running with root privileges."
+fastfetch			"displays system information in the terminal."
+fbgrab			"captures screenshots from the Linux framebuffer."
 fd			"is needed by shell functions that use fzf and by Doom Emacs."
 feh			"is an image viewer that can also set the wallpaper."
 figlet			"creates large ASCII-art letters from ordinary text."
-file	base, base-devel		
+file	base, base-devel		"identifies file types using magic numbers."
 file-roller		gnome-extra	"provides archive creation and modification support for thunar-archive-plugin."
-filesystem	base		
-findutils	base, base-devel		
-firefox			
-firefox-tridactyl		firefox-addons	
-flameshot			
-flex	base-devel		
-freerdp			
+filesystem	base		"provides the base Linux filesystem hierarchy."
+findutils	base, base-devel		"provides tools for finding files and directories."
+firefox			"provides the Mozilla Firefox web browser."
+firefox-tridactyl		firefox-addons	"adds Vim-like keyboard controls to Firefox."
+flameshot			"provides a feature-rich screenshot tool."
+flex	base-devel		"provides a lexical analyzer generator."
+freerdp			"provides an open-source Remote Desktop Protocol client and libraries."
 fzf			"provides a command-line fuzzy finder."
-gawk	base, base-devel		
-gcc	base-devel		
-gcc-libs	base		
-gemini-cli			
-gettext	base, base-devel		
-gimp			
-git			
-git-annex			
-git-delta			
-git-filter-repo			
-git-lfs			
-github-cli			
-glances			
-glibc	base		
-glow			
-gnuplot			
-gping			
-graphviz			
-grep	base, base-devel		
-groff	base-devel		
-grub			
-gtop			
+gawk	base, base-devel		"provides the GNU implementation of the awk programming language."
+gcc	base-devel		"provides the GNU C and C++ compiler collection."
+gcc-libs	base		"provides runtime libraries for GCC-compiled programs."
+gemini-cli			"provides a command-line interface for Google's Gemini AI models."
+gettext	base, base-devel		"provides tools for software localization and translation."
+gimp			"provides an image editing application."
+git			"provides a distributed version control system."
+git-annex			"manages large files using Git without storing their contents in repositories."
+git-delta			"provides a syntax-highlighted pager for Git diffs."
+git-filter-repo			"rewrites Git repository history."
+git-lfs			"stores large files outside Git while keeping lightweight references in repositories."
+github-cli			"provides the GitHub command-line interface."
+glances			"provides a cross-platform system monitoring tool."
+glibc	base		"provides the GNU C standard library."
+glow			"renders Markdown documents in the terminal."
+gnuplot			"provides a command-line graphing and plotting utility."
+gping			"measures network latency with a graphical terminal display."
+graphviz			"renders graphs described in the DOT language."
+grep	base, base-devel		"searches text using regular expressions."
+groff	base-devel		"formats documents using the GNU roff text formatter."
+grub			"provides the GNU GRand Unified Bootloader."
+gtop			"provides an interactive terminal system monitor."
 gvfs		gnome	"provides trash, udisks-based mounting, and remote filesystem support for Thunar."
-gzip	base, base-devel		
-hardinfo2			
-harper			
-hicolor-icon-theme			
+gzip	base, base-devel		"compresses and decompresses files using the gzip format."
+hardinfo2			"displays detailed hardware and system information."
+harper			"provides grammar and style checking from the command line."
+hicolor-icon-theme			"provides the freedesktop.org fallback icon theme."
 highlight			"provides command-line source-code highlighting for colorful file previews in ranger."
-hplip			
+hplip			"provides HP printer and scanner drivers and utilities."
 hsetroot			"sets the X root-window background while preserving it across picom restarts."
-hwinfo			
-hwloc			
-hyperfine			
-i3-wm		i3	
-i3blocks		i3	
-i3lock		i3	
+hwinfo			"displays detailed hardware information."
+hwloc			"displays and manages hardware locality information."
+hyperfine			"benchmarks command-line programs."
+i3-wm		i3	"provides the i3 tiling window manager."
+i3blocks		i3	"provides a status bar for i3."
+i3lock		i3	"provides a screen locker for i3."
 ifuse			"allows iOS devices to be mounted through FUSE."
-imagemagick			
-inetutils			
-inkscape			
-inter-font			
-inxi			
-iproute2	base		
-iptables			
-iputils	base		
-irssi			
+imagemagick			"provides tools for creating, editing, and converting images."
+inetutils			"provides common Internet client and server utilities."
+inkscape			"provides a vector graphics editor."
+inter-font			"provides the Inter font family."
+inxi			"displays detailed system information."
+iproute2	base		"provides utilities for configuring Linux networking."
+iptables			"configures Linux packet filtering and NAT rules."
+iputils	base		"provides common IP network diagnostic utilities."
+irssi			"provides a terminal-based IRC client."
 iw			"is needed to obtain Wi-Fi signal-strength information for i3blocks."
-jdk-openjdk			
-jp2a			
-jpegoptim			
+jdk-openjdk			"provides the OpenJDK Java Development Kit."
+jp2a			"converts images into ASCII art."
+jpegoptim			"optimizes JPEG images without recompression."
 jq			"is needed to parse JSON containing i3 workspace information."
-jupyter-notebook			
-jupyterlab			
+jupyter-notebook			"provides the Jupyter Notebook web application."
+jupyterlab			"provides the JupyterLab web-based development environment."
 keepassxc			"provides a cross-platform password manager and an org.freedesktop.secrets service used by Chromium, Git, Teams, and code-features."
-kitty			
-krita			
-lazygit			
-lftp			
+kitty			"provides a GPU-accelerated terminal emulator."
+krita			"provides a digital painting application."
+lazygit			"provides a terminal user interface for Git."
+lftp			"provides a feature-rich command-line file transfer client."
 lib32-nvidia-utils			"provides 32-bit NVIDIA driver utilities needed by some Steam games."
-libappindicator			
-libguestfs			
-libreoffice-fresh			
-libtool	base-devel		
-libvirt			
-libxft			
-licenses	base		
-linux			
-linux-firmware			
-logrotate			
-lolcat			
-lostfiles			
-lshw			
-lsof			
-lua-language-server			
-lua51			
-luarocks			
-lvm2			
-lxappearance		lxde	
-lxappearance-obconf		lxde	
+libappindicator			"provides application indicator support libraries."
+libguestfs			"provides tools for accessing and modifying virtual machine disk images."
+libreoffice-fresh			"provides the latest LibreOffice office suite."
+libtool	base-devel		"provides a portable library management system."
+libvirt			"provides virtualization management APIs and tools."
+libxft			"provides anti-aliased font rendering for X11."
+licenses	base		"provides common software license texts."
+linux			"provides the Linux kernel."
+linux-firmware			"provides firmware files for Linux hardware drivers."
+logrotate			"rotates, compresses, and manages log files."
+lolcat			"displays colorful rainbow text in the terminal."
+lostfiles			"finds files not owned by any installed package."
+lshw			"displays detailed hardware configuration information."
+lsof			"lists open files and the processes using them."
+lua-language-server			"provides Language Server Protocol support for Lua."
+lua51			"provides version 5.1 of the Lua programming language."
+luarocks			"manages Lua packages and modules."
+lvm2			"manages Logical Volume Manager storage."
+lxappearance		lxde	"provides a GTK theme configuration tool."
+lxappearance-obconf		lxde	"integrates Openbox appearance settings into LXAppearance."
 lynx			"provides a terminal-based web browser."
-m4	base-devel		
-make	base-devel		
+m4	base-devel		"provides the GNU macro processor."
+make	base-devel		"builds software from Makefiles."
 man-db			"provides access to documentation in manual pages."
 man-pages			"documents Linux kernel and C library interfaces used by user-space programs."
-mariadb			
-marksman			
-mattermost			
-mc			
-mdp			
+mariadb			"provides the MariaDB database server."
+marksman			"provides Language Server Protocol support for Markdown."
+mattermost			"provides the Mattermost desktop client."
+mc			"provides the Midnight Commander file manager."
+mdp			"displays Markdown presentations in the terminal."
 mediainfo			"provides media-file information for ranger previews."
-meld			
-mermaid-cli			
+meld			"provides a graphical file and directory comparison tool."
+mermaid-cli			"renders Mermaid diagrams from the command line."
 mesa-utils			"provides glxinfo and other Mesa utilities."
-miller			
+miller			"processes structured text such as CSV, TSV, and JSON."
 moreutils			"provides a collection of useful Unix command-line tools."
 mpc			"provides a command-line client for MPD."
 mpd			"provides a lightweight client-server music player daemon."
 mpv			"is the patrician's choice video player."
-msmtp-mta			
-mypaint			
-mysql-workbench			
-ncdu			
-ncmpcpp			
-neomutt			
-neovim			
-net-tools			
-nethogs			
+msmtp-mta			"provides an SMTP client compatible with sendmail."
+mypaint			"provides a digital painting application."
+mysql-workbench			"provides graphical tools for MySQL and MariaDB."
+ncdu			"analyzes disk usage in the terminal."
+ncmpcpp			"provides a terminal client for Music Player Daemon."
+neomutt			"provides a terminal-based email client."
+neovim			"provides a modern Vim-based text editor."
+net-tools			"provides legacy networking utilities."
+nethogs			"displays network bandwidth usage by process."
 newsboat			"provides a terminal-based RSS and Atom feed reader."
-nmap			
+nmap			"scans networks and discovers hosts and services."
 nodejs-lts-jod			"provides the Jod LTS release of Node.js."
-notmuch-vim			
+notmuch-vim			"integrates Notmuch email features into Vim."
 noto-fonts			"provides an extensive collection of fonts with broad language coverage."
 noto-fonts-emoji			"provides emoji fonts from the Noto family."
 nsxiv			"provides a minimalist X11 image viewer."
 ntfs-3g			"allows NTFS filesystems to be accessed through FUSE."
-ntp			
-obs-studio			
-obsidian			
-octave			
-offlineimap			
-ollama			
-openai-codex			
-openbox		lxde, lxde-gtk3, lxqt	
-openbsd-netcat			
-openconnect			
-openfortivpn			
-openssh			
-openssl			
-openvpn			
-oxipng			
-pacman	base, base-devel		
+ntp			"synchronizes the system clock using Network Time Protocol."
+obs-studio			"provides software for video recording and live streaming."
+obsidian			"provides a Markdown-based knowledge base application."
+octave			"provides a numerical computing environment compatible with MATLAB."
+offlineimap			"synchronizes IMAP mailboxes for offline use."
+ollama			"runs large language models locally."
+openai-codex			"provides the OpenAI Codex command-line interface."
+openbox		lxde, lxde-gtk3, lxqt	"provides a lightweight stacking window manager."
+openbsd-netcat			"provides the OpenBSD implementation of netcat."
+openconnect			"provides a VPN client compatible with Cisco AnyConnect."
+openfortivpn			"provides a VPN client for Fortinet gateways."
+openssh			"provides SSH clients and server."
+openssl			"provides cryptographic libraries and TLS utilities."
+openvpn			"provides a VPN client and server."
+oxipng			"optimizes PNG images without losing quality."
+pacman	base, base-devel		"manages software packages on Arch Linux."
 parallel			"builds and executes shell command lines from standard input in parallel."
-patch	base-devel		
-pavucontrol			
-pciutils	base		
-pdftk			
-perl			
-perl-data-compare			
-perl-lingua-translit			
-perl-list-moreutils			
+patch	base-devel		"applies unified diff patches to files."
+pavucontrol			"provides a graphical volume control for PulseAudio and PipeWire."
+pciutils	base		"displays and manages PCI devices."
+pdftk			"manipulates PDF documents."
+perl			"provides the Perl programming language."
+perl-data-compare			"compares Perl data structures."
+perl-lingua-translit			"transliterates text between writing systems."
+perl-list-moreutils			"provides additional list utility functions for Perl."
 picom			"provides compositing effects such as transparency and helps prevent screen tearing."
-pipewire			
-pipewire-alsa			
-pipewire-audio			
-pipewire-jack			
-pipewire-pulse			
-pkgconf	base-devel		
-playerctl			
-plocate			
-pngquant			
-polybar			
+pipewire			"provides a multimedia server for audio and video streams."
+pipewire-alsa			"provides ALSA integration for PipeWire."
+pipewire-audio			"provides the default PipeWire audio session."
+pipewire-jack			"provides JACK compatibility for PipeWire."
+pipewire-pulse			"provides PulseAudio compatibility for PipeWire."
+pkgconf	base-devel		"provides a pkg-config compatible dependency resolver."
+playerctl			"controls media players via MPRIS."
+plocate			"provides a fast file location database and search utility."
+pngquant			"compresses PNG images using indexed color."
+polybar			"provides a customizable status bar for window managers."
 postgresql			"provides the PostgreSQL database server."
-prettier			
-procps-ng	base		
-procs			
-projectm			
-psmisc	base		
+prettier			"formats source code consistently."
+procps-ng	base		"provides utilities for monitoring and controlling processes."
+procs			"provides a modern replacement for the ps command."
+projectm			"provides a music visualization engine."
+psmisc	base		"provides utilities for managing running processes."
 pyenv			"allows multiple Python versions to be installed and managed."
-pyright			
-python			
-python-black			
-python-configobj			
-python-flake8			
-python-fsspec			
-python-isort			
-python-lxml			
-python-matplotlib			
-python-nltk			
-python-pip			
-python-pydocstyle			
+pyright			"performs static type checking for Python."
+python			"provides the Python programming language."
+python-black			"formats Python code."
+python-configobj			"provides configuration file parsing for Python."
+python-flake8			"checks Python code for style issues."
+python-fsspec			"provides a unified filesystem interface for Python."
+python-isort			"sorts Python import statements."
+python-lxml			"provides XML and HTML processing for Python."
+python-matplotlib			"provides plotting and visualization libraries for Python."
+python-nltk			"provides natural language processing tools for Python."
+python-pip			"installs and manages Python packages."
+python-pydocstyle			"checks Python docstrings against PEP 257."
 python-pynvim			"provides the Python client for Neovim."
-python-pyxdg			
-python-ruff			
+python-pyxdg			"provides Python bindings for XDG desktop standards."
+python-ruff			"provides a fast Python linter and formatter."
 python-uv			"provides a fast Python package and project manager."
-python-wxpython			
-qalculate-gtk			
-qbittorrent			
-qemu-base	qemu-desktop		
-qemu-desktop	qemu-full		
-qemu-full			
-qemu-system-x86	qemu-base, qemu-desktop		
-qutebrowser			
-r			
-ranger			
+python-wxpython			"provides wxWidgets bindings for Python."
+qalculate-gtk			"provides a graphical frontend for the Qalculate calculator."
+qbittorrent			"provides a BitTorrent client."
+qemu-base	qemu-desktop		"provides the base QEMU machine emulator."
+qemu-desktop	qemu-full		"provides desktop virtualization components for QEMU."
+qemu-full			"provides the complete QEMU virtualization package."
+qemu-system-x86	qemu-base, qemu-desktop		"provides x86 system emulation for QEMU."
+qutebrowser			"provides a keyboard-driven web browser."
+r			"provides the R statistical computing environment."
+ranger			"provides a terminal-based file manager."
 reflector			"retrieves and filters the latest Pacman mirror list by country and other criteria."
-remmina			
-renameutils			
-reptyr			
+remmina			"provides a remote desktop client."
+renameutils			"provides utilities for batch renaming files."
+reptyr			"moves running processes to another terminal."
 ripgrep			"is also needed by Doom Emacs."
-ripgrep-all			
-rkhunter			
-rnote			
+ripgrep-all			"searches many file formats recursively using ripgrep."
+rkhunter			"scans the system for rootkits and security issues."
+rnote			"provides a handwritten note-taking application."
 rofi			"provides a window switcher, application launcher, and dmenu replacement."
-rofimoji			
-rsync			
-rtorrent			
-ruby			
-ruby-irb			
-screen			
-scrot			
-sd			
-sed	base, base-devel		
-shadow	base		
-shellcheck			
-shfmt			
-smartmontools			
-snixembed			
-socat			
-sqlfluff			
-sqlitebrowser			
-steam			
-strace			
-subversion			
-sudo	base-devel		
-surfraw			
-swtpm	qemu-desktop		
-sysfsutils			
-sysstat			
-system-config-printer			
-systemd	base		
-systemd-sysvcompat	base		
-tailscale			
-tar	base		
-tealdeer			
+rofimoji			"provides an emoji picker for Rofi."
+rsync			"synchronizes files and directories efficiently."
+rtorrent			"provides a terminal-based BitTorrent client."
+ruby			"provides the Ruby programming language."
+ruby-irb			"provides the Interactive Ruby shell."
+scrot			"captures screenshots from X11."
+sd			"provides an intuitive command-line find and replace tool."
+sed	base, base-devel		"provides the GNU stream editor."
+shadow	base		"provides user and group account management utilities."
+shellcheck			"analyzes shell scripts for common mistakes."
+shfmt			"formats shell scripts."
+smartmontools			"monitors and reports SMART storage device health."
+snixembed			"provides StatusNotifierItem support for XEmbed system trays."
+socat			"creates bidirectional data streams between endpoints."
+sqlfluff			"lints and formats SQL code."
+sqlitebrowser			"provides a graphical browser for SQLite databases."
+steam			"provides the Steam gaming platform."
+strace			"traces system calls and signals."
+subversion			"provides the Apache Subversion version control system."
+sudo	base-devel		"allows authorized users to execute commands as another user."
+surfraw			"provides command-line shortcuts for web search engines."
+swtpm	qemu-desktop		"provides a software Trusted Platform Module emulator."
+sysfsutils			"provides utilities for interacting with sysfs."
+sysstat			"collects and reports system performance statistics."
+system-config-printer			"provides a graphical printer configuration tool."
+systemd	base		"provides the system and service manager."
+systemd-sysvcompat	base		"provides SysV init compatibility links for systemd."
+tailscale			"provides a WireGuard-based mesh VPN client."
+tar	base		"creates and extracts tar archives."
+tealdeer			"provides a fast tldr client."
 telegram-desktop			"provides the Telegram desktop messaging client."
 termdown			"provides a terminal-based timer and stopwatch."
-tesseract			
-tesseract-data-eng			
+tesseract			"provides an optical character recognition engine."
+tesseract-data-eng			"provides English language data for Tesseract OCR."
 texinfo	base-devel		"provides access to documentation in Info pages."
-texlive-basic		texlive	
-texlive-bibtexextra		texlive	
-texlive-bin			
-texlive-binextra		texlive	
-texlive-fontsextra		texlive	
-texlive-fontsrecommended		texlive	
-texlive-langcyrillic		texlive-lang	
-texlive-langenglish		texlive-lang	
-texlive-langeuropean		texlive-lang	
-texlive-langgerman		texlive-lang	
-texlive-langgreek		texlive-lang	
-texlive-langspanish		texlive-lang	
-texlive-latex		texlive	
-texlive-latexextra		texlive	
-texlive-latexrecommended		texlive	
-texlive-mathscience		texlive	
-texlive-pictures		texlive	
-texlive-plaingeneric		texlive	
-texlive-xetex		texlive	
-thunar		xfce4	
-thunar-archive-plugin		xfce4-goodies	
-thunar-media-tags-plugin		xfce4-goodies	
-thunar-volman		xfce4	
-thunderbird			
-tig			
-tint2			
-tk			
-tmux			
-trash-cli			
-tree			
-tree-sitter-cli			
-ttf-dejavu			
-ttf-dejavu-nerd		nerd-fonts	
-ttf-jetbrains-mono			
-ttf-jetbrains-mono-nerd		nerd-fonts	
-ttf-nerd-fonts-symbols		nerd-fonts	
-tumbler		xfce4	
-ueberzugpp			
-ufw			
-unrar			
+texlive-basic		texlive	"provides the core TeX Live distribution."
+texlive-bibtexextra		texlive	"provides additional BibTeX styles and bibliography packages."
+texlive-bin			"provides TeX Live binaries and utilities."
+texlive-binextra		texlive	"provides additional TeX Live utilities."
+texlive-fontsextra		texlive	"provides additional font packages for TeX Live."
+texlive-fontsrecommended		texlive	"provides recommended font packages for TeX Live."
+texlive-langcyrillic		texlive-lang	"provides Cyrillic language support for TeX Live."
+texlive-langenglish		texlive-lang	"provides English language support for TeX Live."
+texlive-langeuropean		texlive-lang	"provides European language support for TeX Live."
+texlive-langgerman		texlive-lang	"provides German language support for TeX Live."
+texlive-langgreek		texlive-lang	"provides Greek language support for TeX Live."
+texlive-langspanish		texlive-lang	"provides Spanish language support for TeX Live."
+texlive-latex		texlive	"provides core LaTeX packages."
+texlive-latexextra		texlive	"provides additional LaTeX packages."
+texlive-latexrecommended		texlive	"provides recommended LaTeX packages."
+texlive-mathscience		texlive	"provides mathematics and science packages for TeX Live."
+texlive-pictures		texlive	"provides graphics and drawing packages for TeX Live."
+texlive-plaingeneric		texlive	"provides plain TeX and generic macro packages."
+texlive-xetex		texlive	"provides XeTeX packages and support files."
+thunar		xfce4	"provides a lightweight graphical file manager."
+thunar-archive-plugin		xfce4-goodies	"adds archive creation and extraction to Thunar."
+thunar-media-tags-plugin		xfce4-goodies	"displays and edits media tags in Thunar."
+thunar-volman		xfce4	"manages removable media in Thunar."
+thunderbird			"provides the Mozilla Thunderbird email client."
+tig			"provides a text-mode interface for Git."
+tint2			"provides a lightweight panel for X11 window managers."
+tk			"provides the Tk GUI toolkit."
+tmux			"provides a terminal multiplexer."
+trash-cli			"moves files to the desktop trash from the command line."
+tree			"displays directory contents as a tree."
+tree-sitter-cli			"provides command-line tools for Tree-sitter grammars."
+ttf-dejavu			"provides the DejaVu font family."
+ttf-dejavu-nerd		nerd-fonts	"provides the DejaVu Nerd Font family."
+ttf-jetbrains-mono			"provides the JetBrains Mono font family."
+ttf-jetbrains-mono-nerd		nerd-fonts	"provides the JetBrains Mono Nerd Font family."
+ttf-nerd-fonts-symbols		nerd-fonts	"provides Nerd Fonts symbol glyphs."
+tumbler		xfce4	"provides thumbnail generation services for Xfce."
+ueberzugpp			"displays images inside terminal emulators."
+ufw			"provides an uncomplicated firewall management interface."
+unrar			"extracts RAR archives."
 unzip			"extracts files from ZIP archives."
-upower			
-util-linux	base		
-valgrind			
-vifm			
-vim			
-virt-manager			
-virt-viewer	qemu-desktop		
-viu			
-vlc			
-w3m			
-wdiff			
-wezterm			
-wget			
-which	base-devel		
-whois			
-wireguard-tools			
-wireplumber			
-wmctrl			
-wpa_supplicant			
-xaos			
-xclip			
-xdg-desktop-portal-gtk			
-xf86-input-wacom			
-xorg-bdftopcf		xorg, xorg-apps	
-xorg-docs		xorg	
-xorg-font-util		xorg, xorg-fonts	
-xorg-fonts-encodings		xorg, xorg-fonts	
-xorg-iceauth		xorg, xorg-apps	
-xorg-mkfontscale		xorg, xorg-apps	
+upower			"provides power management services and device information."
+util-linux	base		"provides essential Linux system utilities."
+valgrind			"profiles memory usage and detects memory errors."
+vifm			"provides a Vim-inspired terminal file manager."
+vim			"provides the Vim text editor."
+virt-manager			"provides a graphical interface for managing virtual machines."
+virt-viewer	qemu-desktop		"provides a viewer for virtual machine consoles."
+viu			"displays images in the terminal."
+vlc			"provides a multimedia player."
+w3m			"provides a text-based web browser."
+wdiff			"compares files on a word-by-word basis."
+wezterm			"provides a GPU-accelerated terminal emulator."
+wget			"downloads files over HTTP, HTTPS, and FTP."
+which	base-devel		"locates executable programs in the user's PATH."
+whois			"queries WHOIS registration databases."
+wireguard-tools			"provides tools for configuring WireGuard VPN tunnels."
+wireplumber			"provides the PipeWire session manager."
+wmctrl			"interacts with EWMH-compatible X11 window managers."
+wpa_supplicant			"manages Wi-Fi authentication and encryption."
+xaos			"provides an interactive fractal explorer."
+xclip			"provides command-line access to the X11 clipboard."
+xdg-desktop-portal-gtk			"provides GTK backend support for xdg-desktop-portal."
+xf86-input-wacom			"provides the Wacom input driver for X.Org."
+xorg-bdftopcf		xorg, xorg-apps	"converts BDF fonts to PCF format."
+xorg-docs		xorg	"provides X.Org documentation."
+xorg-font-util		xorg, xorg-fonts	"provides utilities for working with X11 fonts."
+xorg-fonts-encodings		xorg, xorg-fonts	"provides font encoding files for X11."
+xorg-iceauth		xorg, xorg-apps	"manages ICE authentication cookies."
+xorg-mkfontscale		xorg, xorg-apps	"creates scalable font index files for X11."
 xorg-server		xorg	"provides the Xorg display server."
-xorg-server-common		xorg	
-xorg-server-devel		xorg	
-xorg-server-xephyr		xorg	
-xorg-server-xnest		xorg	
-xorg-server-xvfb		xorg	
-xorg-sessreg		xorg, xorg-apps	
-xorg-setxkbmap		xorg, xorg-apps	
-xorg-smproxy		xorg, xorg-apps	
-xorg-x11perf		xorg, xorg-apps	
-xorg-xauth		xorg, xorg-apps	
+xorg-server-common		xorg	"provides common files for the X.Org server."
+xorg-server-devel		xorg	"provides development files for the X.Org server."
+xorg-server-xephyr		xorg	"provides the nested Xephyr X server."
+xorg-server-xnest		xorg	"provides the nested Xnest X server."
+xorg-server-xvfb		xorg	"provides the virtual framebuffer X server."
+xorg-sessreg		xorg, xorg-apps	"manages X11 login session records."
+xorg-setxkbmap		xorg, xorg-apps	"configures X11 keyboard layouts."
+xorg-smproxy		xorg, xorg-apps	"provides the X11 session management proxy."
+xorg-x11perf		xorg, xorg-apps	"benchmarks X11 graphics performance."
+xorg-xauth		xorg, xorg-apps	"manages X11 authentication credentials."
 xorg-xbacklight		xorg, xorg-apps	"allows screen brightness levels to be changed."
-xorg-xcmsdb		xorg, xorg-apps	
-xorg-xcursorgen		xorg, xorg-apps	
+xorg-xcmsdb		xorg, xorg-apps	"manages X11 color management databases."
+xorg-xcursorgen		xorg, xorg-apps	"creates X11 cursor themes."
 xorg-xdpyinfo		xorg, xorg-apps	"provides display information used to determine resolution and configure screen recording."
-xorg-xdriinfo		xorg, xorg-apps	
-xorg-xev		xorg, xorg-apps	
-xorg-xgamma		xorg, xorg-apps	
-xorg-xhost		xorg, xorg-apps	
+xorg-xdriinfo		xorg, xorg-apps	"displays Direct Rendering Infrastructure information."
+xorg-xev		xorg, xorg-apps	"displays X11 input events."
+xorg-xgamma		xorg, xorg-apps	"adjusts X11 display gamma settings."
+xorg-xhost		xorg, xorg-apps	"manages X11 server access control."
 xorg-xinit			"starts the Xorg display server and user session."
-xorg-xinput		xorg, xorg-apps	
-xorg-xkbcomp		xorg, xorg-apps	
-xorg-xkbevd		xorg, xorg-apps	
-xorg-xkbutils		xorg, xorg-apps	
-xorg-xkill		xorg, xorg-apps	
-xorg-xlsatoms		xorg, xorg-apps	
-xorg-xlsclients		xorg, xorg-apps	
-xorg-xmodmap		xorg, xorg-apps	
-xorg-xpr		xorg, xorg-apps	
+xorg-xinput		xorg, xorg-apps	"configures X11 input devices."
+xorg-xkbcomp		xorg, xorg-apps	"compiles X11 keyboard description files."
+xorg-xkbevd		xorg, xorg-apps	"provides an XKB event daemon."
+xorg-xkbutils		xorg, xorg-apps	"provides XKB utility programs."
+xorg-xkill		xorg, xorg-apps	"terminates X11 client applications."
+xorg-xlsatoms		xorg, xorg-apps	"lists X11 atoms."
+xorg-xlsclients		xorg, xorg-apps	"lists X11 client applications."
+xorg-xmodmap		xorg, xorg-apps	"modifies X11 keyboard and pointer mappings."
+xorg-xpr		xorg, xorg-apps	"prints X11 window contents."
 xorg-xprop		xorg, xorg-apps	"displays properties of X windows."
 xorg-xrandr		xorg, xorg-apps	"allows monitor layouts, resolutions, and orientations to be configured."
-xorg-xrdb		xorg, xorg-apps	
-xorg-xrefresh		xorg, xorg-apps	
-xorg-xset		xorg, xorg-apps	
-xorg-xvinfo		xorg, xorg-apps	
-xorg-xwd		xorg, xorg-apps	
+xorg-xrdb		xorg, xorg-apps	"manages the X11 resource database."
+xorg-xrefresh		xorg, xorg-apps	"refreshes X11 windows."
+xorg-xset		xorg, xorg-apps	"configures X11 user preferences."
+xorg-xvinfo		xorg, xorg-apps	"displays XVideo extension information."
+xorg-xwd		xorg, xorg-apps	"captures X11 window dumps."
 xorg-xwininfo		xorg, xorg-apps	"displays information about X windows."
-xorg-xwud		xorg, xorg-apps	
-xournalpp			
-xrootd			
-xz	base		
-yapf			
-yarn			
-yasm			
-yazi			
+xorg-xwud		xorg, xorg-apps	"displays X11 window dump files."
+xournalpp			"provides a handwriting and PDF annotation application."
+xrootd			"provides high-performance distributed data access software."
+xz	base		"provides XZ compression utilities."
+yapf			"formats Python source code."
+yarn			"manages JavaScript packages and projects."
+yasm			"provides an assembler for x86 and x86-64."
+yazi			"provides a terminal-based file manager."
 yt-dlp			"downloads videos, playlists, and channels from YouTube and other supported websites."
 zathura			"provides a PDF viewer with Vim-like keybindings."
 zathura-pdf-mupdf			"adds MuPDF-based PDF support to Zathura."
 zenity			"displays graphical dialog boxes from shell scripts and is needed by the Thunar 'Create New File' custom action."
-zip			
-zoxide			
+zip			"creates ZIP archives."
+zoxide			"provides a smarter directory navigation command."
 zsh			"provides a modern interactive shell."
-zstd			
+zstd			"provides Zstandard compression utilities."
