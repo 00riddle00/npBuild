@@ -1,100 +1,100 @@
 NAME IN AUR REPO	PURPOSE (should be a verb phrase to sound right while installing)
-aicommits	
-anydesk-bin	provides remote desktop access.
-apple-sf-fonts	
-arc-dark-osx-openbox-theme-git	
-arch-wiki-man	
+aicommits	"generates Git commit messages using AI."
+anydesk-bin	"provides remote desktop access."
+apple-sf-fonts	"provides Apple's San Francisco font family."
+arc-dark-osx-openbox-theme-git	"provides an Arc Dark–inspired Openbox theme with macOS-style window controls."
+arch-wiki-man	"provides Arch Wiki articles as local man pages."
 archey4	"outputs a logo and various system information for the matrix look."
-archlinux-java-run	
-atbswp	
-auracle-git	
-aws-cdk	provides a framework for defining cloud infrastructure in code.
-aws-cli-v2-python-awscrt	
-ayatana-indicator-application	
-brave-bin	
-bridge-utils	
-cheat-bin	
-claude-code	
-cli-visualizer	
-clipboard-bin	
-cursor-bin	
-dmg2img	
-downgrade	
-dropbox	
-ente-auth-bin	
-fastcompmgr	
-flat-remix-gtk	
-franz-bin	
-github-copilot-cli	
+archlinux-java-run	"runs Java applications with a compatible installed Java environment."
+atbswp	"records and replays mouse and keyboard actions."
+auracle-git	"provides a command-line client for the Arch User Repository."
+aws-cdk	"provides a framework for defining cloud infrastructure in code."
+aws-cli-v2-python-awscrt	"provides AWS CLI v2 with the awscrt backend."
+ayatana-indicator-application	"provides Ayatana Application Indicator support."
+brave-bin	"provides the Brave web browser."
+bridge-utils	"provides utilities for configuring Ethernet bridges."
+cheat-bin	"provides a command-line cheatsheet utility."
+claude-code	"provides Anthropic's AI coding assistant for the command line."
+cli-visualizer	"provides a command-line audio visualizer."
+clipboard-bin	"provides a command-line clipboard manager."
+cursor-bin	"provides the Cursor AI code editor."
+dmg2img	"converts Apple DMG disk images to raw disk images."
+downgrade	"allows installed Arch packages to be downgraded using cached or archived versions."
+dropbox	"provides the Dropbox desktop synchronization client."
+ente-auth-bin	"provides the Ente Auth desktop client."
+fastcompmgr	"provides a lightweight X11 compositor."
+flat-remix-gtk	"provides the Flat Remix GTK theme."
+franz-bin	"provides the Franz messaging client."
+github-copilot-cli	"provides GitHub Copilot in the command line."
 gmrun	"is a simple application launcher and run dialog."
-gotop-bin	
-grabc	
-grub2-theme-archlinux	
+gotop-bin	"provides a terminal-based graphical system monitor."
+grabc	"captures a pixel color from the X11 screen."
+grub2-theme-archlinux	"provides an Arch Linux theme for GRUB."
 htop-vim	"is a colorful system monitor with vim keybindings."
-httpie-desktop-bin	
-insomnium-bin	
-jabref-bin	
+httpie-desktop-bin	"provides the HTTPie desktop client for testing APIs."
+insomnium-bin	"provides the Insomnium desktop client for designing and testing APIs."
+jabref-bin	"provides a graphical bibliography manager for BibTeX and related formats."
 keybase-bin	"is a CLI tool for interacting with keybase.io and managing GPG keys."
 krop	"is a tool for cropping PDF files."
-la-capitaine-icon-theme	
-layan-gtk-theme-git	
-lazydocker-bin	
-libayatana-appindicator-glib	
-light-git	
-mattermost-desktop-bin	
-mongodb-bin	
-mongosh-bin	
-neofetch	
-nerd-fonts-sf-mono	
-ninvaders-git	
-nomacs	
-nomacs-debug	
-normcap	
-noto-color-emoji-fontconfig	
-nsnake	
-numix-cursor-theme	
-nvim-packer-git	
-obs-pipewire-audio-capture-bin	
-otf-stix	
-pacgraph	
-pacnews-git	
-par	
-paru	
-paru-debug	
+la-capitaine-icon-theme	"provides the La Capitaine icon theme."
+layan-gtk-theme-git	"provides the Layan GTK theme."
+lazydocker-bin	"provides a terminal interface for managing Docker containers and services."
+libayatana-appindicator-glib	"provides the Ayatana AppIndicator GLib library."
+light-git	"controls screen backlight brightness from the command line."
+mattermost-desktop-bin	"provides the Mattermost desktop client."
+mongodb-bin	"provides the MongoDB database server binaries."
+mongosh-bin	"provides the MongoDB Shell."
+neofetch	"displays system information in the terminal."
+nerd-fonts-sf-mono	"provides Apple's SF Mono font patched with Nerd Fonts icons."
+ninvaders-git	"provides a terminal-based Space Invaders clone."
+nomacs	"provides a lightweight image viewer."
+nomacs-debug	"provides a debug build of the Nomacs image viewer."
+normcap	"provides OCR-based text capture from screen selections."
+noto-color-emoji-fontconfig	"configures Fontconfig to prefer Noto Color Emoji for emoji characters."
+nsnake	"provides a terminal-based Snake game."
+numix-cursor-theme	"provides the Numix cursor theme."
+nvim-packer-git	"provides a plugin manager for Neovim."
+obs-pipewire-audio-capture-bin	"adds PipeWire audio capture sources to OBS Studio."
+otf-stix	"provides the STIX OpenType font family."
+pacgraph	"visualizes installed Arch package dependencies as a graph."
+pacnews-git	"checks Arch Linux news for items relevant to installed package upgrades."
+par	"formats and reflows plain text paragraphs."
+paru	"provides an AUR helper and Pacman wrapper written in Rust."
+paru-debug	"provides a debug build of the Paru AUR helper."
 perl-cpan-distnameinfo	"is needed by perl-cpan-outdated."
-perl-cpan-outdated	detects outdated CPAN modules in your environment.
-postman-bin	
-python-ipdb	
-python-pdbpp	
-python-scikit-base	
-python-ticktick-py	
-python-undetected-chromedriver	
+perl-cpan-outdated	"detects outdated CPAN modules in your environment."
+postman-bin	"provides the Postman desktop client for developing and testing APIs."
+python-ipdb	"provides an IPython-based Python debugger."
+python-pdbpp	"provides an enhanced replacement for Python's built-in pdb debugger."
+python-scikit-base	"provides the scikit-build-core Python package."
+python-ticktick-py	"provides a Python client for the TickTick API."
+python-undetected-chromedriver	"provides an undetected ChromeDriver wrapper for Selenium."
 python-xlsx2csv	"is a Python script that converts XLSX files to CSV format."
 redshift-minimal	"adjusts the screen color temperature according to the surroundings, with minimal dependencies."
-rstudio-desktop-bin	
-ruby-erubis	
-ruby-xdg5	
+rstudio-desktop-bin	"provides the RStudio desktop IDE."
+ruby-erubis	"provides a fast embedded Ruby templating engine."
+ruby-xdg5	"provides Ruby bindings for XDG Base Directory paths."
 rustdesk-bin	"provides remote desktop access."
-rxvt-unicode-truecolor-wide-glyphs	
-sc-im	is an Excel-like terminal spreadsheet manager.
+rxvt-unicode-truecolor-wide-glyphs	"provides rxvt-unicode with true-color and wide-glyph patches."
+sc-im	"is an Excel-like terminal spreadsheet manager."
 simple-mtpfs	"enables mounting MTP devices such as cell phones."
-slack-desktop	
-smartsvn	
-smem	
-sql-formatter	
-sqlfmt-bin	
+slack-desktop	"provides the Slack desktop client."
+smartsvn	"provides a graphical Subversion client."
+smem	"reports memory usage with proportional set sizes."
+sql-formatter	"formats SQL queries."
+sqlfmt-bin	"provides an SQL formatter."
 task-spooler	"queues tasks from the shell for batch execution."
-teams-for-linux-bin	
-ticktick	
-tmux-plugin-manager	
-tmuxinator	
-urlview	
+teams-for-linux-bin	"provides an unofficial Microsoft Teams desktop client for Linux."
+ticktick	"provides the TickTick desktop client."
+tmux-plugin-manager	"provides a plugin manager for tmux."
+tmuxinator	"manages tmux sessions using project configuration files."
+urlview	"extracts URLs from text and opens them with a selected command."
 visual-studio-code-bin	"is a proprietary Microsoft build of VS Code that supports extensions such as GitHub Copilot."
-wakatime	
-whitesur-gtk-theme	
-xdg-ninja	
-xremap-x11-bin	
-xscreensaver-arch-logo	
-youtube-music-bin	
-zoom	
+wakatime	"provides automatic coding activity tracking."
+whitesur-gtk-theme	"provides the WhiteSur GTK theme."
+xdg-ninja	"checks for misplaced XDG Base Directory files."
+xremap-x11-bin	"provides key remapping for X11."
+xscreensaver-arch-logo	"adds an Arch Linux logo screen saver to XScreenSaver."
+youtube-music-bin	"provides an unofficial YouTube Music desktop client."
+zoom	"provides the Zoom desktop client."
 zsh-fast-syntax-highlighting	"provides syntax highlighting for Zsh."
