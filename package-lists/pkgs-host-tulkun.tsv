@@ -2,7 +2,7 @@ NAME IN REPO	META PACKAGE(S)	PACKAGE GROUP(S)	PURPOSE (should be a verb phrase t
 amd-ucode			"contains Intel CPU microcode updates for hardware bug and security fixes."
 cuda			
 cudnn			
-nvidia			
+nvidia-open			
 nvidia-settings			
 python-pytorch-cuda			
 python-tensorflow-opt-cuda			
