@@ -1,8 +1,0 @@
--*- mode: org -*-
-
-#+TITLE: TODO
-#+DESCRIPTION: The todo list for npBuild
-#+AUTHOR: [[https://github.com/00riddle00/][Tomas Giedraitis]]
-
-* TODO Automatically update meta-package and group information in the official packages [[file+emacs:./package-lists/pkgs-from-official.tsv][file]].
-* TODO Add a description for every package.
