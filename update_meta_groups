@@ -1,0 +1,216 @@
+#!/usr/bin/env python3
+"""
+update_meta_groups
+
+Refreshes the "META PACKAGE(S)" and "PACKAGE GROUP(S)" columns of a package
+TSV file using ONLY the local pacman database -- i.e. what's actually
+installed on this machine right now. Leaves everything else (package
+names, PURPOSE text, row order) untouched.
+
+MUST be run on an Arch Linux machine (panther / tulkun) with pacman and
+expac available (`sudo pacman -S expac` if you don't have it).
+
+GROUPS
+------
+    pacman -Qegq
+-Q (local/installed db), -e (explicitly installed only -- skips packages
+that are only present as someone else's dependency), -g (group
+membership). This only reflects packages genuinely on this machine, which
+correctly includes AUR packages (their group tags live in the local
+package metadata) -- unlike `pacman -Sg`, which only knows about
+official-repo declarations and is blind to AUR entirely.
+
+METAPACKAGES
+------------
+For each metapackage (base, base-devel, qemu-base, ...):
+    expac -S %E <metapackage>
+lists everything it currently declares as a dependency, per the sync db.
+That declared list is then intersected with your actual installed set
+(`pacman -Qq`) -- a dependency that's been removed from your system won't
+get tagged, per your note that some declared deps may not exist locally.
+
+Rows for TSV packages that AREN'T currently installed are left completely
+untouched (not blanked) -- there's no reliable local data for them, so
+guessing would risk erasing previously-correct classification.
+
+Usage:
+    ./update_meta_groups package-lists/pkgs-from-official.tsv
+        -> writes pkgs-from-official.updated.tsv, prints a diff to stderr
+
+    ./update_meta_groups package-lists/pkgs-from-official.tsv --in-place
+        -> overwrites the input file directly
+
+    ./update_meta_groups package-lists/pkgs-from-official.tsv \\
+        --metapackages base,base-devel,qemu-base,qemu-desktop,qemu-full
+        -> override which metapackages to check membership against
+"""
+
+import argparse
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+DEFAULT_METAPACKAGES = ["base", "base-devel", "qemu-base", "qemu-desktop", "qemu-full"]
+
+VERSION_OP_RE = re.compile(r"[<>=].*$")
+
+# Force English field names regardless of system locale.
+ENV = {**os.environ, "LC_ALL": "C"}
+
+
+def run(cmd, tool_hint=None):
+    try:
+        return subprocess.run(cmd, capture_output=True, text=True, check=False, env=ENV)
+    except FileNotFoundError:
+        hint = f" ({tool_hint})" if tool_hint else ""
+        sys.exit(f"error: '{cmd[0]}' not found{hint} -- this script must run on an Arch Linux machine.")
+
+
+def strip_version(token: str) -> str:
+    """'glibc>=2.38' -> 'glibc'"""
+    return VERSION_OP_RE.sub("", token).strip()
+
+
+def get_installed_packages():
+    """Every package installed on this machine right now, any install reason."""
+    result = run(["pacman", "-Qq"])
+    if result.returncode != 0:
+        sys.exit(f"error querying pacman -Qq:\n{result.stderr}")
+    return set(result.stdout.split())
+
+
+def build_group_map():
+    """{pkg: set(groups)} from explicitly-installed local packages only."""
+    result = run(["pacman", "-Qegq"])
+    if result.returncode != 0:
+        sys.exit(f"error querying pacman -Qegq:\n{result.stderr}")
+
+    group_map = {}
+    for line in result.stdout.splitlines():
+        parts = line.split()
+        if len(parts) != 2:
+            continue
+        group, pkg = parts
+        group_map.setdefault(pkg, set()).add(group)
+    return group_map
+
+
+def build_meta_map(metapackages, installed):
+    """{pkg: set(metapackages)}, filtered to deps actually installed here."""
+    reverse = {}
+    for metapkg in metapackages:
+        result = run(["expac", "-S", "%E", metapkg], tool_hint="install with: sudo pacman -S expac")
+        if result.returncode != 0 or not result.stdout.strip():
+            print(f"warning: expac returned nothing for '{metapkg}' "
+                  f"(unknown package, or sync db needs `sudo pacman -Sy`):\n{result.stderr}",
+                  file=sys.stderr)
+            continue
+
+        deps = {strip_version(t) for t in result.stdout.split()}
+        present = deps & installed
+        skipped = deps - installed
+
+        for dep in present:
+            reverse.setdefault(dep, set()).add(metapkg)
+
+        if skipped:
+            print(f"  ({metapkg}: {len(skipped)} declared dep(s) not installed here, skipped: "
+                  f"{', '.join(sorted(skipped))})", file=sys.stderr)
+
+    return reverse
+
+
+def parse_tsv(path: Path):
+    text = path.read_text(encoding="utf-8")
+    lines = text.split("\n")
+    if lines and lines[-1] == "":
+        lines.pop()
+    header, *rows = lines
+    return header, [row.split("\t") for row in rows if row.strip()]
+
+
+def format_list(items):
+    return ", ".join(sorted(items))
+
+
+def main():
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("input", type=Path, help="input TSV file")
+    ap.add_argument("-o", "--output", type=Path,
+                     help="output TSV path (default: <input-stem>.updated.tsv)")
+    ap.add_argument("--in-place", action="store_true",
+                     help="overwrite the input file directly instead of writing a new one")
+    ap.add_argument("--metapackages", default=",".join(DEFAULT_METAPACKAGES),
+                     help="comma-separated metapackage names to check membership against "
+                          f"(default: {','.join(DEFAULT_METAPACKAGES)})")
+    ap.add_argument("--quiet", action="store_true",
+                     help="only print the final summary, not every individual change")
+    args = ap.parse_args()
+
+    metapackages = [m.strip() for m in args.metapackages.split(",") if m.strip()]
+
+    if args.in_place:
+        out_path = args.input
+    else:
+        out_path = args.output or args.input.with_name(args.input.stem + ".updated.tsv")
+
+    print("Reading locally installed packages (pacman -Qq)...", file=sys.stderr)
+    installed = get_installed_packages()
+
+    print("Reading explicitly-installed groups (pacman -Qegq)...", file=sys.stderr)
+    group_map = build_group_map()
+
+    print("Reading metapackage dependencies (expac -S %E)...", file=sys.stderr)
+    meta_map = build_meta_map(metapackages, installed)
+
+    header, rows = parse_tsv(args.input)
+
+    changed = 0
+    not_installed = []
+    out_lines = [header]
+
+    for row in rows:
+        if len(row) < 4:
+            print(f"warning: skipping malformed row (expected 4 columns): {row!r}", file=sys.stderr)
+            out_lines.append("\t".join(row))
+            continue
+
+        name, old_meta, old_groups, purpose = row[0], row[1], row[2], row[3]
+
+        if name not in installed:
+            # No reliable local data -- leave this row exactly as-is.
+            not_installed.append(name)
+            out_lines.append("\t".join(row))
+            continue
+
+        new_meta = format_list(meta_map.get(name, set()))
+        new_groups = format_list(group_map.get(name, set()))
+
+        if new_meta != old_meta or new_groups != old_groups:
+            changed += 1
+            if not args.quiet:
+                print(f"  {name}:", file=sys.stderr)
+                if new_meta != old_meta:
+                    print(f"    meta:   {old_meta!r:30} -> {new_meta!r}", file=sys.stderr)
+                if new_groups != old_groups:
+                    print(f"    groups: {old_groups!r:30} -> {new_groups!r}", file=sys.stderr)
+
+        out_lines.append("\t".join([name, new_meta, new_groups, purpose]))
+
+    out_path.write_text("\n".join(out_lines) + "\n", encoding="utf-8")
+
+    print(f"\n{changed} of {len(rows)} rows changed.", file=sys.stderr)
+    print(f"Written to {out_path}", file=sys.stderr)
+
+    if not_installed:
+        print(f"\n{len(not_installed)} package(s) in the TSV are not currently installed here "
+              f"-- left untouched (no local data to update them from):", file=sys.stderr)
+        for name in not_installed:
+            print(f"  - {name}", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()
