@@ -50,6 +50,12 @@ Rows for TSV packages that AREN'T currently installed are left completely
 untouched (not blanked) -- there's no reliable local data for them, so
 guessing would risk erasing previously-correct classification.
 
+Metapackage names to check are read from metapackages.lst, sitting next
+to this script, by default -- one name per line, '#' for comments. See
+that file's own header for the format. Override with --metapackages-file
+to point at a different file, or --metapackages for a one-off comma list
+that bypasses the file entirely.
+
 Usage:
     ./update_meta_groups package-lists/pkgs-from-official.tsv
         -> writes pkgs-from-official.updated.tsv, prints a diff to stderr
@@ -59,7 +65,11 @@ Usage:
 
     ./update_meta_groups package-lists/pkgs-from-official.tsv \\
         --metapackages base,base-devel,qemu-base,qemu-desktop,qemu-full
-        -> override which metapackages to check membership against
+        -> one-off override, ignores metapackages.lst entirely
+
+    ./update_meta_groups package-lists/pkgs-from-official.tsv \\
+        --metapackages-file /path/to/other-list.txt
+        -> use a different metapackages file
 """
 
 import argparse
@@ -69,92 +79,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-DEFAULT_METAPACKAGES = [
-    "adlplug",
-    "aida-x",
-    "ambix",
-    "amsynth",
-    "base",  # a permanent multi-package bundle
-    "base-devel",
-    "ca-certificates",  # a permanent single package redirect
-    "cardinal",
-    "cloud-utils",
-    "dbus-units",
-    "dexed",
-    "distrho-ports",
-    "dms-shell-hyprland",
-    "dms-shell-niri",
-    "dpf-plugins",
-    "dragonfly-reverb",
-    "drumgizmo",
-    "drumkv1",
-    "erlang",
-    "erlang-headless",
-    "gcc-libs",  # a temporary deprecation shim from an in-progress split
-    "geonkick",
-    "kde-accessibility-meta",
-    "kde-applications-meta",  # fan-out nesting: depends on 12 other *-meta packages at once, not a linear chain
-    "kde-education-meta",
-    "kde-games-meta",
-    "kde-graphics-meta",
-    "kde-multimedia-meta",
-    "kde-network-meta",
-    "kde-office-meta",
-    "kde-pim-meta",
-    "kde-sdk-meta",
-    "kde-system-meta",
-    "kde-utilities-meta",
-    "kdevelop-meta",
-    "librime-data",
-    "linux-firmware",
-    "linux-tools-meta",
-    "liquidsfz",
-    "lsp-plugins",
-    "master_me",
-    "multilib-devel",
-    "odin2-synthesizer",
-    "opnplug",
-    "padthv1",
-    "pcp-pmda-json",
-    "pipewire-session-manager",
-    "plasma-meta",
-    "posix",  # depends on virtual names ("awk", "sh") -- see VIRTUAL / "PROVIDES" DEPENDENCIES above
-    "posix-c-development",
-    "posix-software-development",
-    "posix-user-portability",
-    "posix-xsi",
-    "pulse-native-provider",
-    "qemu-base",  # nonzero size (~48KB) but license-only content, not real files
-    "qemu-desktop",
-    "qemu-emulators-full",
-    "qemu-full",  # nested: only dependency is qemu-desktop, not the individual qemu-* packages
-    "qmidiarp",
-    "rocm-hip-libraries",
-    "rocm-hip-runtime",
-    "rocm-hip-sdk",
-    "rocm-language-runtime",
-    "rocm-ml-libraries",
-    "rocm-ml-sdk",
-    "rocm-opencl-sdk",
-    "ruby-bundled-gems",
-    "ruby-default-gems",
-    "ruby-stdlib",  # nested: only depends on ruby-default-gems + ruby-bundled-gems above
-    "samplv1",
-    "setbfree",
-    "sfizz",
-    "sfizz-ui",
-    "spectmorph",
-    "stochas",
-    "surge-xt",
-    "synthv1",
-    "tela-circle-icon-theme-all",
-    "texlive-meta",
-    "vlc-plugins-all",
-    "wolf-shaper",
-    "x42-plugins",
-    "yoshimi",
-    "zam-plugins",
-]
+DEFAULT_METAPACKAGES_FILE = Path(__file__).with_name("metapackages.lst")
 
 VERSION_OP_RE = re.compile(r"[<>=].*$")
 
@@ -173,6 +98,25 @@ def run(cmd, tool_hint=None):
 def strip_version(token: str) -> str:
     """'glibc>=2.38' -> 'glibc'"""
     return VERSION_OP_RE.sub("", token).strip()
+
+
+def load_metapackages(path: Path):
+    """Parse a metapackages list file: one name per line, '#' starts a
+    comment (trailing or full-line), blank lines ignored. Deliberately a
+    plain, boring text format rather than TOML/YAML/JSON so it stays
+    trivially parseable from the bash/awk/Perl sibling scripts too, not
+    just Python.
+    """
+    if not path.exists():
+        sys.exit(f"error: metapackages file not found: {path}\n"
+                  f"(pass --metapackages explicitly to bypass it, or create the file)")
+
+    names = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        name = line.split("#", 1)[0].strip()
+        if name:
+            names.append(name)
+    return names
 
 
 def get_installed_packages():
@@ -303,14 +247,20 @@ def main():
                      help="output TSV path (default: <input-stem>.updated.tsv)")
     ap.add_argument("--in-place", action="store_true",
                      help="overwrite the input file directly instead of writing a new one")
-    ap.add_argument("--metapackages", default=",".join(DEFAULT_METAPACKAGES),
+    ap.add_argument("--metapackages",
                      help="comma-separated metapackage names to check membership against "
-                          f"(default: {','.join(DEFAULT_METAPACKAGES)})")
+                          "(overrides --metapackages-file entirely if given)")
+    ap.add_argument("--metapackages-file", type=Path, default=DEFAULT_METAPACKAGES_FILE,
+                     help="file listing metapackage names, one per line, '#' for comments "
+                          f"(default: {DEFAULT_METAPACKAGES_FILE})")
     ap.add_argument("--quiet", action="store_true",
                      help="only print the final summary, not every individual change")
     args = ap.parse_args()
 
-    metapackages = [m.strip() for m in args.metapackages.split(",") if m.strip()]
+    if args.metapackages:
+        metapackages = [m.strip() for m in args.metapackages.split(",") if m.strip()]
+    else:
+        metapackages = load_metapackages(args.metapackages_file)
 
     if args.in_place:
         out_path = args.input
