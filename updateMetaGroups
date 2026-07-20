@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # vim: set ft=python tw=88 nu ai et ts=4 sw=4:
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # Author: 00riddle00 (Tomas Giedraitis)
 # Date:   2026-07-21 01:14:50 CEST
 # Path:   ./updateMetaGroups
 # URL:    https://github.com/00riddle00/npBuild
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 """
 update_meta_groups
 
@@ -99,7 +99,10 @@ def run(cmd, tool_hint=None):
         return subprocess.run(cmd, capture_output=True, text=True, check=False, env=ENV)
     except FileNotFoundError:
         hint = f" ({tool_hint})" if tool_hint else ""
-        sys.exit(f"error: '{cmd[0]}' not found{hint} -- this script must run on an Arch Linux machine.")
+        sys.exit(
+            f"error: '{cmd[0]}' not found{hint} -- this script must run on an Arch"
+            " Linux machine."
+        )
 
 
 def strip_version(token: str) -> str:
@@ -115,8 +118,10 @@ def load_metapackages(path: Path):
     just Python.
     """
     if not path.exists():
-        sys.exit(f"error: metapackages file not found: {path}\n"
-                  f"(pass --metapackages explicitly to bypass it, or create the file)")
+        sys.exit(
+            f"error: metapackages file not found: {path}\n"
+            "(pass --metapackages explicitly to bypass it, or create the file)"
+        )
 
     names = []
     for line in path.read_text(encoding="utf-8").splitlines():
@@ -183,13 +188,17 @@ def build_provides_map():
             elif key == "Provides" and current_pkg:
                 if value and value != "None":
                     for tok in value.split():
-                        provides_map.setdefault(strip_version(tok), set()).add(current_pkg)
+                        provides_map.setdefault(strip_version(tok), set()).add(
+                            current_pkg
+                        )
         else:
             if current_field == "Provides" and current_pkg:
                 value = line.strip()
                 if value and value != "None":
                     for tok in value.split():
-                        provides_map.setdefault(strip_version(tok), set()).add(current_pkg)
+                        provides_map.setdefault(strip_version(tok), set()).add(
+                            current_pkg
+                        )
 
     return provides_map
 
@@ -205,11 +214,16 @@ def build_meta_map(metapackages, installed, provides_map):
     """
     reverse = {}
     for metapkg in metapackages:
-        result = run(["expac", "-S", "%E", metapkg], tool_hint="install with: sudo pacman -S expac")
+        result = run(
+            ["expac", "-S", "%E", metapkg],
+            tool_hint="install with: sudo pacman -S expac",
+        )
         if result.returncode != 0 or not result.stdout.strip():
-            print(f"warning: expac returned nothing for '{metapkg}' "
-                  f"(unknown package, or sync db needs `sudo pacman -Sy`):\n{result.stderr}",
-                  file=sys.stderr)
+            print(
+                f"warning: expac returned nothing for '{metapkg}' (unknown package, or"
+                f" sync db needs `sudo pacman -Sy`):\n{result.stderr}",
+                file=sys.stderr,
+            )
             continue
 
         deps = {strip_version(t) for t in result.stdout.split()}
@@ -227,8 +241,11 @@ def build_meta_map(metapackages, installed, provides_map):
                 skipped.add(dep)
 
         if skipped:
-            print(f"  ({metapkg}: {len(skipped)} declared dep(s) not installed here, skipped: "
-                  f"{', '.join(sorted(skipped))})", file=sys.stderr)
+            print(
+                f"  ({metapkg}: {len(skipped)} declared dep(s) not installed here,"
+                f" skipped: {', '.join(sorted(skipped))})",
+                file=sys.stderr,
+            )
 
     return reverse
 
@@ -248,20 +265,41 @@ def format_list(items):
 
 def main():
     ap = argparse.ArgumentParser(
-        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     ap.add_argument("input", type=Path, help="input TSV file")
-    ap.add_argument("-o", "--output", type=Path,
-                     help="output TSV path (default: <input-stem>.updated.tsv)")
-    ap.add_argument("--in-place", action="store_true",
-                     help="overwrite the input file directly instead of writing a new one")
-    ap.add_argument("--metapackages",
-                     help="comma-separated metapackage names to check membership against "
-                          "(overrides --metapackages-file entirely if given)")
-    ap.add_argument("--metapackages-file", type=Path, default=DEFAULT_METAPACKAGES_FILE,
-                     help="file listing metapackage names, one per line, '#' for comments "
-                          f"(default: {DEFAULT_METAPACKAGES_FILE})")
-    ap.add_argument("--quiet", action="store_true",
-                     help="only print the final summary, not every individual change")
+    ap.add_argument(
+        "-o",
+        "--output",
+        type=Path,
+        help="output TSV path (default: <input-stem>.updated.tsv)",
+    )
+    ap.add_argument(
+        "--in-place",
+        action="store_true",
+        help="overwrite the input file directly instead of writing a new one",
+    )
+    ap.add_argument(
+        "--metapackages",
+        help=(
+            "comma-separated metapackage names to check membership against "
+            "(overrides --metapackages-file entirely if given)"
+        ),
+    )
+    ap.add_argument(
+        "--metapackages-file",
+        type=Path,
+        default=DEFAULT_METAPACKAGES_FILE,
+        help=(
+            "file listing metapackage names, one per line, '#' for comments "
+            f"(default: {DEFAULT_METAPACKAGES_FILE})"
+        ),
+    )
+    ap.add_argument(
+        "--quiet",
+        action="store_true",
+        help="only print the final summary, not every individual change",
+    )
     args = ap.parse_args()
 
     if args.metapackages:
@@ -294,7 +332,10 @@ def main():
 
     for row in rows:
         if len(row) < 4:
-            print(f"warning: skipping malformed row (expected 4 columns): {row!r}", file=sys.stderr)
+            print(
+                f"warning: skipping malformed row (expected 4 columns): {row!r}",
+                file=sys.stderr,
+            )
             out_lines.append("\t".join(row))
             continue
 
@@ -314,9 +355,14 @@ def main():
             if not args.quiet:
                 print(f"  {name}:", file=sys.stderr)
                 if new_meta != old_meta:
-                    print(f"    meta:   {old_meta!r:30} -> {new_meta!r}", file=sys.stderr)
+                    print(
+                        f"    meta:   {old_meta!r:30} -> {new_meta!r}", file=sys.stderr
+                    )
                 if new_groups != old_groups:
-                    print(f"    groups: {old_groups!r:30} -> {new_groups!r}", file=sys.stderr)
+                    print(
+                        f"    groups: {old_groups!r:30} -> {new_groups!r}",
+                        file=sys.stderr,
+                    )
 
         out_lines.append("\t".join([name, new_meta, new_groups, purpose]))
 
@@ -326,8 +372,11 @@ def main():
     print(f"Written to {out_path}", file=sys.stderr)
 
     if not_installed:
-        print(f"\n{len(not_installed)} package(s) in the TSV are not currently installed here "
-              f"-- left untouched (no local data to update them from):", file=sys.stderr)
+        print(
+            f"\n{len(not_installed)} package(s) in the TSV are not currently installed"
+            " here -- left untouched (no local data to update them from):",
+            file=sys.stderr,
+        )
         for name in not_installed:
             print(f"  - {name}", file=sys.stderr)
 
