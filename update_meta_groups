@@ -29,6 +29,23 @@ That declared list is then intersected with your actual installed set
 (`pacman -Qq`) -- a dependency that's been removed from your system won't
 get tagged, per your note that some declared deps may not exist locally.
 
+VIRTUAL / "PROVIDES" DEPENDENCIES
+----------------------------------
+Some metapackages declare a dependency on a *virtual* name rather than a
+real package -- e.g. `posix` depends on `awk` and `sh`, but no package is
+literally named that. `gawk` and `bash` satisfy those names by declaring
+`Provides: awk` / `Provides: sh` respectively, and pacman resolves this
+at install time. A plain string match against `pacman -Qq` misses this
+entirely (there's no package called "awk" to find), so such dependencies
+would silently go untagged.
+
+To catch these, every installed package's own `Provides` field is read
+via `pacman -Qi` and inverted into {virtual_name: {real_pkg, ...}}. When
+a metapackage's declared dependency isn't a literal installed package
+name, that map is checked as a fallback, and the *real* package(s)
+providing that virtual name get tagged instead -- never the virtual name
+itself, since it has no row of its own in the TSV.
+
 Rows for TSV packages that AREN'T currently installed are left completely
 untouched (not blanked) -- there's no reliable local data for them, so
 guessing would risk erasing previously-correct classification.
@@ -97,8 +114,59 @@ def build_group_map():
     return group_map
 
 
-def build_meta_map(metapackages, installed):
-    """{pkg: set(metapackages)}, filtered to deps actually installed here."""
+def build_provides_map():
+    """{virtual_name: set(real_pkg_names)} from every installed package's own
+    "Provides" field -- e.g. {"awk": {"gawk"}, "sh": {"bash"}}.
+
+    Parsed from `pacman -Qi` (no target = dump every installed package's
+    full info block) field-by-field rather than a single-line grep, so it
+    stays correct even if pacman wraps a long Provides list across
+    indented continuation lines (field lines start at column 0;
+    continuation lines are indented) -- same parsing approach used
+    elsewhere in this file for multi-line pacman output.
+    """
+    result = run(["pacman", "-Qi"])
+    if result.returncode != 0:
+        sys.exit(f"error querying pacman -Qi:\n{result.stderr}")
+
+    provides_map = {}
+    current_pkg = None
+    current_field = None
+
+    for line in result.stdout.splitlines():
+        if line.strip() == "":
+            current_field = None
+            continue
+
+        if not line[0].isspace():
+            key, _, value = line.partition(":")
+            key, value = key.strip(), value.strip()
+            current_field = key
+            if key == "Name":
+                current_pkg = value
+            elif key == "Provides" and current_pkg:
+                if value and value != "None":
+                    for tok in value.split():
+                        provides_map.setdefault(strip_version(tok), set()).add(current_pkg)
+        else:
+            if current_field == "Provides" and current_pkg:
+                value = line.strip()
+                if value and value != "None":
+                    for tok in value.split():
+                        provides_map.setdefault(strip_version(tok), set()).add(current_pkg)
+
+    return provides_map
+
+
+def build_meta_map(metapackages, installed, provides_map):
+    """{pkg: set(metapackages)}, filtered to deps actually installed here.
+
+    A declared dependency that isn't a literal installed package name is
+    checked against provides_map as a fallback (see VIRTUAL / "PROVIDES"
+    DEPENDENCIES in the module docstring) -- if something installed
+    provides that virtual name, the real package gets tagged, not the
+    virtual name itself.
+    """
     reverse = {}
     for metapkg in metapackages:
         result = run(["expac", "-S", "%E", metapkg], tool_hint="install with: sudo pacman -S expac")
@@ -109,11 +177,18 @@ def build_meta_map(metapackages, installed):
             continue
 
         deps = {strip_version(t) for t in result.stdout.split()}
-        present = deps & installed
-        skipped = deps - installed
+        skipped = set()
 
-        for dep in present:
-            reverse.setdefault(dep, set()).add(metapkg)
+        for dep in deps:
+            if dep in installed:
+                reverse.setdefault(dep, set()).add(metapkg)
+            elif dep in provides_map:
+                # Virtual name (e.g. "awk") -- tag whichever real,
+                # installed package(s) actually provide it (e.g. "gawk").
+                for real_pkg in provides_map[dep]:
+                    reverse.setdefault(real_pkg, set()).add(metapkg)
+            else:
+                skipped.add(dep)
 
         if skipped:
             print(f"  ({metapkg}: {len(skipped)} declared dep(s) not installed here, skipped: "
@@ -163,8 +238,11 @@ def main():
     print("Reading explicitly-installed groups (pacman -Qegq)...", file=sys.stderr)
     group_map = build_group_map()
 
+    print("Reading virtual package names (pacman -Qi Provides)...", file=sys.stderr)
+    provides_map = build_provides_map()
+
     print("Reading metapackage dependencies (expac -S %E)...", file=sys.stderr)
-    meta_map = build_meta_map(metapackages, installed)
+    meta_map = build_meta_map(metapackages, installed, provides_map)
 
     header, rows = parse_tsv(args.input)
 
