@@ -69,7 +69,92 @@ import subprocess
 import sys
 from pathlib import Path
 
-DEFAULT_METAPACKAGES = ["base", "base-devel", "qemu-base", "qemu-desktop", "qemu-full"]
+DEFAULT_METAPACKAGES = [
+    "adlplug",
+    "aida-x",
+    "ambix",
+    "amsynth",
+    "base",  # a permanent multi-package bundle
+    "base-devel",
+    "ca-certificates",  # a permanent single package redirect
+    "cardinal",
+    "cloud-utils",
+    "dbus-units",
+    "dexed",
+    "distrho-ports",
+    "dms-shell-hyprland",
+    "dms-shell-niri",
+    "dpf-plugins",
+    "dragonfly-reverb",
+    "drumgizmo",
+    "drumkv1",
+    "erlang",
+    "erlang-headless",
+    "gcc-libs",  # a temporary deprecation shim from an in-progress split
+    "geonkick",
+    "kde-accessibility-meta",
+    "kde-applications-meta",  # fan-out nesting: depends on 12 other *-meta packages at once, not a linear chain
+    "kde-education-meta",
+    "kde-games-meta",
+    "kde-graphics-meta",
+    "kde-multimedia-meta",
+    "kde-network-meta",
+    "kde-office-meta",
+    "kde-pim-meta",
+    "kde-sdk-meta",
+    "kde-system-meta",
+    "kde-utilities-meta",
+    "kdevelop-meta",
+    "librime-data",
+    "linux-firmware",
+    "linux-tools-meta",
+    "liquidsfz",
+    "lsp-plugins",
+    "master_me",
+    "multilib-devel",
+    "odin2-synthesizer",
+    "opnplug",
+    "padthv1",
+    "pcp-pmda-json",
+    "pipewire-session-manager",
+    "plasma-meta",
+    "posix",  # depends on virtual names ("awk", "sh") -- see VIRTUAL / "PROVIDES" DEPENDENCIES above
+    "posix-c-development",
+    "posix-software-development",
+    "posix-user-portability",
+    "posix-xsi",
+    "pulse-native-provider",
+    "qemu-base",  # nonzero size (~48KB) but license-only content, not real files
+    "qemu-desktop",
+    "qemu-emulators-full",
+    "qemu-full",  # nested: only dependency is qemu-desktop, not the individual qemu-* packages
+    "qmidiarp",
+    "rocm-hip-libraries",
+    "rocm-hip-runtime",
+    "rocm-hip-sdk",
+    "rocm-language-runtime",
+    "rocm-ml-libraries",
+    "rocm-ml-sdk",
+    "rocm-opencl-sdk",
+    "ruby-bundled-gems",
+    "ruby-default-gems",
+    "ruby-stdlib",  # nested: only depends on ruby-default-gems + ruby-bundled-gems above
+    "samplv1",
+    "setbfree",
+    "sfizz",
+    "sfizz-ui",
+    "spectmorph",
+    "stochas",
+    "surge-xt",
+    "synthv1",
+    "tela-circle-icon-theme-all",
+    "texlive-meta",
+    "vlc-plugins-all",
+    "wolf-shaper",
+    "x42-plugins",
+    "yoshimi",
+    "zam-plugins",
+]
 
 VERSION_OP_RE = re.compile(r"[<>=].*$")
 
