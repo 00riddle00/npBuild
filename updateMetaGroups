@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# vim: set ft=python tw=88 nu ai et ts=4 sw=4:
+#------------------------------------------------------------------------------
+# Author: 00riddle00 (Tomas Giedraitis)
+# Date:   2026-07-20 23:19:03 CEST
+# Path:   ./updateMetaGroups
+# URL:    https://github.com:00riddle00/npBuild
+#------------------------------------------------------------------------------
 """
 update_meta_groups
 
