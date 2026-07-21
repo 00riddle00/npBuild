@@ -48,10 +48,11 @@ mark_explicit_as_dependency() {
   explicit_deps="$(
     echo "${explicit_pkgs}" |
       xargs -I{} sh -c '
-            pacman -Qi {} \
-            | rg "Required By" \
-            | awk -v pkg={} -F: '\''$2 !~ /(\s)*None(\s)*/ {print pkg}'\'' \
-         '
+        pacman -Qi "{}" |
+          rg "Required By" |
+          rg -qv ":[[:space:]]*None[[:space:]]*$" &&
+          printf "%s\n" "{}"
+      '
   )"
 
   [ -z "${explicit_deps}" ] && return
@@ -62,27 +63,33 @@ mark_explicit_as_dependency() {
 
   i=1
   for pkg in ${explicit_deps}; do
-    required_by="$(pacman -Qi ${pkg} | rg "Required By" | awk -F: '{print $2}')"
+    required_by="$(
+      pacman -Qi "${pkg}" |
+        rg "Required By" |
+        awk -F: '{print $2}'
+    )"
 
     echo
     echo "($((i++))/${total}) ${bold}${pkg}${normal} is required by: \
-            $(echo ${required_by} | sed 's/^/ /' | sed 's/ /\n /g')"
+            $(echo "${required_by}" | sed -E 's/^/ /; s/ /\n /g')"
 
     # Ask if each package should be marked as a dependency.
     while true; do
       echo
-      prompt=("${bold}${blue}::${normal} Change ${bold}${pkg}${normal} "
-        "install type from explicit to dependency? ${bold}[Y/n]:${normal} ")
-      prompt="$(printf "%s" "${prompt[@]}")"
+      prompt_parts=(
+        "${bold}${blue}::${normal} Change ${bold}${pkg}${normal} "
+        "install type from explicit to dependency? ${bold}[Y/n]:${normal} "
+      )
+      prompt="$(printf "%s" "${prompt_parts[@]}")"
 
-      read -p "${prompt}" yn
+      read -r -p "${prompt}" yn
       case "${yn}" in
-      [Yy]*)
-        sudo pacman -D --asdeps "${pkg}"
-        break
-        ;;
-      [Nn]*) break ;;
-      *) echo "Please answer yes or no." ;;
+        [Yy]*)
+          sudo pacman -D --asdeps "${pkg}"
+          break
+          ;;
+        [Nn]*) break ;;
+        *) echo "Please answer yes or no." ;;
       esac
     done
   done
@@ -115,10 +122,10 @@ npbuild_official_pkgs_not_installed() {
         )
     ) \
     <(official_pkgs) |
-    while read pkg; do
+    while IFS= read -r pkg; do
       # Show only if package is really not installed (since it could have
       # been installed as a dependency).
-      if ! (pacman -Qq | rg -q "${pkg}"); then
+      if ! (pacman -Qq | rg -Fxq -- "${pkg}"); then
         echo "${pkg}"
       fi
     done |
