@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
-# vim: set ft=bash tw=79 nu ai et ts=2 sw=2:
+# vim: set ft=bash tw=88 nu ai et ts=2 sw=2:
 #------------------------------------------------------------------------------
 # Author: 00riddle00 (Tomas Giedraitis)
-# Date:   2026-07-21 01:14:43 CEST
+# Date:   2026-07-21 18:03:56 CEST
 # Path:   ./npBuild
 # URL:    https://github.com/00riddle00/npBuild
 #------------------------------------------------------------------------------
 
 # Last tested: <TODO add date>
 #
-# It was a fun experience to write your own Arch install script, but I actually do not
-# use it as planned.
+# It was a fun experience to write your own Arch install script, but I actually
+# do not use it as planned.
 #
-# On Arch install, I just check and update instructions in this file with the Arch Wiki.
-# Therefore, this script servers as a customized reference (including comments) for me.
+# On Arch install, I just check and update instructions in this file with the
+# Arch Wiki. Therefore, this script servers as a customized reference
+# (including comments) for me.
 
 # ================================== ITEMS ===================================
 # Items can be:
@@ -109,15 +110,19 @@ mkfs_desktop() {
 # Allow sudo access without password (for the members of `wheel` group)
 allow_sudo_nopasswd() {
   mountpoint="$1" # optional argument
-  sed -E -i 's/^[ ]*(%wheel ALL=\(ALL:ALL\) ALL)[ ]*$/#\1/' "${mountpoint}/etc/sudoers"
-  sed -E -i 's/^#?[ ]*(%wheel ALL=\(ALL:ALL\) NOPASSWD: ALL)[ ]*$/\1/' "${mountpoint}/etc/sudoers"
+  sed -E -i 's/^[ ]*(%wheel ALL=\(ALL:ALL\) ALL)[ ]*$/#\1/' \
+    "${mountpoint}/etc/sudoers"
+  sed -E -i 's/^#?[ ]*(%wheel ALL=\(ALL:ALL\) NOPASSWD: ALL)[ ]*$/\1/' \
+    "${mountpoint}/etc/sudoers"
 }
 
 # Disallow sudo access without password (for the members of `wheel` group)
 disallow_sudo_nopasswd() {
   mountpoint="$1" # optional argument
-  sed -E -i 's/^#?[ ]*(%wheel ALL=\(ALL:ALL\) ALL)[ ]*$/\1/' "${mountpoint}/etc/sudoers"
-  sed -E -i 's/^#?[ ]*(%wheel ALL=\(ALL:ALL\) NOPASSWD: ALL)[ ]*$/#\1/' "${mountpoint}/etc/sudoers"
+  sed -E -i 's/^#?[ ]*(%wheel ALL=\(ALL:ALL\) ALL)[ ]*$/\1/' \
+    "${mountpoint}/etc/sudoers"
+  sed -E -i 's/^#?[ ]*(%wheel ALL=\(ALL:ALL\) NOPASSWD: ALL)[ ]*$/#\1/' \
+    "${mountpoint}/etc/sudoers"
 }
 
 # ============= Installing packages ==============
@@ -129,7 +134,8 @@ install_aur_helper() {
     tmp_dir="/tmp/make-$aurhelper"
     git clone "https://aur.archlinux.org/${aurhelper}.git" "$tmp_dir"
     chown -R "$username":"$username" "$tmp_dir"
-    runuser -l "$username" -c "{ cd \"$tmp_dir\" || return; } && makepkg --noconfirm -sri"
+    runuser -l "$username" -c \
+      "{ cd \"$tmp_dir\" || return; } && makepkg --noconfirm -sri"
     rm -r "$tmp_dir"
   fi
 }
@@ -175,9 +181,10 @@ symlink_dotfiles() {
   # $HOME
   for full_path in "$DOTFILES"/.[a-zA-Z]*; do
     file="$(basename "$full_path")"
-    # Whenever you iterate over files/folders by globbing, it's good practice to avoid the corner
-    # case where the glob does not match (which makes the loop variable expand to the
-    # (un-matching) glob pattern string itself), hence [[ -e "$full_path" ] is used
+    # Whenever you iterate over files/folders by globbing, it's good practice
+    # to avoid the corner case where the glob does not match (which makes the
+    # loop variable expand to the (un-matching) glob pattern string itself),
+    # hence [[ -e "$full_path" ] is used
     [[ -e "$full_path" ]] &&
       [[ "$file" != ".config" ]] &&
       [[ "$file" != ".local" ]] &&
@@ -238,22 +245,29 @@ unlink_dotfiles() {
   # ~/.local/bin
   full_path="$DOTFILES/.local/bin"
   file="$(basename "$full_path")"
-  [[ -e "$full_path" ]] && [[ -L "$HOME/.local/$file" ]] && rm -f "$HOME/.local/$file"
+  [[ -e "$full_path" ]] &&
+    [[ -L "$HOME/.local/$file" ]] &&
+    rm -f "$HOME/.local/$file"
 
   # ~/.local/share ($XDG_DATA_HOME)
   full_path="$DOTFILES/.local/share/dotshare"
   file="$(basename "$full_path")"
-  [[ -e "$full_path" ]] && [[ -L "$XDG_DATA_HOME/$file" ]] && rm -f "$XDG_DATA_HOME/$file"
+  [[ -e "$full_path" ]] &&
+    [[ -L "$XDG_DATA_HOME/$file" ]] &&
+    rm -f "$XDG_DATA_HOME/$file"
 
   for full_path in "$DOTFILES/.local/share/applications"/[a-zA-Z]*; do
     file="$(basename "$full_path")"
-    [[ -e "$full_path" ]] && [[ -L "$XDG_DATA_HOME/applications/$file" ]] && rm -f "$XDG_DATA_HOME/applications/$file"
+    [[ -e "$full_path" ]] &&
+      [[ -L "$XDG_DATA_HOME/applications/$file" ]] &&
+      rm -f "$XDG_DATA_HOME/applications/$file"
   done
 }
 
 # Passwordless sudo must be enabled
 apply_dotfiles() {
-  git clone -b "$repobranch" --depth 1 --recurse-submodules --shallow-submodules -j8 "$dotfilesrepo" "$HOME/.dotfiles"
+  git clone -b "$repobranch" --depth 1 --recurse-submodules --shallow-submodules -j8 \
+    "$dotfilesrepo" "$HOME/.dotfiles"
   sed -i "s/^export MAIN_USER=.*/export MAIN_USER=$username/" "$HOME/.dotfiles/.zshenv"
   sudo chsh -s /bin/zsh "$username"
   # shellcheck source=/dev/null
@@ -300,8 +314,8 @@ install_pkgs() {
 }
 
 install_arch() {
-  # Installs Arch Linux using the live system booted from an installation medium
-  # (CD/USB/other) made from an official installation image.
+  # Installs Arch Linux using the live system booted from an installation
+  # medium (CD/USB/other) made from an official installation image.
 
   # -------------------------------------------
   # 1. Pre-installation
@@ -336,8 +350,9 @@ install_arch() {
 
   # [1.6 Verify the boot mode (by listing the efivars dir)]
   #
-  # If the command shows the directory without error, then the system is booted in UEFI mode.
-  # If the directory does not exist, the system may be booted in BIOS (or CSM) mode.
+  # If the command shows the directory without error, then the system is booted
+  # in UEFI mode. If the directory does not exist, the system may be booted in
+  # BIOS (or CSM) mode.
   #
   efivars_dir="/sys/firmware/efi/efivars"
 
@@ -351,11 +366,13 @@ install_arch() {
   #
   # Check wired network connection (ethernet cable must be plugged in).
   #
-  # DHCP: dynamic IP address and DNS server assignment (provided by systemd-networkd and
-  # systemd-resolved) should work out of the box for Ethernet
+  # DHCP: dynamic IP address and DNS server assignment (provided by
+  # systemd-networkd and systemd-resolved) should work out of the box for
+  # Ethernet
   #
-  # NOTE: In the installation image, systemd-networkd and systemd-resolved are preconfigured
-  # and enabled by default. That will not be the case for the installed system.
+  # NOTE: In the installation image, systemd-networkd and systemd-resolved are
+  # preconfigured and enabled by default. That will not be the case for the
+  # installed system.
   #
   ping -q -c1 archlinux.org &>/dev/null || {
     echo "ERR: No internet connection"
@@ -364,10 +381,12 @@ install_arch() {
 
   # [1.8. Update the system clock]
   #
-  # In the live environment `systemd-timesyncd` is enabled by default and time will be synced
-  # automatically once a connection to the internet is established.
+  # In the live environment `systemd-timesyncd` is enabled by default and time
+  # will be synced automatically once a connection to the internet is
+  # established.
   #
-  # Use `timedatectl(1)` to ensure the system clock is accurate (`timedatectl status`).
+  # Use `timedatectl(1)` to ensure the system clock is accurate (`timedatectl
+  # status`).
   #
   # Enable and start `systemd-timesyncd.service` just in case it's not running.
   timedatectl set-ntp 1
@@ -404,12 +423,13 @@ install_arch() {
   #
   # No action is performed here.
   #
-  # On the live system, after connecting to the internet, "reflector" updates the mirror list
-  # (/etc/pacman.d/mirrorlist) by choosing 20 most recently synchronized HTTPS mirrors and
-  # sorting them by download rate.
+  # On the live system, after connecting to the internet, "reflector" updates
+  # the mirror list (/etc/pacman.d/mirrorlist) by choosing 20 most recently
+  # synchronized HTTPS mirrors and sorting them by download rate.
   #
-  # The mirror list file will later be copied to the new system by pacstrap. It can then be
-  # modified from inside the new system, according to the specific needs for that system.
+  # The mirror list file will later be copied to the new system by pacstrap. It
+  # can then be modified from inside the new system, according to the specific
+  # needs for that system.
 
   # [2.2.] Install essential packages
 
@@ -418,7 +438,8 @@ install_arch() {
 
   # Use the `pacstrap(8)` script to install:
   #
-  # Essential packages: the `base` package, Linux kernel and firmware for common hardware, etc.
+  # Essential packages: the `base` package, Linux kernel and firmware for
+  # common hardware, etc.
   pacstrap -K /mnt "${items_essential[@]}"
   # Additional packages, like text editor, git, etc.
   pacstrap -K /mnt "${items_additional[@]}"
@@ -431,8 +452,9 @@ install_arch() {
 
   # [3.1. Fstab]
   #
-  # Generate an fstab file (used to define how disk partitions, various other block
-  # devices, or remote file systems should be mounted into the file system).
+  # Generate an fstab file (used to define how disk partitions, various other
+  # block devices, or remote file systems should be mounted into the file
+  # system).
   #
   genfstab -U /mnt >>/mnt/etc/fstab
 
@@ -451,10 +473,11 @@ install_arch() {
         # This command assumes the hardware clock is set to UTC.
         hwclock --systohc
 
-        # Enable and start \`systemd-timesyncd.service\` just in case it's not running.
+        # Enable and start \`systemd-timesyncd.service\` just in case it's not
+        # running.
         #
-        # NB: a chroot environment has no active init system - systemd managed services (or
-        # anything with *ctl) cannot be started in a chroot. (??)
+        # NB: a chroot environment has no active init system - systemd managed
+        # services (or anything with *ctl) cannot be started in a chroot. (??)
         #
         timedatectl set-ntp 1
 
@@ -470,41 +493,56 @@ install_arch() {
         # Create the locale.conf(5) file, and set the LANG variable accordingly
         echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
-        # If custom console keyb. layout is set, make changes persistent in \`vconsole.conf(5)\`
+        # If custom console keyb. layout is set, make changes persistent in
+        # \`vconsole.conf(5)\`
         #
-        # No action is performed here, default console keyboard layout is used: \`us (us)\`
+        # No action is performed here, default console keyboard layout is used:
+        # \`us (us)\`
 
         # [3.5. Network configuration]
 
-        # Create the hostname and add it to the newly created \`/etc/hostname\` file.
+        # Create the hostname and add it to the newly created \`/etc/hostname\`
+        # file.
         hostname="$machine"-"$(head /dev/urandom -c 2 | base64 | cut -c -3)"-arch
-        # shellcheck disable=SC2154 # hostname is assigned above; shellcheck can't trace it across this heredoc
+        # shellcheck disable=SC2154
         echo "$hostname" > /etc/hostname
 
         # Edit /etc/hosts file
-        echo -e "<ip-address>  <canonical (full) hostname>  <optional list of aliases>\n" >  /etc/hosts
-        echo -e "127.0.0.1  localhost\n"                                                  >> /etc/hosts
-        echo -e "::1        localhost\n"                                                  >> /etc/hosts
-        echo -e "127.0.1.1  $hostname.localdomain  $hostname"                             >> /etc/hosts
+        placeholder="<ip-address>  <canonical (full) hostname>"
+        placeholder+="  <optional list of aliases>"
+        # shellcheck disable=SC2154
+        echo -e "${placeholder}\n" > /etc/hosts
 
-        # Start the dhcpcd (DHCP client) daemon for wired interface by enabling the template unit
-        # dhcpcd@interface.service, where interface name can be found by listing network interfaces
+        echo -e "127.0.0.1  localhost\n" >> /etc/hosts
+        echo -e "::1        localhost\n" >> /etc/hosts
+        echo -e "127.0.1.1  $hostname.localdomain  $hostname" >> /etc/hosts
+
+        # Start the dhcpcd (DHCP client) daemon for wired interface by enabling
+        # the template unit dhcpcd@interface.service, where interface name can
+        # be found by listing network interfaces
         #
-        # NB: a chroot environment has no active init system - systemd managed services (or
-        # anything with *ctl) cannot be started in a chroot. (??)
+        # NB: a chroot environment has no active init system - systemd managed
+        # services (or anything with *ctl) cannot be started in a chroot. (??)
         #
-        systemctl enable "dhcpcd@"$(ip link | awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' | sed 's/ //')""
+        iface="$(
+          ip link |
+            awk -F: '$0 !~ "lo|vir|wl|^[^0-9]"{print $2;getline}' |
+            sed 's/ //'
+        )"
+        # shellcheck disable=SC2154
+        systemctl enable "dhcpcd@${iface}"
 
         # [3.6. Initramfs]
         #
-        # Creating a new initramfs is usually not required, because mkinitcpio was run on
-        # installation of the kernel package with pacstrap.
+        # Creating a new initramfs is usually not required, because mkinitcpio
+        # was run on installation of the kernel package with pacstrap.
         #
         mkinitcpio -P # recreate the initramfs image just in case
 
         # [3.7. Root password]
         #
-        # No action is performed here, the root password is left to be set later, manually
+        # No action is performed here, the root password is left to be set
+        # later, manually
 
         # [3.8. Boot loader]
         #
@@ -519,7 +557,8 @@ install_arch() {
             "desktop")
                 mount /dev/sda1 /boot
                 pacman -S --noconfirm grub efibootmgr
-                grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+                grub-install --target=x86_64-efi --efi-directory=/boot \
+                  --bootloader-id=GRUB
                 grub-mkconfig -o /boot/grub/grub.cfg
                 ;;
             *) echo "unknown machine type: '$machine'" >2 && exit 1 ;;
@@ -529,19 +568,22 @@ install_arch() {
         #
         # Disable "quiet" and "splash" parameters, use level 3 logging.
         #
-        sed -E -i 's/^(GRUB_CMDLINE_LINUX_DEFAULT=)".*"[ ]*$/\1"loglevel=3"/' /etc/default/grub
+        sed -E -i 's/^(GRUB_CMDLINE_LINUX_DEFAULT=)".*"[ ]*$/\1"loglevel=3"/' \
+          /etc/default/grub
         grub-mkconfig -o /boot/grub/grub.cfg
 
         # [3.10.(extra) SSH]
 
         # Disable SSH login as root user and enable SSH password authentication
-        sed -E -i 's/^#?[ ]*(PermitRootLogin)[ ]*(yes|no)[ ]*$/\1 no/'         /etc/ssh/sshd_config
-        sed -E -i 's/^#?[ ]*(PasswordAuthentication)[ ]*(yes|no)[ ]*$/\1 yes/' /etc/ssh/sshd_config
+        sed -E -i 's/^#?[ ]*(PermitRootLogin)[ ]*(yes|no)[ ]*$/\1 no/' \
+          /etc/ssh/sshd_config
+        sed -E -i 's/^#?[ ]*(PasswordAuthentication)[ ]*(yes|no)[ ]*$/\1 yes/' \
+          /etc/ssh/sshd_config
 
         # Enable OpenSSH server daemon at boot
         #
-        # NB: a chroot environment has no active init system - systemd managed services (or
-        # anything with *ctl) cannot be started in a chroot. (??)
+        # NB: a chroot environment has no active init system - systemd managed
+        # services (or anything with *ctl) cannot be started in a chroot. (??)
         #
         systemctl enable sshd
 
@@ -578,17 +620,19 @@ END
 
   # [A Little Recursion Never Killed Nobody]
   #
-  # Copy this file (shell script) to the newly created user's home dir on the new system and
-  # assign it to the `wheel` group (the members of which have sudo access)
+  # Copy this file (shell script) to the newly created user's home dir on the
+  # new system and assign it to the `wheel` group (the members of which have
+  # sudo access)
   #
   cp "$0" "/mnt/home/$username/npBuild"
   chgrp wheel "/mnt/home/$username/npBuild"
 
   # [Installing more packages]
   #
-  # From inside the new system, run the copy of this file, passing the `-f` option to it with the
-  # argument `install_pkgs`, which makes the function `install_pkgs` from the copy of this file to
-  # be called. This function installs packages (both from the official repos and from AUR).
+  # From inside the new system, run the copy of this file, passing the `-f`
+  # option to it with the argument `install_pkgs`, which makes the function
+  # `install_pkgs` from the copy of this file to be called. This function
+  # installs packages (both from the official repos and from AUR).
   #
   arch-chroot /mnt /bin/bash <<END
         "sh npBuild -f install_pkgs -u $username"
@@ -629,7 +673,8 @@ standalone_functions=(
   "install_arch"
 )
 
-# TODO validate if standalone "install_pkgs" when no username - now the cryptic error "chown: userv not found"
+# TODO validate if standalone "install_pkgs" when no username - now the cryptic
+# error "chown: userv not found"
 while getopts "a:f:m:u:b:p:h" opt; do
   case "${opt}" in
     a) aurhelper=${OPTARG} ;;
@@ -650,10 +695,12 @@ while getopts "a:f:m:u:b:p:h" opt; do
                     'install_arch'
 
         -a  [Optional] Pacman wrapper to install packages from AUR'
-        -m  [Required only for the function 'install_arch'] Machine type. One of two values: {'vm', 'desktop'}
+        -m  [Required only for the function 'install_arch'] Machine type.
+                One of two values: {'vm', 'desktop'}
         -u  [Optional] User name. Defaults to 'userv'
         -b  [Optional] Branch of the repo. Defaults to 'master'
-        -p  [Optional] Dependencies and programs csv (local file or url).  Defaults to npBuild repo's 'progs.csv' file
+        -p  [Optional] Dependencies and programs csv (local file or url).
+                Defaults to npBuild repo's 'progs.csv' file
         -h  Show help\\n"
       exit
       ;;
@@ -664,7 +711,9 @@ done
 [[ -z "$aurhelper" ]] && aurhelper="paru"
 [[ -z "$username" ]] && username="userv"
 [[ -z "$repobranch" ]] && repobranch="master"
-[[ -z "$progsfile" ]] && progsfile="https://raw.githubusercontent.com/00riddle00/NPbuild/$repobranch/packages_all.tsv"
+[[ -z "$progsfile" ]] &&
+  progsfile="https://raw.githubusercontent.com/00riddle00/NPbuild/\
+$repobranch/packages_all.tsv"
 dotfilesrepo="https://github.com/00riddle00/dotfiles"
 
 if [[ -n "$function" ]]; then
