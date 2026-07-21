@@ -35,10 +35,12 @@ items_additional=(
   "gvim"
 )
 
+# shellcheck disable=SC2034  # used indirectly via the "items_$machine"
 items_vm=(
   "virtualbox-guest-utils"
 )
 
+# shellcheck disable=SC2034  # used indirectly via the "items_$machine"
 items_desktop=(
   "virtualbox"
   "virtualbox-host-modules-arch"
@@ -126,8 +128,8 @@ install_aur_helper() {
   else
     tmp_dir="/tmp/make-$aurhelper"
     git clone "https://aur.archlinux.org/${aurhelper}.git" "$tmp_dir"
-    chown -R $username:$username "$tmp_dir"
-    runuser -l "$username" -c "{ cd "$tmp_dir" || return } && makepkg --noconfirm -sri"
+    chown -R "$username":"$username" "$tmp_dir"
+    runuser -l "$username" -c "{ cd \"$tmp_dir\" || return; } && makepkg --noconfirm -sri"
     rm -r "$tmp_dir"
   fi
 }
@@ -135,7 +137,7 @@ install_aur_helper() {
 install_from_aur() {
   # If a package is not found, skips it
   # If a package is already installed, skips it as well
-  runuser -l "$username" -c "$aur_helper -S --aur --noconfirm --needed --useask "$1""
+  runuser -l "$username" -c "$aurhelper -S --aur --noconfirm --needed --useask \"$1\""
 }
 
 install_from_git() {
@@ -159,6 +161,7 @@ install_from_main() { # Installs all needed programs from main repos.
 # =========================== STANDALONE FUNCTIONS ===========================
 
 symlink_dotfiles() {
+  # shellcheck source=/dev/null
   source "$HOME/.dotfiles/.zshenv"
   # TODO maybe use this var definition instead of sourcing the whole .zshenv:
   #DOTFILES="$HOME/.dotfiles"
@@ -200,11 +203,12 @@ symlink_dotfiles() {
   for full_path in "$DOTFILES/.local/share/applications"/[a-zA-Z]*; do
     file="$(basename "$full_path")"
     [[ -e "$full_path" ]] &&
-      ln -sf $full_path "$XDG_DATA_HOME/applications/$file"
+      ln -sf "$full_path" "$XDG_DATA_HOME/applications/$file"
   done
 }
 
 unlink_dotfiles() {
+  # shellcheck source=/dev/null
   source "$HOME/.dotfiles/.zshenv"
   # TODO maybe use this var definition instead of sourcing the whole .zshenv:
   #DOTFILES="$HOME/.dotfiles"
@@ -252,6 +256,7 @@ apply_dotfiles() {
   git clone -b "$repobranch" --depth 1 --recurse-submodules --shallow-submodules -j8 "$dotfilesrepo" "$HOME/.dotfiles"
   sed -i "s/^export MAIN_USER=.*/export MAIN_USER=$username/" "$HOME/.dotfiles/.zshenv"
   sudo chsh -s /bin/zsh "$username"
+  # shellcheck source=/dev/null
   source "$HOME/.dotfiles/.zshenv"
   symlink_dotfiles
   vim +PlugInstall +qall
@@ -282,8 +287,8 @@ install_pkgs() {
   runuser --pty -s /bin/bash -l "$username" -c "$aurhelper -Syua --noconfirm"
 
   [[ -f "$progsfile" ]] || curl -LO "$progsfile"
-  tail +2 $(basename "$progsfile") >/tmp/progs.tsv
-  while IFS=$'\t' read -r tag program comment; do
+  tail +2 "$(basename "$progsfile")" >/tmp/progs.tsv
+  while IFS=$'\t' read -r tag program _comment; do
     case "$tag" in
       "A") install_from_aur "$program" ;;
       "G") install_from_git "$program" ;;
@@ -313,7 +318,10 @@ install_arch() {
   # [1.4. Boot the live environment]
 
   # Check if Arch is to be installed on virtual machine or desktop computer
-  [[ $machine =~ 'vm|desktop' ]] || echo "ERR: The machine type flag -m is empty or incorrect"
+  [[ $machine =~ ^(vm|desktop)$ ]] || {
+    echo "ERR: The machine type flag -m is empty or incorrect"
+    exit 1
+  }
 
   # -------------------------------------------
   # 1. Pre-installation (continued)
@@ -333,8 +341,8 @@ install_arch() {
   #
   efivars_dir="/sys/firmware/efi/efivars"
 
-  if ([[ $machine =~ "vm" ]] && [ -d "$efivars_dir" ]) ||
-    ([[ $machine =~ "desktop" ]] && [ ! -d "$efivars_dir" ]); then
+  if { [[ $machine =~ "vm" ]] && [ -d "$efivars_dir" ]; } ||
+    { [[ $machine =~ "desktop" ]] && [ ! -d "$efivars_dir" ]; }; then
     echo "ERR: The system did not boot in the correct mode"
     exit 1
   fi
@@ -406,16 +414,16 @@ install_arch() {
   # [2.2.] Install essential packages
 
   # Variable indirection is used here
-  machine_specific_items=items_$machine[@]
+  local -n machine_specific_items="items_$machine"
 
   # Use the `pacstrap(8)` script to install:
   #
   # Essential packages: the `base` package, Linux kernel and firmware for common hardware, etc.
-  pacstrap -K /mnt "${essential_items[@]}"
+  pacstrap -K /mnt "${items_essential[@]}"
   # Additional packages, like text editor, git, etc.
-  pacstrap -K /mnt "${additional_items[@]}"
+  pacstrap -K /mnt "${items_additional[@]}"
   # Machine specific items, like Virtualbox modules/utilities.
-  pacstrap -K /mnt "${!machine_specific_items}"
+  pacstrap -K /mnt "${machine_specific_items[@]}"
 
   # -------------------------------------------
   # 3. Configure the system
@@ -470,6 +478,7 @@ install_arch() {
 
         # Create the hostname and add it to the newly created \`/etc/hostname\` file.
         hostname="$machine"-"$(head /dev/urandom -c 2 | base64 | cut -c -3)"-arch
+        # shellcheck disable=SC2154 # hostname is assigned above; shellcheck can't trace it across this heredoc
         echo "$hostname" > /etc/hostname
 
         # Edit /etc/hosts file
@@ -659,7 +668,7 @@ done
 dotfilesrepo="https://github.com/00riddle00/dotfiles"
 
 if [[ -n "$function" ]]; then
-  if [[ " ${standalone_functions[@]} " =~ " ${function} " ]]; then
+  if printf '%s\n' "${standalone_functions[@]}" | grep -qx -- "$function"; then
     eval "$function"
   else
     echo "ERR: The function '$function' does not exist as standalone"
