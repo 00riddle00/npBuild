@@ -285,9 +285,9 @@ install_pkgs() {
   tail +2 $(basename "$progsfile") >/tmp/progs.tsv
   while IFS=$'\t' read -r tag program comment; do
     case "$tag" in
-    "A") install_from_aur "$program" ;;
-    "G") install_from_git "$program" ;;
-    *) install_from_main "$program" ;;
+      "A") install_from_aur "$program" ;;
+      "G") install_from_git "$program" ;;
+      *) install_from_main "$program" ;;
     esac
   done </tmp/progs.tsv
 
@@ -623,14 +623,14 @@ standalone_functions=(
 # TODO validate if standalone "install_pkgs" when no username - now the cryptic error "chown: userv not found"
 while getopts "a:f:m:u:b:p:h" opt; do
   case "${opt}" in
-  a) aurhelper=${OPTARG} ;;
-  f) function=${OPTARG} ;;
-  m) machine=${OPTARG} ;;
-  u) username=${OPTARG} ;;
-  b) repobranch=${OPTARG} ;;
-  p) progsfile=${OPTARG} ;;
-  h)
-    printf "
+    a) aurhelper=${OPTARG} ;;
+    f) function=${OPTARG} ;;
+    m) machine=${OPTARG} ;;
+    u) username=${OPTARG} ;;
+    b) repobranch=${OPTARG} ;;
+    p) progsfile=${OPTARG} ;;
+    h)
+      printf "
         -f  [Required] Name of one single function to be run.
                 List of functions:
                     'symlink_dotfiles'
@@ -646,9 +646,9 @@ while getopts "a:f:m:u:b:p:h" opt; do
         -b  [Optional] Branch of the repo. Defaults to 'master'
         -p  [Optional] Dependencies and programs csv (local file or url).  Defaults to npBuild repo's 'progs.csv' file
         -h  Show help\\n"
-    exit
-    ;;
-  *) printf "Invalid option: -%s\\n" "$OPTARG" && exit ;;
+      exit
+      ;;
+    *) printf "Invalid option: -%s\\n" "$OPTARG" && exit ;;
   esac
 done
 
